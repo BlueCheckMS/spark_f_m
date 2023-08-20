@@ -135,17 +135,15 @@ class _ViewAllPodcastWidgetState extends State<ViewAllPodcastWidget> {
                               hoverColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                               onTap: () async {
-                                context.pushNamed(
+                                Navigator.pushNamed(context,
                                   'PodcasPage',
-                                  queryParameters: {
-                                    'podcastDoc': serializeParam(
-                                      featuredPodcastItem,
-                                      ParamType.Document,
-                                    ),
-                                  }.withoutNulls,
-                                  extra: <String, dynamic>{
+                                  arguments: {
+                                    'podcastDoc': featuredPodcastItem,
+                                     'extra': <String, dynamic>{
                                     'podcastDoc': featuredPodcastItem,
                                   },
+                                  }.withoutNulls,
+                                 
                                 );
                               },
                               child: Container(
@@ -327,17 +325,14 @@ class _ViewAllPodcastWidgetState extends State<ViewAllPodcastWidget> {
                           hoverColor: Colors.transparent,
                           highlightColor: Colors.transparent,
                           onTap: () async {
-                            context.pushNamed(
+                            Navigator.pushNamed(context,
                               'PodcasPage',
-                              queryParameters: {
-                                'podcastDoc': serializeParam(
-                                  podcastItem,
-                                  ParamType.Document,
-                                ),
-                              }.withoutNulls,
-                              extra: <String, dynamic>{
+                              arguments: {
+                                'podcastDoc': podcastItem,
+                                'extra': <String, dynamic>{
                                 'podcastDoc': podcastItem,
                               },
+                              }.withoutNulls,
                             );
                           },
                           child: Container(
