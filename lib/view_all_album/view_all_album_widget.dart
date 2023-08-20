@@ -126,17 +126,15 @@ class _ViewAllAlbumWidgetState extends State<ViewAllAlbumWidget> {
                               hoverColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                               onTap: () async {
-                                context.pushNamed(
+                                Navigator.pushNamed(context,
                                   'SongListPage',
-                                  queryParameters: {
-                                    'music': serializeParam(
-                                      featuredmusicItem,
-                                      ParamType.Document,
-                                    ),
-                                  }.withoutNulls,
-                                  extra: <String, dynamic>{
+                                  arguments: {
+                                    'music': featuredmusicItem, 
+                                    'extra': <String, dynamic>{
                                     'music': featuredmusicItem,
                                   },
+                                  }.withoutNulls,
+                                  
                                 );
                               },
                               child: Container(
@@ -310,17 +308,14 @@ class _ViewAllAlbumWidgetState extends State<ViewAllAlbumWidget> {
                           hoverColor: Colors.transparent,
                           highlightColor: Colors.transparent,
                           onTap: () async {
-                            context.pushNamed(
+                            Navigator.pushNamed(context,
                               'SongListPage',
-                              queryParameters: {
-                                'music': serializeParam(
-                                  musicItem,
-                                  ParamType.Document,
-                                ),
-                              }.withoutNulls,
-                              extra: <String, dynamic>{
+                              arguments: {
+                                'music': musicItem,
+                                'extra': <String, dynamic>{
                                 'music': musicItem,
                               },
+                              }.withoutNulls,
                             );
                           },
                           child: Container(

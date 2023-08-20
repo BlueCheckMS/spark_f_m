@@ -1100,10 +1100,7 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                   ],
                 ),
               ),
-            ].addToEnd(SizedBox(
-                height: FFAppState().isLive || FFAppState().streamPlaying
-                    ? 100.0
-                    : 40.0)),
+            ]
           ),
         ),
       ),
