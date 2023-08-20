@@ -28,10 +28,10 @@ class _RootState extends State<Root> with TickerProviderStateMixin<Root> {
   static const List<Destination> allDestinations = <Destination>[
     Destination(0, 'Home', Icons.online_prediction,
         LiveRadioTabDemoWidget()),
-    Destination(1, 'NewsFeed', Icons.newspaper, NewsFeedDemoWidget()),
+    Destination(1, 'News Feed', Icons.newspaper, NewsFeedDemoWidget()),
     Destination(2, 'Browse', FontAwesomeIcons.music, BrowseDemoWidget()),
-    Destination(3, 'SparkTV', Icons.ondemand_video, SparkTVDemoWidget()),
-    Destination(4, 'AboutUs', Icons.bolt, AboutUsWidget()),
+    Destination(3, 'Spark TV', Icons.ondemand_video, SparkTVDemoWidget()),
+    Destination(4, 'About Us', Icons.bolt, AboutUsWidget()),
   ];
 
   late final List<GlobalKey<NavigatorState>> navigatorKeys;
@@ -91,7 +91,7 @@ class _RootState extends State<Root> with TickerProviderStateMixin<Root> {
                 bottomNavigationBar: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    if (appState.audioPlayer.isPlaying.value == true)
+                    if (appState.audioPlayer.isPlaying.value == true && appState.audioPlayer.stopped == false)
                     GestureDetector(
                       onTap: () => Navigator.push(context,
                       PageTransition(child: LargeAssetAudioPlayer(), type: PageTransitionType.bottomToTop)),

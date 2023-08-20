@@ -45,9 +45,6 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
     super.initState();
     _model = createModel(context, () => SongListPageModel());
     _assetsAudioPlayer = AssetsAudioPlayer();
-    setState(() {
-      FFAppState().audioPlayer = _assetsAudioPlayer;
-    });
   }
   @override
   void dispose() {
