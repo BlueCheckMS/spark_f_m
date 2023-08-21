@@ -20,153 +20,140 @@ class FFAppState extends ChangeNotifier {
   Future initializePersistedState() async {}
 
   Future<void> audioMetaList({
+    DocumentReference? song,
     DocumentReference? podcast,
-    DocumentReference? playList,
     DocumentReference? album,
-    required String artist,
-    List<DocumentReference>? episods,
+    DocumentReference? playlist,
+    String? artist,
+    List<DocumentReference>? episodes,
     List<DocumentReference>? songs,
-    required AssetsAudioPlayer assetsAudioPlayer,
-    int? index,}
-    
-  ) async {
+    AssetsAudioPlayer? assetsAudioPlayer,
+    int? index,
+  }) async {
     List<Audio> audios = [];
+
     if (audios.isNotEmpty) {
       audios.clear();
     }
     Audio audioMeta;
-    if (playList != null) {
-       for (var song in songs!) {
-      DocumentSnapshot? songSnapshot = await song.get();
-      Map<String, dynamic>? songData =
-          songSnapshot.data() as Map<String, dynamic>;
+    if (playlist != null) {
+      for (var song in songs!) {
+        DocumentSnapshot? songSnapshot = await song.get();
+        Map<String, dynamic>? songData =
+            songSnapshot.data() as Map<String, dynamic>;
+        String title = songData['song_name'];
+        String image = songData['song_image'];
+        String audio = songData['song_audioFile'];
 
-      String title = songData['song_name'];
-      String image = songData['song_image'];
-      String audio = songData['song_audioFile'];
-
-      bool metaExist = audios.any((meta) =>
-          meta.metas.title == title &&
-          meta.path == audio &&
-          meta.metas.image?.path == image);
-      if (!metaExist) {
-        audioMeta = Audio.network(audio,
-            metas: Metas(
-                title: title,
-                image: MetasImage.network(image),
-                artist: artist));
-        audios.add(audioMeta);
+        bool metaExist = audios.any((meta) =>
+            meta.metas.title == title &&
+            meta.path == audio &&
+            meta.metas.image?.path == image);
+        if (!metaExist) {
+          audioMeta = Audio.network(audio,
+              metas: Metas(
+                  title: title,
+                  image: MetasImage.network(image),
+                  artist: artist));
+          audios.add(audioMeta);
+        }
       }
-    }
-    if (assetsAudioPlayer.isPlaying.value == true) {
-      assetsAudioPlayer.stop();
-      await assetsAudioPlayer.open(Playlist(audios: audios, startIndex: index!));
-      audioPlayer = assetsAudioPlayer;
-      notifyListeners();
-    } else {
-      await assetsAudioPlayer.open(Playlist(audios: audios, startIndex: index!));
-      audioPlayer = assetsAudioPlayer;
-      notifyListeners();
-    }
-    }
-    if (album != null) {
-      DocumentSnapshot? albumSnapshot = await album.get();
+    } else if (album != null) {
+       DocumentSnapshot? albumSnapshot = await album?.get();
     Map<String, dynamic>? albumData =
-    albumSnapshot.data() as Map<String, dynamic>;
+        albumSnapshot?.data() as Map<String, dynamic>;
     String albumCover = albumData['album_cover'];
     String albumTitle = albumData['AlbumTitle'];
-    List<Audio> audios = [];
-    if (audios.isNotEmpty) {
-      audios.clear();
-    }
-    Audio audioMeta;
+      for (var song in songs!) {
+        DocumentSnapshot? songSnapshot = await song.get();
+        Map<String, dynamic>? songData =
+            songSnapshot.data() as Map<String, dynamic>;
+        String title = songData['song_name'];
+        String image = songData['song_image'];
+        String audio = songData['song_audioFile'];
 
-    for (var song in songs!) {
-      DocumentSnapshot? songSnapshot = await song.get();
-      Map<String, dynamic>? songData =
-          songSnapshot.data() as Map<String, dynamic>;
-
-      String title = songData['song_name'];
-      String image = songData['song_image'];
-      String audio = songData['song_audioFile'];
-
-      bool metaExist = audios.any((meta) =>
-          meta.metas.title == title &&
-          meta.path == audio &&
-          meta.metas.image?.path == image);
-      if (!metaExist) {
-        audioMeta = Audio.network(
-          audio,
-          metas: Metas(
-              title: title,
-              image: MetasImage.network(albumCover),
-              artist: artist,
-              album: albumTitle),
-        );
-        audios.add(audioMeta);
+        bool metaExist = audios.any((meta) =>
+            meta.metas.title == title &&
+            meta.path == audio &&
+            meta.metas.image?.path == image);
+        if (!metaExist) {
+          audioMeta = Audio.network(
+            audio,
+            metas: Metas(
+                title: title,
+                image: MetasImage.network(albumCover),
+                artist: artist,
+                album: albumTitle),
+          );
+          audios.add(audioMeta);
+        }
       }
-    }
-    if (assetsAudioPlayer.isPlaying.value == true) {
-      assetsAudioPlayer.stop();
-      await assetsAudioPlayer.open(Playlist(audios: audios, startIndex: index!));
-      audioPlayer = assetsAudioPlayer;
-      notifyListeners();
-    } else {
-      await assetsAudioPlayer.open(Playlist(audios: audios, startIndex: index!));
-      audioPlayer = assetsAudioPlayer;
-      notifyListeners();
-    }
-    }
-    if (podcast != null) {
-  DocumentSnapshot? podcastSnapshot = await podcast.get();
+    } else if (podcast != null) {
+       DocumentSnapshot? podcastSnapshot = await podcast?.get();
     Map<String, dynamic>? podcastData =
-        podcastSnapshot.data() as Map<String, dynamic>;
+        podcastSnapshot?.data() as Map<String, dynamic>;
     String podcastCover = podcastData['Podcast_thumbnail'];
     String podcastTitle = podcastData['podcast_name'];
-    List<Audio> episodes = [];
-    if (episodes.isNotEmpty) {
-      episodes.clear();
-    }
-    Audio audioMeta;
-
-    for (var episode in episods!) {
-      DocumentSnapshot? episodeSnapshot = await episode.get();
-      Map<String, dynamic>? episodeData =
-          episodeSnapshot.data() as Map<String, dynamic>;
-
-      String title = episodeData['episode_name'];
-      String audio = episodeData['audio_file'];
-
-      bool metaExist = episodes
-          .any((meta) => meta.metas.title == title && meta.path == audio);
-      if (!metaExist) {
-        audioMeta = Audio.network(
-          audio,
-          metas: Metas(
-              title: title,
-              image: MetasImage.network(podcastCover),
-              artist: artist,
-              album: podcastTitle),
-        );
-        episodes.add(audioMeta);
+      if (audios.isNotEmpty) {
+        audios.clear();
       }
-    }
-    if (assetsAudioPlayer.isPlaying.value == true) {
-      assetsAudioPlayer.stop();
+      Audio audioMeta;
+
+      for (var episode in episodes!) {
+        DocumentSnapshot? episodeSnapshot = await episode.get();
+        Map<String, dynamic>? episodeData =
+            episodeSnapshot.data() as Map<String, dynamic>;
+
+        String title = episodeData['episode_name'];
+        String audio = episodeData['audio_file'];
+
+        bool metaExist = audios
+            .any((meta) => meta.metas.title == title && meta.path == audio);
+        if (!metaExist) {
+          audioMeta = Audio.network(
+            audio,
+            metas: Metas(
+                title: title,
+                image: MetasImage.network(podcastCover),
+                artist: artist,
+                album: podcastTitle),
+          );
+          audios.add(audioMeta);
+        }
+      }
+    } else if (song != null) {
+      if (audios.isNotEmpty) {
+        audios.clear();
+      }
+ DocumentSnapshot? songSnapshot = await song.get();
+        Map<String, dynamic>? songData =
+            songSnapshot.data() as Map<String, dynamic>;
+        String title = songData['song_name'];
+        String image = songData['song_image'];
+        String audio = songData['song_audioFile'];
+
+          audioMeta = Audio.network(audio,
+              metas: Metas(
+                  title: title,
+                  image: MetasImage.network(image),
+                  artist: artist));
+          audios.add(audioMeta);
+      }
+
+    if (assetsAudioPlayer!.isPlaying.value == true) {
+      await assetsAudioPlayer.stop();
       await assetsAudioPlayer
-          .open(Playlist(audios: episodes, startIndex: index!));
+          .open(Playlist(audios: audios));
       audioPlayer = assetsAudioPlayer;
       notifyListeners();
     } else {
       await assetsAudioPlayer
-          .open(Playlist(audios: episodes, startIndex: index!));
+          .open(Playlist(audios: audios));
       audioPlayer = assetsAudioPlayer;
       notifyListeners();
-    }
     }
     // Add your function code here!
   }
-
 
   void updateAudioPlayerState(Audio newAudioMeta) {
     _AudioPlayerMeta = newAudioMeta;
