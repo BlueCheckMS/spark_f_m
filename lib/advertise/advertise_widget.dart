@@ -1,13 +1,19 @@
+import 'package:spark_f_m/backend/schema/advertisment_form_record.dart';
+
+import '/auth/firebase_auth/auth_util.dart';
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'advertise_model.dart';
 export 'advertise_model.dart';
 
@@ -64,7 +70,7 @@ class _AdvertiseWidgetState extends State<AdvertiseWidget> {
             size: 30.0,
           ),
           onPressed: () async {
-            context.pop();
+            Navigator.pop(context);
           },
         ),
         title: Text(
@@ -563,6 +569,7 @@ class _AdvertiseWidgetState extends State<AdvertiseWidget> {
                                   12.0, 4.0, 12.0, 4.0),
                               hidesUnderline: true,
                               isSearchable: false,
+                              isMultiSelect: false,
                             ),
                           ),
                           Padding(
@@ -596,14 +603,78 @@ class _AdvertiseWidgetState extends State<AdvertiseWidget> {
                                   12.0, 4.0, 12.0, 4.0),
                               hidesUnderline: true,
                               isSearchable: false,
+                              isMultiSelect: false,
                             ),
                           ),
                           Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 25.0, 0.0, 40.0),
                             child: FFButtonWidget(
-                              onPressed: () {
-                                print('Button pressed ...');
+                              onPressed: () async {
+                                var advertismentFormRecordReference =
+                                    AdvertismentFormRecord.collection.doc();
+                                await advertismentFormRecordReference
+                                    .set(createAdvertismentFormRecordData(
+                                  firstName: _model.textController1.text,
+                                  lastName: _model.textController2.text,
+                                  companyName: _model.textController3.text,
+                                  companyWebsite: _model.textController4.text,
+                                  howDidYouHearAboutUs: _model.dropDownValue2,
+                                  email: _model.textController5.text,
+                                  phone: _model.textController6.text,
+                                  whatServiceAreYouInterestedIn:
+                                      _model.dropDownValue1,
+                                ));
+                                _model.adReq =
+                                    AdvertismentFormRecord.getDocumentFromData(
+                                        createAdvertismentFormRecordData(
+                                          firstName:
+                                              _model.textController1.text,
+                                          lastName: _model.textController2.text,
+                                          companyName:
+                                              _model.textController3.text,
+                                          companyWebsite:
+                                              _model.textController4.text,
+                                          howDidYouHearAboutUs:
+                                              _model.dropDownValue2,
+                                          email: _model.textController5.text,
+                                          phone: _model.textController6.text,
+                                          whatServiceAreYouInterestedIn:
+                                              _model.dropDownValue1,
+                                        ),
+                                        advertismentFormRecordReference);
+                                await launchUrl(Uri(
+                                    scheme: 'mailto',
+                                    path: 'antivery@gmail.com',
+                                    query: {
+                                      'subject':
+                                          'Spark FM App Ad/partnership request',
+                                      'body': (String firstName,
+                                              String lastName,
+                                              String companyName,
+                                              String companyWebsite,
+                                              String email,
+                                              String phone,
+                                              String howDidYouHearAboutUs,
+                                              String whatAreYouIntrestedIn) {
+                                        return 'This Request comes from {$firstName} {$lastName}   Company: {$companyName} Company Website: {$companyWebsite} Email: {$email} Phone: {$phone} How did you hear about us: {$howDidYouHearAboutUs} What service are you intrested in {$whatAreYouIntrestedIn}';
+                                      }(
+                                          _model.adReq!.firstName,
+                                          _model.adReq!.lastName,
+                                          _model.adReq!.companyName,
+                                          _model.adReq!.companyWebsite,
+                                          _model.adReq!.email,
+                                          _model.adReq!.phone,
+                                          _model.adReq!.howDidYouHearAboutUs,
+                                          _model.adReq!
+                                              .whatServiceAreYouInterestedIn),
+                                    }
+                                        .entries
+                                        .map((MapEntry<String, String> e) =>
+                                            '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+                                        .join('&')));
+
+                                setState(() {});
                               },
                               text: 'Submit',
                               options: FFButtonOptions(
@@ -634,10 +705,7 @@ class _AdvertiseWidgetState extends State<AdvertiseWidget> {
                   ],
                 ),
               ),
-            ].addToEnd(SizedBox(
-                height: FFAppState().isLive || FFAppState().streamPlaying
-                    ? 100.0
-                    : 40.0)),
+            ],
           ),
         ),
       ),
