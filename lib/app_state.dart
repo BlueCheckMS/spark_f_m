@@ -59,11 +59,11 @@ class FFAppState extends ChangeNotifier {
         }
       }
     } else if (album != null) {
-       DocumentSnapshot? albumSnapshot = await album?.get();
-    Map<String, dynamic>? albumData =
-        albumSnapshot?.data() as Map<String, dynamic>;
-    String albumCover = albumData['album_cover'];
-    String albumTitle = albumData['AlbumTitle'];
+      DocumentSnapshot? albumSnapshot = await album?.get();
+      Map<String, dynamic>? albumData =
+          albumSnapshot?.data() as Map<String, dynamic>;
+      String albumCover = albumData['album_cover'];
+      String albumTitle = albumData['AlbumTitle'];
       for (var song in songs!) {
         DocumentSnapshot? songSnapshot = await song.get();
         Map<String, dynamic>? songData =
@@ -89,11 +89,11 @@ class FFAppState extends ChangeNotifier {
         }
       }
     } else if (podcast != null) {
-       DocumentSnapshot? podcastSnapshot = await podcast?.get();
-    Map<String, dynamic>? podcastData =
-        podcastSnapshot?.data() as Map<String, dynamic>;
-    String podcastCover = podcastData['Podcast_thumbnail'];
-    String podcastTitle = podcastData['podcast_name'];
+      DocumentSnapshot? podcastSnapshot = await podcast?.get();
+      Map<String, dynamic>? podcastData =
+          podcastSnapshot?.data() as Map<String, dynamic>;
+      String podcastCover = podcastData['Podcast_thumbnail'];
+      String podcastTitle = podcastData['podcast_name'];
       if (audios.isNotEmpty) {
         audios.clear();
       }
@@ -125,30 +125,40 @@ class FFAppState extends ChangeNotifier {
       if (audios.isNotEmpty) {
         audios.clear();
       }
- DocumentSnapshot? songSnapshot = await song.get();
-        Map<String, dynamic>? songData =
-            songSnapshot.data() as Map<String, dynamic>;
-        String title = songData['song_name'];
-        String image = songData['song_image'];
-        String audio = songData['song_audioFile'];
+      DocumentSnapshot? songSnapshot = await song.get();
+      Map<String, dynamic>? songData =
+          songSnapshot.data() as Map<String, dynamic>;
+      String title = songData['song_name'];
+      String image = songData['song_image'];
+      String audio = songData['song_audioFile'];
 
-          audioMeta = Audio.network(audio,
-              metas: Metas(
-                  title: title,
-                  image: MetasImage.network(image),
-                  artist: artist));
-          audios.add(audioMeta);
-      }
+      audioMeta = Audio.network(audio,
+          metas: Metas(
+              title: title, image: MetasImage.network(image), artist: artist));
+      audios.add(audioMeta);
+    }
 
     if (assetsAudioPlayer!.isPlaying.value == true) {
       await assetsAudioPlayer.stop();
-      await assetsAudioPlayer
-          .open(Playlist(audios: audios));
+      await assetsAudioPlayer.open(
+        Playlist(audios: audios),
+        showNotification: true,
+        autoStart: true,
+        loopMode: LoopMode.playlist,
+        playInBackground: PlayInBackground.enabled,
+        headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,
+      );
       audioPlayer = assetsAudioPlayer;
       notifyListeners();
     } else {
-      await assetsAudioPlayer
-          .open(Playlist(audios: audios));
+      await assetsAudioPlayer.open(
+        Playlist(audios: audios),
+        showNotification: true,
+        autoStart: true,
+        loopMode: LoopMode.playlist,
+        playInBackground: PlayInBackground.enabled,
+        headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,
+      );
       audioPlayer = assetsAudioPlayer;
       notifyListeners();
     }
