@@ -34,9 +34,21 @@ class SongListPageWidget extends StatefulWidget {
   _SongListPageWidgetState createState() => _SongListPageWidgetState();
 }
 
+class AudioPlayerManager {
+  static final AudioPlayerManager _instance = AudioPlayerManager._();
+  final AssetsAudioPlayer _assetsAudioPlayer = AssetsAudioPlayer();
+
+  factory AudioPlayerManager() {
+    return _instance;
+  }
+
+  AssetsAudioPlayer get player => _assetsAudioPlayer;
+
+  AudioPlayerManager._();
+}
 class _SongListPageWidgetState extends State<SongListPageWidget> {
   late SongListPageModel _model;
-  late AssetsAudioPlayer _assetsAudioPlayer;
+  final AudioPlayerManager _audioPlayerManager = AudioPlayerManager();
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -44,12 +56,11 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => SongListPageModel());
-    _assetsAudioPlayer = AssetsAudioPlayer();
+  
   }
   @override
   void dispose() {
     _model.dispose();
-
     super.dispose();
   }
 
@@ -313,7 +324,7 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                             MainAxisAlignment.end,
                                         children: [
                                           FlutterFlowIconButton(
-                                            borderColor: Colors.transparent,
+                                            borderColor: Colors.white,
                                             borderRadius: 30,
                                             borderWidth: 1,
                                             buttonSize: 60,
@@ -350,7 +361,7 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                                                        album: widget.music!.reference,
                                                                  songs: widget.music?.songs
                                                                         .toList(),
-                                                                   assetsAudioPlayer: _assetsAudioPlayer,
+                                                                   assetsAudioPlayer: _audioPlayerManager.player,
                                                                   index:  0);
                                             },
                                           ),
@@ -404,17 +415,17 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                                         Colors.transparent,
                                                     highlightColor:
                                                         Colors.transparent,
-                                                    onTap: () async {
-                                                      await FFAppState().audioMetaList(
-                                                              artist:
-                                                                    containerArtistRecord
-                                                                        .artistName,
-                                                                      album:  widget.music!.reference,
-                                                                songs:    widget.music?.songs
-                                                                        .toList(),
-                                                                assetsAudioPlayer: _assetsAudioPlayer,
-                                                                 index: songslistIndex);
-                                                    },
+                                                      onTap: () async {
+                                                        await FFAppState().audioMetaList(
+                                                                artist:
+                                                                      containerArtistRecord
+                                                                          .artistName,
+                                                                        album:  widget.music!.reference,
+                                                                  songs:    widget.music?.songs
+                                                                          .toList(),
+                                                                  assetsAudioPlayer: _audioPlayerManager.player,
+                                                                   index: songslistIndex);
+                                                      },
                                                     child: Container(
                                                       width: MediaQuery.sizeOf(
                                                               context)
@@ -743,12 +754,12 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                           onPressed: () async {
                                             await FFAppState().audioMetaList(
                                                                   artist:widget.playlist!.playlistCreator,  
-                                                                   playList: widget.playlist!.reference ,
+                                                                   playlist: widget.playlist!.reference ,
                                                                   songs: widget
                                                                         .playlist!
                                                                         .playlistSongs
                                                                         .toList(),
-                                                                  assetsAudioPlayer: _assetsAudioPlayer,
+                                                                  assetsAudioPlayer: _audioPlayerManager.player,
                                                                  index: 0);
 
                                           },
@@ -842,12 +853,12 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                                                 await FFAppState().audioMetaList(
                                                                   artist:containerArtistRecord
                                                                         .artistName,
-                                                                   playList: widget.playlist!.reference ,
+                                                                   playlist: widget.playlist!.reference ,
                                                                   songs: widget
                                                                         .playlist!
                                                                         .playlistSongs
                                                                         .toList(),
-                                                                  assetsAudioPlayer: _assetsAudioPlayer,
+                                                                  assetsAudioPlayer: _audioPlayerManager.player,
                                                                  index: playListSongsIndex);
                                                               },
                                                         child: Container(
@@ -1172,30 +1183,13 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                                       .secondary,
                                               size: 30,
                                             ),
-                                            // onPressed: () async {
-                                            //   setState(() {
-                                            //     FFAppState().AudioPlayerMeta =
-                                            //         AudioMetaStruct();
-                                            //   });
-                                            //   setState(() {
-                                            //     FFAppState()
-                                            //         .updateAudioPlayerMetaStruct(
-                                            //       (e) => e
-                                            //         ..title = widget
-                                            //             .singleSong?.songName
-                                            //         ..artist =
-                                            //             containerArtistRecord
-                                            //                 .artistName
-                                            //         ..image = widget
-                                            //             .singleSong?.songImage
-                                            //         ..audios =
-                                            //             songListPageSongsRecordList
-                                            //                 .map((e) =>
-                                            //                     e.songAudioFile)
-                                            //                 .toList(),
-                                            //     );
-                                            //   });
-                                            // },
+                                            onPressed: () async {
+                                           await FFAppState().audioMetaList(
+                                              song: widget.singleSong!.reference,
+                                              artist: containerArtistRecord.artistName,
+                                              assetsAudioPlayer: _audioPlayerManager.player
+                                            );
+                                            },
                                           ),
                                         ],
                                       ),
@@ -1229,36 +1223,13 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                                 hoverColor: Colors.transparent,
                                                 highlightColor:
                                                     Colors.transparent,
-                                                // onTap: () async {
-                                                //   setState(() {
-                                                //     FFAppState()
-                                                //             .AudioPlayerMeta =
-                                                //         AudioMetaStruct();
-                                                //   });
-                                                //   setState(() {
-                                                //     FFAppState()
-                                                //         .updateAudioPlayerMetaStruct(
-                                                //       (e) => e
-                                                //         ..title =
-                                                //             containerSongsRecord
-                                                //                 .songName
-                                                //         ..artist =
-                                                //             containerArtistRecord
-                                                //                 .artistName
-                                                //         ..image = widget
-                                                //             .singleSong
-                                                //             ?.songImage
-                                                //         ..audios =
-                                                //             songListPageSongsRecordList
-                                                //                 .map((e) => e
-                                                //                     .songAudioFile)
-                                                //                 .toList(),
-                                                //     );
-                                                //   });
-
-                                                //   context.pushNamed(
-                                                //       'MusicStreamDemo');
-                                                // },
+                                                onTap: () async {
+                                                   await FFAppState().audioMetaList(
+                                              song: widget.singleSong!.reference,
+                                              artist: containerArtistRecord.artistName,
+                                              assetsAudioPlayer: _audioPlayerManager.player
+                                            );
+                                                },
                                                 child: Container(
                                                   width:
                                                       MediaQuery.sizeOf(context)
@@ -1894,42 +1865,38 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                                                     ),
                                                                     onPressed:
                                                                         () async {
-                                                                      if (widget
-                                                                          .podcast!
-                                                                          .episodes
-                                                                          .isNotEmpty) {
-                                                                        await FFAppState().audioMetaList(
-                                                                            podcast: widget
-                                                                                .podcast!.reference,
-                                                                            artist: containerArtistRecord
-                                                                                .artistName,
-                                                                            episods: widget.podcast?.episodes
-                                                                                .toList(),
-                                                                            assetsAudioPlayer:
-                                                                                _assetsAudioPlayer,
-                                                                            index:
-                                                                                epsIndex);
-                                                                      } else if (widget
-                                                                          .podcast!
-                                                                          .episodes
-                                                                          .isEmpty) {
-                                                                        List<DocumentReference> filteredReferences = containerEpisodesRecordList
-                                                                            .where((e) =>
-                                                                                epsItem.podcast ==
-                                                                                widget.podcast?.reference)
-                                                                            .map((e) => e.reference)
-                                                                            .toList();
-                                                                        await FFAppState().audioMetaList(
-                                                                            podcast: widget
-                                                                                .podcast!.reference,
-                                                                            artist: containerArtistRecord
-                                                                                .artistName,
-                                                                            episods:
-                                                                                filteredReferences,
-                                                                            assetsAudioPlayer:
-                                                                                _assetsAudioPlayer,
-                                                                            index: epsIndex);
-                                                                      }
+                                                                      List<DocumentReference> filteredEpisodes = containerEpisodesRecordList
+                                                                          .where((e) =>
+                                                                              epsItem.podcast ==
+                                                                              widget
+                                                                                  .podcast?.reference)
+                                                                          .map((e) =>
+                                                                              epsItem.reference)
+                                                                          .toList();
+
+                                                                          if (widget.podcast?.episodes == null) {
+                                                                            await FFAppState().audioMetaList(
+                                                                          podcast: widget
+                                                                              .podcast!
+                                                                              .reference,
+                                                                          episodes:
+                                                                              filteredEpisodes,
+                                                                          assetsAudioPlayer:
+                                                                              _audioPlayerManager.player,
+                                                                          index:
+                                                                              epsIndex);
+                                                                          } else {
+                                                                            await FFAppState().audioMetaList(
+                                                                          podcast: widget
+                                                                              .podcast!
+                                                                              .reference,
+                                                                          episodes:
+                                                                              widget.podcast!.episodes,
+                                                                          assetsAudioPlayer:
+                                                                              _audioPlayerManager.player,
+                                                                          index:
+                                                                              epsIndex);
+                                                                          }
                                                                       
                                                                     },
                                                                   ),
@@ -1982,7 +1949,7 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
               },
             ),
           ),
-        );
+        ); 
       },
     );
   }

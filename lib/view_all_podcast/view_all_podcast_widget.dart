@@ -86,7 +86,7 @@ class _ViewAllPodcastWidgetState extends State<ViewAllPodcastWidget> {
               children: [
                 Padding(
                   padding:
-                      EdgeInsetsDirectional.fromSTEB(16.0, 25.0, 16.0, 5.0),
+                      EdgeInsetsDirectional.fromSTEB(12.0, 12.0, 12.0, 12.0),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
@@ -111,7 +111,7 @@ class _ViewAllPodcastWidgetState extends State<ViewAllPodcastWidget> {
                       final featuredPodcast = widget.podcast
                               ?.where((e) => e.featuredPodcast)
                               .toList()
-                              ?.toList() ??
+                              .toList() ??
                           [];
                       if (featuredPodcast.isEmpty) {
                         return Image.asset(
@@ -136,10 +136,10 @@ class _ViewAllPodcastWidgetState extends State<ViewAllPodcastWidget> {
                               highlightColor: Colors.transparent,
                               onTap: () async {
                                 Navigator.pushNamed(context,
-                                  'PodcasPage',
+                                  'SongListPage',
                                   arguments: {
                                     'podcastDoc': featuredPodcastItem,
-                                     'extra': <String, dynamic>{
+                                    'extra': <String, dynamic>{
                                     'podcastDoc': featuredPodcastItem,
                                   },
                                   }.withoutNulls,
@@ -165,7 +165,9 @@ class _ViewAllPodcastWidgetState extends State<ViewAllPodcastWidget> {
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       12.0, 12.0, 12.0, 12.0),
                                   child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     mainAxisSize: MainAxisSize.max,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Expanded(
                                         child: Column(
@@ -215,6 +217,7 @@ class _ViewAllPodcastWidgetState extends State<ViewAllPodcastWidget> {
                                             ),
                                             Row(
                                               mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
                                                 Expanded(
                                                   child: Padding(
@@ -326,7 +329,7 @@ class _ViewAllPodcastWidgetState extends State<ViewAllPodcastWidget> {
                           highlightColor: Colors.transparent,
                           onTap: () async {
                             Navigator.pushNamed(context,
-                              'PodcasPage',
+                              'SongListPage',
                               arguments: {
                                 'podcastDoc': podcastItem,
                                 'extra': <String, dynamic>{
