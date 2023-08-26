@@ -56,7 +56,7 @@ class _AboutUsWidgetState extends State<AboutUsWidget> {
               size: 30,
             ),
             onPressed: () async {
-              context.goNamed('/editProfile');
+              context.pushNamed('EditProfile');
             },
           ),
           backgroundColor: Colors.white,

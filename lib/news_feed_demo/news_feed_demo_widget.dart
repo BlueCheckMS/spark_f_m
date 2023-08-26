@@ -648,9 +648,10 @@ class _NewsFeedDemoWidgetState extends State<NewsFeedDemoWidget>
                                                           child: FFButtonWidget(
                                                             onPressed:
                                                                 () async {
-                                                              context.push(
+                                                              context.pushNamed(
                                                                 'NewsStoryDemo',
-                                                                extra: {
+                                                                queryParameters:
+                                                                    {
                                                                   'post':
                                                                       serializeParam(
                                                                     newsItem,
