@@ -65,7 +65,7 @@ class _MusicStreamDemoWidgetState extends State<MusicStreamDemoWidget> {
               size: 30.0,
             ),
             onPressed: () async {
-              context.safePop();
+              Navigator.pop(context);
             },
           ),
           title: Text(
@@ -119,7 +119,8 @@ class _MusicStreamDemoWidgetState extends State<MusicStreamDemoWidget> {
                               color: Color(0xFFEEEEEE),
                             ),
                             child: Image.network(
-                              FFAppState().AudioPlayerMeta.metas.image?.path as String,
+                              FFAppState().AudioPlayerMeta.metas.image?.path
+                                  as String,
                               width: 100.0,
                               height: 100.0,
                               fit: BoxFit.cover,
@@ -139,7 +140,10 @@ class _MusicStreamDemoWidgetState extends State<MusicStreamDemoWidget> {
                                   FFAppState().AudioPlayerMeta.path,
                                   metas: Metas(
                                     id: '2vqf7_-ee0acf1f',
-                                    title: FFAppState().AudioPlayerMeta.metas.title,
+                                    title: FFAppState()
+                                        .AudioPlayerMeta
+                                        .metas
+                                        .title,
                                   ),
                                 ),
                                 titleTextStyle: FlutterFlowTheme.of(context)

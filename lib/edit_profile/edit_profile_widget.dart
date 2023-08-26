@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+
 import 'edit_profile_model.dart';
 export 'edit_profile_model.dart';
 
@@ -47,16 +48,16 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
         automaticallyImplyLeading: false,
         leading: FlutterFlowIconButton(
           borderColor: Colors.transparent,
-          borderRadius: 30.0,
-          borderWidth: 1.0,
-          buttonSize: 60.0,
+          borderRadius: 30,
+          borderWidth: 1,
+          buttonSize: 60,
           icon: Icon(
             Icons.chevron_left,
             color: Color(0xFFEB4323),
-            size: 30.0,
+            size: 30,
           ),
           onPressed: () async {
-            Navigator.pop(context);
+            context.safePop();
           },
         ),
         title: Text(
@@ -64,12 +65,12 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
           style: FlutterFlowTheme.of(context).headlineMedium.override(
                 fontFamily: 'Poppins',
                 color: FlutterFlowTheme.of(context).textColor,
-                fontSize: 16.0,
+                fontSize: 16,
               ),
         ),
         actions: [],
         centerTitle: true,
-        elevation: 2.0,
+        elevation: 2,
       ),
       body: Column(
         mainAxisSize: MainAxisSize.max,
@@ -79,37 +80,20 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
             mainAxisSize: MainAxisSize.max,
             children: [
               Container(
-                width: MediaQuery.sizeOf(context).width * 1.0,
+                width: MediaQuery.sizeOf(context).width,
                 decoration: BoxDecoration(
                   color: FlutterFlowTheme.of(context).secondaryBackground,
                 ),
                 child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 0.0, 0.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(24, 0, 0, 0),
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          Container(
-                            width: 76.0,
-                            height: 76.0,
-                            clipBehavior: Clip.antiAlias,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                            ),
-                            child: Image.asset(
-                              'assets/images/UI_avatar@2x.png',
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
                           Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 8.0, 0.0, 0.0),
+                            padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
                             child: AuthUserStreamWidget(
                               builder: (context) => Text(
                                 valueOrDefault<String>(
@@ -124,14 +108,13 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                         ],
                       ),
                       Padding(
-                        padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 12.0),
+                        padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 12),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 8.0, 0.0, 0.0),
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
                               child: Text(
                                 valueOrDefault<String>(
                                   currentUserEmail,
@@ -143,7 +126,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                                       fontFamily: 'Lexend Deca',
                                       color: FlutterFlowTheme.of(context)
                                           .secondary,
-                                      fontSize: 14.0,
+                                      fontSize: 14,
                                       fontWeight: FontWeight.normal,
                                     ),
                               ),
@@ -164,8 +147,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(24.0, 12.0, 0.0, 12.0),
+                    padding: EdgeInsetsDirectional.fromSTEB(24, 12, 0, 12),
                     child: Text(
                       'Account Settings',
                       style: FlutterFlowTheme.of(context).bodyMedium,
@@ -181,13 +163,13 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
               scrollDirection: Axis.vertical,
               children: [
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 1.0, 0.0, 0.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 1, 0, 0),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Container(
-                        width: MediaQuery.sizeOf(context).width * 1.0,
-                        height: 50.0,
+                        width: MediaQuery.sizeOf(context).width,
+                        height: 50,
                         decoration: BoxDecoration(
                           color:
                               FlutterFlowTheme.of(context).secondaryBackground,
@@ -197,8 +179,8 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  24.0, 0.0, 0.0, 0.0),
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(24, 0, 0, 0),
                               child: Text(
                                 'Settings',
                                 style: FlutterFlowTheme.of(context).bodyMedium,
@@ -206,11 +188,11 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                             ),
                             Expanded(
                               child: Align(
-                                alignment: AlignmentDirectional(0.9, 0.0),
+                                alignment: AlignmentDirectional(0.9, 0),
                                 child: Icon(
                                   Icons.arrow_forward_ios,
                                   color: Color(0xFF95A1AC),
-                                  size: 18.0,
+                                  size: 18,
                                 ),
                               ),
                             ),
@@ -221,13 +203,13 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 1.0, 0.0, 0.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 1, 0, 0),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Container(
-                        width: MediaQuery.sizeOf(context).width * 1.0,
-                        height: 50.0,
+                        width: MediaQuery.sizeOf(context).width,
+                        height: 50,
                         decoration: BoxDecoration(
                           color:
                               FlutterFlowTheme.of(context).secondaryBackground,
@@ -237,8 +219,8 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  24.0, 0.0, 0.0, 0.0),
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(24, 0, 0, 0),
                               child: Text(
                                 'Notifications',
                                 style: FlutterFlowTheme.of(context).bodyMedium,
@@ -246,11 +228,11 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                             ),
                             Expanded(
                               child: Align(
-                                alignment: AlignmentDirectional(0.9, 0.0),
+                                alignment: AlignmentDirectional(0.9, 0),
                                 child: Icon(
                                   Icons.arrow_forward_ios,
                                   color: Color(0xFF95A1AC),
-                                  size: 18.0,
+                                  size: 18,
                                 ),
                               ),
                             ),
@@ -261,13 +243,13 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 1.0, 0.0, 0.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 1, 0, 0),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Container(
-                        width: MediaQuery.sizeOf(context).width * 1.0,
-                        height: 50.0,
+                        width: MediaQuery.sizeOf(context).width,
+                        height: 50,
                         decoration: BoxDecoration(
                           color:
                               FlutterFlowTheme.of(context).secondaryBackground,
@@ -298,8 +280,8 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                             mainAxisSize: MainAxisSize.max,
                             children: [
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    24.0, 0.0, 0.0, 0.0),
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(24, 0, 0, 0),
                                 child: Text(
                                   'Change Password',
                                   style:
@@ -308,11 +290,11 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                               ),
                               Expanded(
                                 child: Align(
-                                  alignment: AlignmentDirectional(0.9, 0.0),
+                                  alignment: AlignmentDirectional(0.9, 0),
                                   child: Icon(
                                     Icons.arrow_forward_ios,
                                     color: Color(0xFF95A1AC),
-                                    size: 18.0,
+                                    size: 18,
                                   ),
                                 ),
                               ),
@@ -324,7 +306,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 20.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 20),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -339,24 +321,23 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                         },
                         text: 'Log Out',
                         options: FFButtonOptions(
-                          width: 90.0,
-                          height: 40.0,
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 0.0, 0.0, 0.0),
-                          iconPadding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 0.0, 0.0, 0.0),
+                          width: 90,
+                          height: 40,
+                          padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                          iconPadding:
+                              EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                           color: FlutterFlowTheme.of(context).secondary,
                           textStyle:
                               FlutterFlowTheme.of(context).bodySmall.override(
                                     fontFamily: 'Lexend Deca',
                                     color: FlutterFlowTheme.of(context).primary,
-                                    fontSize: 14.0,
+                                    fontSize: 14,
                                     fontWeight: FontWeight.normal,
                                   ),
-                          elevation: 3.0,
+                          elevation: 3,
                           borderSide: BorderSide(
                             color: Colors.transparent,
-                            width: 1.0,
+                            width: 1,
                           ),
                         ),
                       ),
@@ -366,10 +347,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
               ],
             ),
           ),
-        ].addToEnd(SizedBox(
-            height: FFAppState().isLive || FFAppState().streamPlaying
-                ? 100.0
-                : 40.0)),
+        ],
       ),
     );
   }

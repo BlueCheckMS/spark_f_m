@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+
 import 'view_all_podcast_model.dart';
 export 'view_all_podcast_model.dart';
 
@@ -53,16 +54,16 @@ class _ViewAllPodcastWidgetState extends State<ViewAllPodcastWidget> {
           automaticallyImplyLeading: false,
           leading: FlutterFlowIconButton(
             borderColor: Colors.transparent,
-            borderRadius: 30.0,
-            borderWidth: 1.0,
-            buttonSize: 60.0,
+            borderRadius: 30,
+            borderWidth: 1,
+            buttonSize: 60,
             icon: Icon(
               Icons.arrow_back,
               color: Color(0xFFEB4323),
-              size: 30.0,
+              size: 30,
             ),
             onPressed: () async {
-              Navigator.pop(context);
+              context.pushNamed('BrowseDemo');
             },
           ),
           title: Text(
@@ -70,12 +71,12 @@ class _ViewAllPodcastWidgetState extends State<ViewAllPodcastWidget> {
             style: FlutterFlowTheme.of(context).headlineMedium.override(
                   fontFamily: 'Poppins',
                   color: Colors.black,
-                  fontSize: 16.0,
+                  fontSize: 16,
                 ),
           ),
           actions: [],
           centerTitle: true,
-          elevation: 2.0,
+          elevation: 2,
         ),
         body: SafeArea(
           top: true,
@@ -85,8 +86,7 @@ class _ViewAllPodcastWidgetState extends State<ViewAllPodcastWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding:
-                      EdgeInsetsDirectional.fromSTEB(12.0, 12.0, 12.0, 12.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(16, 25, 16, 5),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
@@ -94,7 +94,7 @@ class _ViewAllPodcastWidgetState extends State<ViewAllPodcastWidget> {
                         'Featured in this Category',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
                               fontFamily: 'Poppins',
-                              fontSize: 16.0,
+                              fontSize: 16,
                             ),
                       ),
                     ],
@@ -102,7 +102,7 @@ class _ViewAllPodcastWidgetState extends State<ViewAllPodcastWidget> {
                 ),
                 Container(
                   width: double.infinity,
-                  height: 420.0,
+                  height: 420,
                   decoration: BoxDecoration(
                     color: FlutterFlowTheme.of(context).primaryBackground,
                   ),
@@ -111,7 +111,7 @@ class _ViewAllPodcastWidgetState extends State<ViewAllPodcastWidget> {
                       final featuredPodcast = widget.podcast
                               ?.where((e) => e.featuredPodcast)
                               .toList()
-                              .toList() ??
+                              ?.toList() ??
                           [];
                       if (featuredPodcast.isEmpty) {
                         return Image.asset(
@@ -127,47 +127,47 @@ class _ViewAllPodcastWidgetState extends State<ViewAllPodcastWidget> {
                           final featuredPodcastItem =
                               featuredPodcast[featuredPodcastIndex];
                           return Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                16.0, 8.0, 16.0, 8.0),
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(16, 8, 16, 8),
                             child: InkWell(
                               splashColor: Colors.transparent,
                               focusColor: Colors.transparent,
                               hoverColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                               onTap: () async {
-                                Navigator.pushNamed(context,
+                                context.pushNamed(
                                   'SongListPage',
-                                  arguments: {
-                                    'podcastDoc': featuredPodcastItem,
-                                    'extra': <String, dynamic>{
-                                    'podcastDoc': featuredPodcastItem,
-                                  },
+                                  queryParameters: {
+                                    'podcast': serializeParam(
+                                      featuredPodcastItem,
+                                      ParamType.Document,
+                                    ),
                                   }.withoutNulls,
-                                 
+                                  extra: <String, dynamic>{
+                                    'podcast': featuredPodcastItem,
+                                  },
                                 );
                               },
                               child: Container(
                                 width: MediaQuery.sizeOf(context).width * 0.7,
-                                height: 40.0,
+                                height: 40,
                                 decoration: BoxDecoration(
                                   color: FlutterFlowTheme.of(context)
                                       .secondaryBackground,
                                   boxShadow: [
                                     BoxShadow(
-                                      blurRadius: 5.0,
+                                      blurRadius: 5,
                                       color: Color(0x44111417),
-                                      offset: Offset(0.0, 2.0),
+                                      offset: Offset(0, 2),
                                     )
                                   ],
-                                  borderRadius: BorderRadius.circular(8.0),
+                                  borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
-                                      12.0, 12.0, 12.0, 12.0),
+                                      12, 12, 12, 12),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
                                     mainAxisSize: MainAxisSize.max,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Expanded(
                                         child: Column(
@@ -178,28 +178,26 @@ class _ViewAllPodcastWidgetState extends State<ViewAllPodcastWidget> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Container(
-                                              width: 250.0,
-                                              height: 250.0,
+                                              width: 250,
+                                              height: 250,
                                               decoration: BoxDecoration(
                                                 color:
                                                     FlutterFlowTheme.of(context)
                                                         .lineColor,
                                                 borderRadius:
-                                                    BorderRadius.circular(8.0),
+                                                    BorderRadius.circular(8),
                                               ),
                                               child: Padding(
                                                 padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        2.0, 2.0, 2.0, 2.0),
+                                                    .fromSTEB(2, 2, 2, 2),
                                                 child: ClipRRect(
                                                   borderRadius:
-                                                      BorderRadius.circular(
-                                                          6.0),
+                                                      BorderRadius.circular(6),
                                                   child: Image.network(
                                                     featuredPodcastItem
                                                         .podcastThumbnail,
-                                                    width: 100.0,
-                                                    height: 100.0,
+                                                    width: 100,
+                                                    height: 100,
                                                     fit: BoxFit.cover,
                                                   ),
                                                 ),
@@ -207,7 +205,7 @@ class _ViewAllPodcastWidgetState extends State<ViewAllPodcastWidget> {
                                             ),
                                             Padding(
                                               padding: EdgeInsetsDirectional
-                                                  .fromSTEB(0.0, 8.0, 0.0, 4.0),
+                                                  .fromSTEB(0, 8, 0, 4),
                                               child: Text(
                                                 featuredPodcastItem.podcastName,
                                                 style:
@@ -217,14 +215,13 @@ class _ViewAllPodcastWidgetState extends State<ViewAllPodcastWidget> {
                                             ),
                                             Row(
                                               mainAxisSize: MainAxisSize.max,
-                                              mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
                                                 Expanded(
                                                   child: Padding(
                                                     padding:
                                                         EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 0.0,
-                                                                0.0, 4.0),
+                                                            .fromSTEB(
+                                                                0, 0, 0, 4),
                                                     child: StreamBuilder<
                                                         ArtistRecord>(
                                                       stream: ArtistRecord
@@ -237,13 +234,13 @@ class _ViewAllPodcastWidgetState extends State<ViewAllPodcastWidget> {
                                                         if (!snapshot.hasData) {
                                                           return Center(
                                                             child: SizedBox(
-                                                              width: 50.0,
-                                                              height: 50.0,
+                                                              width: 50,
+                                                              height: 50,
                                                               child:
                                                                   SpinKitDualRing(
                                                                 color: Color(
                                                                     0xFFEB4323),
-                                                                size: 50.0,
+                                                                size: 50,
                                                               ),
                                                             ),
                                                           );
@@ -285,14 +282,12 @@ class _ViewAllPodcastWidgetState extends State<ViewAllPodcastWidget> {
                   ),
                 ),
                 Padding(
-                  padding:
-                      EdgeInsetsDirectional.fromSTEB(16.0, 4.0, 16.0, 12.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(16, 4, 16, 12),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Padding(
-                        padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 25.0, 0.0, 0.0),
+                        padding: EdgeInsetsDirectional.fromSTEB(0, 25, 0, 0),
                         child: Text(
                           'More from this Category',
                           style: FlutterFlowTheme.of(context)
@@ -300,7 +295,7 @@ class _ViewAllPodcastWidgetState extends State<ViewAllPodcastWidget> {
                               .override(
                                 fontFamily: 'Poppins',
                                 color: Colors.black,
-                                fontSize: 16.0,
+                                fontSize: 16,
                               ),
                         ),
                       ),
@@ -328,32 +323,35 @@ class _ViewAllPodcastWidgetState extends State<ViewAllPodcastWidget> {
                           hoverColor: Colors.transparent,
                           highlightColor: Colors.transparent,
                           onTap: () async {
-                            Navigator.pushNamed(context,
+                            context.pushNamed(
                               'SongListPage',
-                              arguments: {
-                                'podcastDoc': podcastItem,
-                                'extra': <String, dynamic>{
-                                'podcastDoc': podcastItem,
-                              },
+                              queryParameters: {
+                                'podcast': serializeParam(
+                                  podcastItem,
+                                  ParamType.Document,
+                                ),
                               }.withoutNulls,
+                              extra: <String, dynamic>{
+                                'podcast': podcastItem,
+                              },
                             );
                           },
                           child: Container(
-                            width: MediaQuery.sizeOf(context).width * 1.0,
-                            height: 150.0,
+                            width: MediaQuery.sizeOf(context).width,
+                            height: 150,
                             decoration: BoxDecoration(
                               color:
                                   FlutterFlowTheme.of(context).primaryBtnText,
                             ),
                             child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  20.0, 0.0, 10.0, 10.0),
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(20, 0, 10, 10),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Container(
-                                    height: 100.0,
+                                    height: 100,
                                     decoration: BoxDecoration(),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
@@ -362,14 +360,14 @@ class _ViewAllPodcastWidgetState extends State<ViewAllPodcastWidget> {
                                       children: [
                                         Image.network(
                                           podcastItem.podcastThumbnail,
-                                          width: 100.0,
-                                          height: 100.0,
+                                          width: 100,
+                                          height: 100,
                                           fit: BoxFit.fitWidth,
                                         ),
                                         Padding(
                                           padding:
                                               EdgeInsetsDirectional.fromSTEB(
-                                                  10.0, 0.0, 0.0, 0.0),
+                                                  10, 0, 0, 0),
                                           child: Column(
                                             mainAxisSize: MainAxisSize.max,
                                             crossAxisAlignment:
@@ -392,12 +390,12 @@ class _ViewAllPodcastWidgetState extends State<ViewAllPodcastWidget> {
                                                   if (!snapshot.hasData) {
                                                     return Center(
                                                       child: SizedBox(
-                                                        width: 50.0,
-                                                        height: 50.0,
+                                                        width: 50,
+                                                        height: 50,
                                                         child: SpinKitDualRing(
                                                           color:
                                                               Color(0xFFEB4323),
-                                                          size: 50.0,
+                                                          size: 50,
                                                         ),
                                                       ),
                                                     );
@@ -426,7 +424,7 @@ class _ViewAllPodcastWidgetState extends State<ViewAllPodcastWidget> {
                                                         .bodyMedium
                                                         .override(
                                                           fontFamily: 'Poppins',
-                                                          fontSize: 10.0,
+                                                          fontSize: 10,
                                                           fontWeight:
                                                               FontWeight.normal,
                                                         ),
@@ -446,10 +444,7 @@ class _ViewAllPodcastWidgetState extends State<ViewAllPodcastWidget> {
                     );
                   },
                 ),
-              ].addToEnd(SizedBox(
-                  height: FFAppState().isLive || FFAppState().streamPlaying
-                      ? 100.0
-                      : 40.0)),
+              ],
             ),
           ),
         ),

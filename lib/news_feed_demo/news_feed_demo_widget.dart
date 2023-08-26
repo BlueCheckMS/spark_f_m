@@ -13,7 +13,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-
 import 'news_feed_demo_model.dart';
 export 'news_feed_demo_model.dart';
 
@@ -38,22 +37,22 @@ class _NewsFeedDemoWidgetState extends State<NewsFeedDemoWidget>
           curve: Curves.easeInOut,
           delay: 0.ms,
           duration: 600.ms,
-          begin: 0,
-          end: 1,
+          begin: 0.0,
+          end: 1.0,
         ),
         MoveEffect(
           curve: Curves.easeInOut,
           delay: 0.ms,
           duration: 600.ms,
-          begin: Offset(0, 70),
-          end: Offset(0, 0),
+          begin: Offset(0.0, 70.0),
+          end: Offset(0.0, 0.0),
         ),
         ScaleEffect(
           curve: Curves.easeInOut,
           delay: 0.ms,
           duration: 600.ms,
           begin: Offset(0.9, 0.9),
-          end: Offset(1, 1),
+          end: Offset(1.0, 1.0),
         ),
       ],
     ),
@@ -64,15 +63,15 @@ class _NewsFeedDemoWidgetState extends State<NewsFeedDemoWidget>
           curve: Curves.easeInOut,
           delay: 0.ms,
           duration: 600.ms,
-          begin: 0,
-          end: 1,
+          begin: 0.0,
+          end: 1.0,
         ),
         MoveEffect(
           curve: Curves.easeInOut,
           delay: 0.ms,
           duration: 600.ms,
-          begin: Offset(0, 40),
-          end: Offset(0, 0),
+          begin: Offset(0.0, 40.0),
+          end: Offset(0.0, 0.0),
         ),
       ],
     ),
@@ -83,15 +82,15 @@ class _NewsFeedDemoWidgetState extends State<NewsFeedDemoWidget>
           curve: Curves.easeInOut,
           delay: 0.ms,
           duration: 600.ms,
-          begin: 0,
-          end: 1,
+          begin: 0.0,
+          end: 1.0,
         ),
         MoveEffect(
           curve: Curves.easeInOut,
           delay: 0.ms,
           duration: 600.ms,
-          begin: Offset(0, 50),
-          end: Offset(0, 0),
+          begin: Offset(0.0, 50.0),
+          end: Offset(0.0, 0.0),
         ),
       ],
     ),
@@ -102,22 +101,22 @@ class _NewsFeedDemoWidgetState extends State<NewsFeedDemoWidget>
           curve: Curves.easeInOut,
           delay: 0.ms,
           duration: 600.ms,
-          begin: 0,
-          end: 1,
+          begin: 0.0,
+          end: 1.0,
         ),
         MoveEffect(
           curve: Curves.easeInOut,
           delay: 0.ms,
           duration: 600.ms,
-          begin: Offset(0, 70),
-          end: Offset(0, 0),
+          begin: Offset(0.0, 70.0),
+          end: Offset(0.0, 0.0),
         ),
         ScaleEffect(
           curve: Curves.easeInOut,
           delay: 0.ms,
           duration: 600.ms,
           begin: Offset(0.9, 0.9),
-          end: Offset(1, 1),
+          end: Offset(1.0, 1.0),
         ),
       ],
     ),
@@ -128,15 +127,15 @@ class _NewsFeedDemoWidgetState extends State<NewsFeedDemoWidget>
           curve: Curves.easeInOut,
           delay: 0.ms,
           duration: 600.ms,
-          begin: 0,
-          end: 1,
+          begin: 0.0,
+          end: 1.0,
         ),
         MoveEffect(
           curve: Curves.easeInOut,
           delay: 0.ms,
           duration: 600.ms,
-          begin: Offset(0, 40),
-          end: Offset(0, 0),
+          begin: Offset(0.0, 40.0),
+          end: Offset(0.0, 0.0),
         ),
       ],
     ),
@@ -147,15 +146,15 @@ class _NewsFeedDemoWidgetState extends State<NewsFeedDemoWidget>
           curve: Curves.easeInOut,
           delay: 0.ms,
           duration: 600.ms,
-          begin: 0,
-          end: 1,
+          begin: 0.0,
+          end: 1.0,
         ),
         MoveEffect(
           curve: Curves.easeInOut,
           delay: 0.ms,
           duration: 600.ms,
-          begin: Offset(0, 50),
-          end: Offset(0, 0),
+          begin: Offset(0.0, 50.0),
+          end: Offset(0.0, 0.0),
         ),
       ],
     ),
@@ -198,11 +197,11 @@ class _NewsFeedDemoWidgetState extends State<NewsFeedDemoWidget>
           return Scaffold(
             body: Center(
               child: SizedBox(
-                width: 50,
-                height: 50,
+                width: 50.0,
+                height: 50.0,
                 child: SpinKitDualRing(
                   color: Color(0xFFEB4323),
-                  size: 50,
+                  size: 50.0,
                 ),
               ),
             ),
@@ -211,58 +210,63 @@ class _NewsFeedDemoWidgetState extends State<NewsFeedDemoWidget>
         final newsFeedDemoSparkFmBlogResponse = snapshot.data!;
         return Scaffold(
           key: scaffoldKey,
-          appBar: AppBar(leading: FlutterFlowIconButton(
-                    borderColor: Colors.transparent,
-                    borderRadius: 30,
-                    borderWidth: 1,
-                    buttonSize: 60,
-                    icon: Icon(
-                      Icons.account_circle_sharp,
-                      color: Color(0xFFEB4323),
-                      size: 30,
+          appBar: AppBar(
+            leading: FlutterFlowIconButton(
+              borderColor: Colors.transparent,
+              borderRadius: 30,
+              borderWidth: 1,
+              buttonSize: 60,
+              icon: Icon(
+                Icons.account_circle_sharp,
+                color: Color(0xFFEB4323),
+                size: 30,
+              ),
+              onPressed: () async {
+                context.push('/editProfile');
+              },
+            ),
+            backgroundColor: Colors.white,
+            title: Text('News'),
+            centerTitle: true,
+            titleTextStyle:
+                FlutterFlowTheme.of(context).headlineMedium.override(
+                      fontFamily: 'Poppins',
+                      color: Colors.black,
+                      fontSize: 16,
                     ),
-                    onPressed: () async {
-                      Navigator.pushNamed(context,'EditProfile');
-                    },
-                  ), backgroundColor: Colors.white,
-                  title: Text('News'),
-                  centerTitle: true,
-                  titleTextStyle: FlutterFlowTheme.of(context).headlineMedium.override(
-                          fontFamily: 'Poppins',
-                          color: Colors.black,
-                          fontSize: 16,
-                        ),
-                        actions: [
-                           FlutterFlowIconButton(
-                    borderColor: Colors.transparent,
-                    borderRadius: 30,
-                    borderWidth: 1,
-                    buttonSize: 60,
-                    icon: Icon(
-                      Icons.message,
-                      color: Color(0xFFEB4323),
-                      size: 30,
-                    ),
-                    onPressed: () async {
-                      Navigator.pushNamed(context,'chatsCopy',
-                      );
-                    },
-                  ),
-                        ],
-                        elevation: 0,),
+            actions: [
+              FlutterFlowIconButton(
+                borderColor: Colors.transparent,
+                borderRadius: 30,
+                borderWidth: 1,
+                buttonSize: 60,
+                icon: Icon(
+                  Icons.message,
+                  color: Color(0xFFEB4323),
+                  size: 30,
+                ),
+                onPressed: () async {
+                  context.push(
+                    '/chatsCopy',
+                  );
+                },
+              ),
+            ],
+            elevation: 0,
+          ),
           body: Column(
             children: [
               Align(
-                alignment: Alignment(0, 0),
+                alignment: Alignment(0.0, 0),
                 child: TabBar(
                   labelColor: Colors.black,
                   labelStyle: FlutterFlowTheme.of(context).bodyMedium.override(
                         fontFamily: 'Poppins',
-                        fontSize: 16,
+                        fontSize: 16.0,
                       ),
                   unselectedLabelStyle: TextStyle(),
                   indicatorColor: Color(0xFFEB4323),
-                  indicatorWeight: 4,
+                  indicatorWeight: 4.0,
                   tabs: [
                     Tab(
                       text: 'What\'s Trending',
@@ -283,7 +287,8 @@ class _NewsFeedDemoWidgetState extends State<NewsFeedDemoWidget>
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 15, 0, 0),
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 15.0, 0.0, 0.0),
                           child: Text(
                             'What\'s trending in music and entertainment.',
                             textAlign: TextAlign.center,
@@ -291,7 +296,7 @@ class _NewsFeedDemoWidgetState extends State<NewsFeedDemoWidget>
                                 FlutterFlowTheme.of(context).bodySmall.override(
                                       fontFamily: 'Montserrat',
                                       color: Colors.black,
-                                      fontSize: 13,
+                                      fontSize: 13.0,
                                       fontWeight: FontWeight.normal,
                                     ),
                           ),
@@ -300,18 +305,9 @@ class _NewsFeedDemoWidgetState extends State<NewsFeedDemoWidget>
                           child: Builder(
                             builder: (context) {
                               final post = SparkFmBlogCall.posts(
-                                                newsFeedDemoSparkFmBlogResponse
-                                                    .jsonBody,
-                                              )
-                                                  ?.where((e) =>
-                                                      getJsonField(
-                                                        e,
-                                                        r'''$..mainCategory''',
-                                                      ) ==
-                                                      '646785b7c243d0996a548efa')
-                                                  .toList()
-                                                  ?.toList() ??
-                                              [];
+                                    newsFeedDemoSparkFmBlogResponse.jsonBody,
+                                  )?.toList() ??
+                                  [];
                               return ListView.builder(
                                 padding: EdgeInsets.zero,
                                 scrollDirection: Axis.vertical,
@@ -320,16 +316,16 @@ class _NewsFeedDemoWidgetState extends State<NewsFeedDemoWidget>
                                   final postItem = post[postIndex];
                                   return Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
-                                        16, 12, 16, 0),
+                                        16.0, 12.0, 16.0, 0.0),
                                     child: InkWell(
                                       splashColor: Colors.transparent,
                                       focusColor: Colors.transparent,
                                       hoverColor: Colors.transparent,
                                       highlightColor: Colors.transparent,
                                       onTap: () async {
-                                        Navigator.pushNamed(context,
+                                        context.push(
                                           'NewsStoryDemo',
-                                          arguments: {
+                                          extra: {
                                             'post': serializeParam(
                                               postItem,
                                               ParamType.JSON,
@@ -339,7 +335,7 @@ class _NewsFeedDemoWidgetState extends State<NewsFeedDemoWidget>
                                       },
                                       child: Container(
                                         width: double.infinity,
-                                        height: 400,
+                                        height: 400.0,
                                         decoration: BoxDecoration(
                                           color: FlutterFlowTheme.of(context)
                                               .secondaryBackground,
@@ -354,18 +350,18 @@ class _NewsFeedDemoWidgetState extends State<NewsFeedDemoWidget>
                                           ),
                                           boxShadow: [
                                             BoxShadow(
-                                              blurRadius: 5,
+                                              blurRadius: 5.0,
                                               color: Color(0x2B202529),
-                                              offset: Offset(0, 3),
+                                              offset: Offset(0.0, 3.0),
                                             )
                                           ],
                                           borderRadius:
-                                              BorderRadius.circular(16),
+                                              BorderRadius.circular(16.0),
                                         ),
                                         child: Padding(
                                           padding:
                                               EdgeInsetsDirectional.fromSTEB(
-                                                  16, 16, 16, 16),
+                                                  16.0, 16.0, 16.0, 16.0),
                                           child: Column(
                                             mainAxisSize: MainAxisSize.max,
                                             mainAxisAlignment:
@@ -374,8 +370,8 @@ class _NewsFeedDemoWidgetState extends State<NewsFeedDemoWidget>
                                               ClipRRect(
                                                 child: BackdropFilter(
                                                   filter: ImageFilter.blur(
-                                                    sigmaX: 10,
-                                                    sigmaY: 5,
+                                                    sigmaX: 10.0,
+                                                    sigmaY: 5.0,
                                                   ),
                                                   child: Container(
                                                     width: double.infinity,
@@ -383,13 +379,16 @@ class _NewsFeedDemoWidgetState extends State<NewsFeedDemoWidget>
                                                       color: Color(0x95000000),
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              12),
+                                                              12.0),
                                                     ),
                                                     child: Padding(
                                                       padding:
                                                           EdgeInsetsDirectional
-                                                              .fromSTEB(16, 16,
-                                                                  16, 16),
+                                                              .fromSTEB(
+                                                                  16.0,
+                                                                  16.0,
+                                                                  16.0,
+                                                                  16.0),
                                                       child: Column(
                                                         mainAxisSize:
                                                             MainAxisSize.max,
@@ -410,7 +409,8 @@ class _NewsFeedDemoWidgetState extends State<NewsFeedDemoWidget>
                                                                       'Poppins',
                                                                   color: Colors
                                                                       .white,
-                                                                  fontSize: 16,
+                                                                  fontSize:
+                                                                      16.0,
                                                                 ),
                                                           ).animateOnPageLoad(
                                                               animationsMap[
@@ -419,18 +419,18 @@ class _NewsFeedDemoWidgetState extends State<NewsFeedDemoWidget>
                                                             padding:
                                                                 EdgeInsetsDirectional
                                                                     .fromSTEB(
-                                                                        0,
-                                                                        15,
-                                                                        0,
-                                                                        0),
+                                                                        0.0,
+                                                                        15.0,
+                                                                        0.0,
+                                                                        0.0),
                                                             child:
                                                                 FFButtonWidget(
                                                               onPressed:
                                                                   () async {
-                                                                Navigator
-                                                                    .pushNamed(context,
+                                                                context
+                                                                    .pushNamed(
                                                                   'NewsStoryDemo',
-                                                                  arguments:
+                                                                  queryParameters:
                                                                       {
                                                                     'post':
                                                                         serializeParam(
@@ -444,22 +444,22 @@ class _NewsFeedDemoWidgetState extends State<NewsFeedDemoWidget>
                                                               text: 'Read More',
                                                               options:
                                                                   FFButtonOptions(
-                                                                width: 130,
-                                                                height: 40,
+                                                                width: 130.0,
+                                                                height: 40.0,
                                                                 padding:
                                                                     EdgeInsetsDirectional
                                                                         .fromSTEB(
-                                                                            0,
-                                                                            0,
-                                                                            0,
-                                                                            0),
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0),
                                                                 iconPadding:
                                                                     EdgeInsetsDirectional
                                                                         .fromSTEB(
-                                                                            0,
-                                                                            0,
-                                                                            0,
-                                                                            0),
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0),
                                                                 color: Color(
                                                                     0xFFEB4323),
                                                                 textStyle: FlutterFlowTheme.of(
@@ -471,17 +471,17 @@ class _NewsFeedDemoWidgetState extends State<NewsFeedDemoWidget>
                                                                       color: Colors
                                                                           .white,
                                                                     ),
-                                                                elevation: 2,
+                                                                elevation: 2.0,
                                                                 borderSide:
                                                                     BorderSide(
                                                                   color: Colors
                                                                       .transparent,
-                                                                  width: 1,
+                                                                  width: 1.0,
                                                                 ),
                                                                 borderRadius:
                                                                     BorderRadius
                                                                         .circular(
-                                                                            12),
+                                                                            12.0),
                                                               ),
                                                             ),
                                                           ),
@@ -505,10 +505,10 @@ class _NewsFeedDemoWidgetState extends State<NewsFeedDemoWidget>
                           ),
                         ),
                         Divider(
-                          height: 25,
-                          thickness: 2,
-                          indent: 25,
-                          endIndent: 25,
+                          height: 25.0,
+                          thickness: 2.0,
+                          indent: 25.0,
+                          endIndent: 25.0,
                           color: FlutterFlowTheme.of(context).lineColor,
                         ),
                       ],
@@ -518,7 +518,8 @@ class _NewsFeedDemoWidgetState extends State<NewsFeedDemoWidget>
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 15, 0, 0),
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 15.0, 0.0, 0.0),
                           child: Text(
                             'Stay aware with local news and resources.',
                             textAlign: TextAlign.center,
@@ -526,7 +527,7 @@ class _NewsFeedDemoWidgetState extends State<NewsFeedDemoWidget>
                                 FlutterFlowTheme.of(context).bodySmall.override(
                                       fontFamily: 'Montserrat',
                                       color: Colors.black,
-                                      fontSize: 13,
+                                      fontSize: 13.0,
                                       fontWeight: FontWeight.normal,
                                     ),
                           ),
@@ -555,10 +556,10 @@ class _NewsFeedDemoWidgetState extends State<NewsFeedDemoWidget>
                                   final newsItem = news[newsIndex];
                                   return Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
-                                        16, 12, 16, 0),
+                                        16.0, 12.0, 16.0, 0.0),
                                     child: Container(
                                       width: double.infinity,
-                                      height: 400,
+                                      height: 400.0,
                                       decoration: BoxDecoration(
                                         color: FlutterFlowTheme.of(context)
                                             .secondaryBackground,
@@ -573,16 +574,17 @@ class _NewsFeedDemoWidgetState extends State<NewsFeedDemoWidget>
                                         ),
                                         boxShadow: [
                                           BoxShadow(
-                                            blurRadius: 5,
+                                            blurRadius: 5.0,
                                             color: Color(0x2B202529),
-                                            offset: Offset(0, 3),
+                                            offset: Offset(0.0, 3.0),
                                           )
                                         ],
-                                        borderRadius: BorderRadius.circular(16),
+                                        borderRadius:
+                                            BorderRadius.circular(16.0),
                                       ),
                                       child: Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
-                                            16, 16, 16, 16),
+                                            16.0, 16.0, 16.0, 16.0),
                                         child: Column(
                                           mainAxisSize: MainAxisSize.max,
                                           mainAxisAlignment:
@@ -591,8 +593,8 @@ class _NewsFeedDemoWidgetState extends State<NewsFeedDemoWidget>
                                             ClipRRect(
                                               child: BackdropFilter(
                                                 filter: ImageFilter.blur(
-                                                  sigmaX: 10,
-                                                  sigmaY: 5,
+                                                  sigmaX: 10.0,
+                                                  sigmaY: 5.0,
                                                 ),
                                                 child: Container(
                                                   width: double.infinity,
@@ -600,13 +602,16 @@ class _NewsFeedDemoWidgetState extends State<NewsFeedDemoWidget>
                                                     color: Color(0x95000000),
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            12),
+                                                            12.0),
                                                   ),
                                                   child: Padding(
                                                     padding:
                                                         EdgeInsetsDirectional
                                                             .fromSTEB(
-                                                                16, 16, 16, 16),
+                                                                16.0,
+                                                                16.0,
+                                                                16.0,
+                                                                16.0),
                                                     child: Column(
                                                       mainAxisSize:
                                                           MainAxisSize.max,
@@ -627,7 +632,7 @@ class _NewsFeedDemoWidgetState extends State<NewsFeedDemoWidget>
                                                                     'Poppins',
                                                                 color: Colors
                                                                     .white,
-                                                                fontSize: 16,
+                                                                fontSize: 16.0,
                                                               ),
                                                         ).animateOnPageLoad(
                                                             animationsMap[
@@ -635,14 +640,17 @@ class _NewsFeedDemoWidgetState extends State<NewsFeedDemoWidget>
                                                         Padding(
                                                           padding:
                                                               EdgeInsetsDirectional
-                                                                  .fromSTEB(0,
-                                                                      15, 0, 0),
+                                                                  .fromSTEB(
+                                                                      0.0,
+                                                                      15.0,
+                                                                      0.0,
+                                                                      0.0),
                                                           child: FFButtonWidget(
                                                             onPressed:
                                                                 () async {
-                                                              Navigator.pushNamed(context,
+                                                              context.pushNamed(
                                                                 'NewsStoryDemo',
-                                                                arguments:
+                                                                queryParameters:
                                                                     {
                                                                   'post':
                                                                       serializeParam(
@@ -656,22 +664,22 @@ class _NewsFeedDemoWidgetState extends State<NewsFeedDemoWidget>
                                                             text: 'Read More',
                                                             options:
                                                                 FFButtonOptions(
-                                                              width: 130,
-                                                              height: 40,
+                                                              width: 130.0,
+                                                              height: 40.0,
                                                               padding:
                                                                   EdgeInsetsDirectional
                                                                       .fromSTEB(
-                                                                          0,
-                                                                          0,
-                                                                          0,
-                                                                          0),
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0),
                                                               iconPadding:
                                                                   EdgeInsetsDirectional
                                                                       .fromSTEB(
-                                                                          0,
-                                                                          0,
-                                                                          0,
-                                                                          0),
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0),
                                                               color: Color(
                                                                   0xFFEB4323),
                                                               textStyle:
@@ -684,17 +692,17 @@ class _NewsFeedDemoWidgetState extends State<NewsFeedDemoWidget>
                                                                         color: Colors
                                                                             .white,
                                                                       ),
-                                                              elevation: 2,
+                                                              elevation: 2.0,
                                                               borderSide:
                                                                   BorderSide(
                                                                 color: Colors
                                                                     .transparent,
-                                                                width: 1,
+                                                                width: 1.0,
                                                               ),
                                                               borderRadius:
                                                                   BorderRadius
                                                                       .circular(
-                                                                          12),
+                                                                          12.0),
                                                             ),
                                                           ),
                                                         ),

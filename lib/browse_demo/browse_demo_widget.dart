@@ -7,6 +7,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+
 import 'browse_demo_model.dart';
 export 'browse_demo_model.dart';
 
@@ -41,45 +42,49 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
 
     return Scaffold(
       key: scaffoldKey,
-      appBar: AppBar(leading: FlutterFlowIconButton(
-                    borderColor: Colors.transparent,
-                    borderRadius: 30,
-                    borderWidth: 1,
-                    buttonSize: 60,
-                    icon: Icon(
-                      Icons.account_circle_sharp,
-                      color: Color(0xFFEB4323),
-                      size: 30,
-                    ),
-                    onPressed: () async {
-                      Navigator.pushNamed(context,'EditProfile');
-                    },
-                  ), backgroundColor: Colors.white,
-                  title: Text('Music'),
-                  centerTitle: true,
-                  titleTextStyle: FlutterFlowTheme.of(context).headlineMedium.override(
-                          fontFamily: 'Poppins',
-                          color: Colors.black,
-                          fontSize: 16,
-                        ),
-                        actions: [
-                           FlutterFlowIconButton(
-                    borderColor: Colors.transparent,
-                    borderRadius: 30,
-                    borderWidth: 1,
-                    buttonSize: 60,
-                    icon: Icon(
-                      Icons.message,
-                      color: Color(0xFFEB4323),
-                      size: 30,
-                    ),
-                    onPressed: () async {
-                      Navigator.pushNamed(context,'chatsCopy',
-                      );
-                    },
-                  ),
-                        ],
-                        elevation: 0,),
+      appBar: AppBar(
+        leading: FlutterFlowIconButton(
+          borderColor: Colors.transparent,
+          borderRadius: 30,
+          borderWidth: 1,
+          buttonSize: 60,
+          icon: Icon(
+            Icons.account_circle_sharp,
+            color: Color(0xFFEB4323),
+            size: 30,
+          ),
+          onPressed: () async {
+            context.pushNamed('EditProfile');
+          },
+        ),
+        backgroundColor: Colors.white,
+        title: Text('Music'),
+        centerTitle: true,
+        titleTextStyle: FlutterFlowTheme.of(context).headlineMedium.override(
+              fontFamily: 'Poppins',
+              color: Colors.black,
+              fontSize: 16,
+            ),
+        actions: [
+          FlutterFlowIconButton(
+            borderColor: Colors.transparent,
+            borderRadius: 30,
+            borderWidth: 1,
+            buttonSize: 60,
+            icon: Icon(
+              Icons.message,
+              color: Color(0xFFEB4323),
+              size: 30,
+            ),
+            onPressed: () async {
+              context.push(
+                '/chatsCopy',
+              );
+            },
+          ),
+        ],
+        elevation: 0,
+      ),
       body: SafeArea(
         top: true,
         child: SingleChildScrollView(
@@ -97,11 +102,11 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                         if (!snapshot.hasData) {
                           return Center(
                             child: SizedBox(
-                              width: 50.0,
-                              height: 50.0,
+                              width: 50,
+                              height: 50,
                               child: SpinKitDualRing(
                                 color: Color(0xFFEB4323),
-                                size: 50.0,
+                                size: 50,
                               ),
                             ),
                           );
@@ -118,19 +123,18 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    5.0, 0.0, 5.0, 0.0),
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(5, 0, 5, 0),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Align(
-                                      alignment:
-                                          AlignmentDirectional(-0.9, 0.0),
+                                      alignment: AlignmentDirectional(-0.9, 0),
                                       child: Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
-                                            10.0, 0.0, 0.0, 0.0),
+                                            10, 0, 0, 0),
                                         child: Text(
                                           'New Music',
                                           textAlign: TextAlign.start,
@@ -138,8 +142,8 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                               .bodyMedium
                                               .override(
                                                 fontFamily: 'Poppins',
-                                                fontSize: 16.0,
-                                                lineHeight: 3.0,
+                                                fontSize: 16,
+                                                lineHeight: 3,
                                               ),
                                         ),
                                       ),
@@ -150,15 +154,18 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                       hoverColor: Colors.transparent,
                                       highlightColor: Colors.transparent,
                                       onTap: () async {
-                                        Navigator.pushNamed(context,
+                                        context.pushNamed(
                                           'ViewAllAlbum',
-                                          arguments: {
-                                            'music': containerAlbumRecordList,
-                                            'extra': <String, dynamic>{
+                                          queryParameters: {
+                                            'music': serializeParam(
+                                              containerAlbumRecordList,
+                                              ParamType.Document,
+                                              true,
+                                            ),
+                                          }.withoutNulls,
+                                          extra: <String, dynamic>{
                                             'music': containerAlbumRecordList,
                                           },
-                                          }.withoutNulls,
-                                         
                                         );
                                       },
                                       child: Row(
@@ -175,13 +182,13 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                                 .bodyMedium
                                                 .override(
                                                   fontFamily: 'Poppins',
-                                                  fontSize: 13.0,
+                                                  fontSize: 13,
                                                 ),
                                           ),
                                           Icon(
                                             Icons.navigate_next,
                                             color: Color(0xFFEB4323),
-                                            size: 30.0,
+                                            size: 30,
                                           ),
                                         ],
                                       ),
@@ -190,8 +197,8 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    10.0, 0.0, 0.0, 0.0),
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
                                 child: Builder(
                                   builder: (context) {
                                     final albums = containerAlbumRecordList
@@ -208,7 +215,7 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                           return Padding(
                                             padding:
                                                 EdgeInsetsDirectional.fromSTEB(
-                                                    0.0, 10.0, 10.0, 10.0),
+                                                    0, 10, 10, 10),
                                             child: InkWell(
                                               splashColor: Colors.transparent,
                                               focusColor: Colors.transparent,
@@ -216,19 +223,21 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                               highlightColor:
                                                   Colors.transparent,
                                               onTap: () async {
-                                                Navigator.pushNamed(context,
+                                                context.pushNamed(
                                                   'SongListPage',
-                                                  arguments: {
-                                                    'music': albumsItem,
-                                                    'extra': <String, dynamic>{
+                                                  queryParameters: {
+                                                    'music': serializeParam(
+                                                      albumsItem,
+                                                      ParamType.Document,
+                                                    ),
+                                                  }.withoutNulls,
+                                                  extra: <String, dynamic>{
                                                     'music': albumsItem,
                                                   },
-                                                  }.withoutNulls,
-                                                  
                                                 );
                                               },
                                               child: Container(
-                                                width: 100.0,
+                                                width: 100,
                                                 decoration: BoxDecoration(
                                                   color: FlutterFlowTheme.of(
                                                           context)
@@ -243,11 +252,11 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                                     ClipRRect(
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              10.0),
+                                                              10),
                                                       child: Image.network(
                                                         albumsItem.albumCover,
-                                                        width: 115.0,
-                                                        height: 100.0,
+                                                        width: 115,
+                                                        height: 100,
                                                         fit: BoxFit.cover,
                                                       ),
                                                     ),
@@ -255,35 +264,30 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                                       padding:
                                                           EdgeInsetsDirectional
                                                               .fromSTEB(
-                                                                  2.0,
-                                                                  5.0,
-                                                                  0.0,
-                                                                  0.0),
+                                                                  2, 5, 0, 0),
                                                       child: Text(
                                                         albumsItem.albumTitle,
                                                         textAlign:
                                                             TextAlign.start,
-                                                        style: FlutterFlowTheme
-                                                                .of(context)
-                                                            .bodyMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  'Poppins',
-                                                              fontSize: 12.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                            ),
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Poppins',
+                                                                  fontSize: 12,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                ),
                                                       ),
                                                     ),
                                                     Padding(
                                                       padding:
                                                           EdgeInsetsDirectional
                                                               .fromSTEB(
-                                                                  2.0,
-                                                                  0.0,
-                                                                  0.0,
-                                                                  0.0),
+                                                                  2, 0, 0, 0),
                                                       child: StreamBuilder<
                                                           ArtistRecord>(
                                                         stream: ArtistRecord
@@ -297,13 +301,13 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                                               .hasData) {
                                                             return Center(
                                                               child: SizedBox(
-                                                                width: 50.0,
-                                                                height: 50.0,
+                                                                width: 50,
+                                                                height: 50,
                                                                 child:
                                                                     SpinKitDualRing(
                                                                   color: Color(
                                                                       0xFFEB4323),
-                                                                  size: 50.0,
+                                                                  size: 50,
                                                                 ),
                                                               ),
                                                             );
@@ -321,8 +325,7 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                                                       'Poppins',
                                                                   color: Color(
                                                                       0xFF575757),
-                                                                  fontSize:
-                                                                      12.0,
+                                                                  fontSize: 12,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w300,
@@ -343,10 +346,10 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                 ),
                               ),
                               Divider(
-                                height: 25.0,
-                                thickness: 2.0,
-                                indent: 25.0,
-                                endIndent: 25.0,
+                                height: 25,
+                                thickness: 2,
+                                indent: 25,
+                                endIndent: 25,
                                 color: FlutterFlowTheme.of(context).lineColor,
                               ),
                             ],
@@ -361,11 +364,11 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                         if (!snapshot.hasData) {
                           return Center(
                             child: SizedBox(
-                              width: 50.0,
-                              height: 50.0,
+                              width: 50,
+                              height: 50,
                               child: SpinKitDualRing(
                                 color: Color(0xFFEB4323),
-                                size: 50.0,
+                                size: 50,
                               ),
                             ),
                           );
@@ -382,19 +385,18 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    5.0, 0.0, 5.0, 0.0),
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(5, 0, 5, 0),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Align(
-                                      alignment:
-                                          AlignmentDirectional(-0.9, 0.0),
+                                      alignment: AlignmentDirectional(-0.9, 0),
                                       child: Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
-                                            10.0, 0.0, 0.0, 0.0),
+                                            10, 0, 0, 0),
                                         child: Text(
                                           'Podcasts',
                                           textAlign: TextAlign.start,
@@ -402,8 +404,8 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                               .bodyMedium
                                               .override(
                                                 fontFamily: 'Poppins',
-                                                fontSize: 16.0,
-                                                lineHeight: 3.0,
+                                                fontSize: 16,
+                                                lineHeight: 3,
                                               ),
                                         ),
                                       ),
@@ -414,15 +416,19 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                       hoverColor: Colors.transparent,
                                       highlightColor: Colors.transparent,
                                       onTap: () async {
-                                        Navigator.pushNamed(context,
+                                        context.pushNamed(
                                           'ViewAllPodcast',
-                                          arguments: {
-                                            'podcast': containerPodcastRecordList,
-                                            'extra': <String, dynamic>{
-                                            'podcast': containerPodcastRecordList,
-                                          },
+                                          queryParameters: {
+                                            'podcast': serializeParam(
+                                              containerPodcastRecordList,
+                                              ParamType.Document,
+                                              true,
+                                            ),
                                           }.withoutNulls,
-                                         
+                                          extra: <String, dynamic>{
+                                            'podcast':
+                                                containerPodcastRecordList,
+                                          },
                                         );
                                       },
                                       child: Row(
@@ -439,13 +445,13 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                                 .bodyMedium
                                                 .override(
                                                   fontFamily: 'Poppins',
-                                                  fontSize: 13.0,
+                                                  fontSize: 13,
                                                 ),
                                           ),
                                           Icon(
                                             Icons.navigate_next,
                                             color: Color(0xFFEB4323),
-                                            size: 30.0,
+                                            size: 30,
                                           ),
                                         ],
                                       ),
@@ -454,8 +460,8 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    10.0, 0.0, 0.0, 0.0),
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
                                 child: Builder(
                                   builder: (context) {
                                     final podcast = containerPodcastRecordList
@@ -473,7 +479,7 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                           return Padding(
                                             padding:
                                                 EdgeInsetsDirectional.fromSTEB(
-                                                    0.0, 10.0, 10.0, 10.0),
+                                                    0, 10, 10, 10),
                                             child: StreamBuilder<ArtistRecord>(
                                               stream: ArtistRecord.getDocument(
                                                   podcastItem.contentCreator!),
@@ -482,12 +488,12 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                                 if (!snapshot.hasData) {
                                                   return Center(
                                                     child: SizedBox(
-                                                      width: 50.0,
-                                                      height: 50.0,
+                                                      width: 50,
+                                                      height: 50,
                                                       child: SpinKitDualRing(
                                                         color:
                                                             Color(0xFFEB4323),
-                                                        size: 50.0,
+                                                        size: 50,
                                                       ),
                                                     ),
                                                   );
@@ -504,20 +510,22 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                                   highlightColor:
                                                       Colors.transparent,
                                                   onTap: () async {
-                                                    Navigator.pushNamed(context,
+                                                    context.pushNamed(
                                                       'SongListPage',
-                                                      arguments: {
-                                                        'podcast':podcastItem,
-                                                        'extra': <String, dynamic>{
+                                                      queryParameters: {
                                                         'podcast':
-                                                            podcastItem,
-                                                      },   
+                                                            serializeParam(
+                                                          podcastItem,
+                                                          ParamType.Document,
+                                                        ),
                                                       }.withoutNulls,
-                                                      
+                                                      extra: <String, dynamic>{
+                                                        'podcast': podcastItem,
+                                                      },
                                                     );
                                                   },
                                                   child: Container(
-                                                    width: 100.0,
+                                                    width: 100,
                                                     decoration: BoxDecoration(
                                                       color:
                                                           FlutterFlowTheme.of(
@@ -534,30 +542,26 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                                         ClipRRect(
                                                           borderRadius:
                                                               BorderRadius
-                                                                  .circular(
-                                                                      10.0),
+                                                                  .circular(10),
                                                           child: Image.network(
                                                             podcastItem
                                                                 .podcastThumbnail,
-                                                            width: 115.0,
-                                                            height: 100.0,
+                                                            width: 115,
+                                                            height: 100,
                                                             fit: BoxFit.cover,
                                                           ),
                                                         ),
                                                         Padding(
                                                           padding:
                                                               EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      2.0,
-                                                                      5.0,
-                                                                      0.0,
-                                                                      0.0),
+                                                                  .fromSTEB(2,
+                                                                      5, 0, 0),
                                                           child: Text(
                                                             valueOrDefault<
                                                                 String>(
                                                               podcastItem
                                                                   .podcastName,
-                                                              'Podcast Title',
+                                                              'Playlist Title',
                                                             ),
                                                             textAlign:
                                                                 TextAlign.start,
@@ -567,8 +571,7 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                                                 .override(
                                                                   fontFamily:
                                                                       'Poppins',
-                                                                  fontSize:
-                                                                      12.0,
+                                                                  fontSize: 12,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w600,
@@ -578,11 +581,8 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                                         Padding(
                                                           padding:
                                                               EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      2.0,
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0),
+                                                                  .fromSTEB(2,
+                                                                      0, 0, 0),
                                                           child: Text(
                                                             containerArtistRecord
                                                                 .artistName,
@@ -594,8 +594,7 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                                                       'Poppins',
                                                                   color: Color(
                                                                       0xFF575757),
-                                                                  fontSize:
-                                                                      12.0,
+                                                                  fontSize: 12,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w300,
@@ -616,10 +615,10 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                 ),
                               ),
                               Divider(
-                                height: 25.0,
-                                thickness: 2.0,
-                                indent: 25.0,
-                                endIndent: 25.0,
+                                height: 25,
+                                thickness: 2,
+                                indent: 25,
+                                endIndent: 25,
                                 color: FlutterFlowTheme.of(context).lineColor,
                               ),
                             ],
@@ -634,11 +633,11 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                         if (!snapshot.hasData) {
                           return Center(
                             child: SizedBox(
-                              width: 50.0,
-                              height: 50.0,
+                              width: 50,
+                              height: 50,
                               child: SpinKitDualRing(
                                 color: Color(0xFFEB4323),
-                                size: 50.0,
+                                size: 50,
                               ),
                             ),
                           );
@@ -655,19 +654,18 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    5.0, 0.0, 5.0, 0.0),
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(5, 0, 5, 0),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Align(
-                                      alignment:
-                                          AlignmentDirectional(-0.9, 0.0),
+                                      alignment: AlignmentDirectional(-0.9, 0),
                                       child: Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
-                                            10.0, 0.0, 0.0, 0.0),
+                                            10, 0, 0, 0),
                                         child: Text(
                                           'Local Artists',
                                           textAlign: TextAlign.start,
@@ -675,8 +673,8 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                               .bodyMedium
                                               .override(
                                                 fontFamily: 'Poppins',
-                                                fontSize: 16.0,
-                                                lineHeight: 3.0,
+                                                fontSize: 16,
+                                                lineHeight: 3,
                                               ),
                                         ),
                                       ),
@@ -687,15 +685,18 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                       hoverColor: Colors.transparent,
                                       highlightColor: Colors.transparent,
                                       onTap: () async {
-                                        Navigator.pushNamed(context,
+                                        context.pushNamed(
                                           'ViewAllArtist',
-                                          arguments: {
-                                            'artist': containerArtistRecordList,
-                                            'extra': <String, dynamic>{
+                                          queryParameters: {
+                                            'artist': serializeParam(
+                                              containerArtistRecordList,
+                                              ParamType.Document,
+                                              true,
+                                            ),
+                                          }.withoutNulls,
+                                          extra: <String, dynamic>{
                                             'artist': containerArtistRecordList,
                                           },
-                                          }.withoutNulls,
-                                          
                                         );
                                       },
                                       child: Row(
@@ -712,13 +713,13 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                                 .bodyMedium
                                                 .override(
                                                   fontFamily: 'Poppins',
-                                                  fontSize: 13.0,
+                                                  fontSize: 13,
                                                 ),
                                           ),
                                           Icon(
                                             Icons.navigate_next,
                                             color: Color(0xFFEB4323),
-                                            size: 30.0,
+                                            size: 30,
                                           ),
                                         ],
                                       ),
@@ -727,8 +728,8 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    10.0, 0.0, 0.0, 0.0),
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
                                 child: Builder(
                                   builder: (context) {
                                     final artist = containerArtistRecordList
@@ -746,7 +747,7 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                           return Padding(
                                             padding:
                                                 EdgeInsetsDirectional.fromSTEB(
-                                                    0.0, 10.0, 10.0, 10.0),
+                                                    0, 10, 10, 10),
                                             child: InkWell(
                                               splashColor: Colors.transparent,
                                               focusColor: Colors.transparent,
@@ -754,19 +755,21 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                               highlightColor:
                                                   Colors.transparent,
                                               onTap: () async {
-                                                Navigator.pushNamed(context,
+                                                context.pushNamed(
                                                   'ArtistProfileDemo',
-                                                  arguments: {
-                                                    'artistDoc': artistItem,
-                                                    'extra': <String, dynamic>{
+                                                  queryParameters: {
+                                                    'artistDoc': serializeParam(
+                                                      artistItem,
+                                                      ParamType.Document,
+                                                    ),
+                                                  }.withoutNulls,
+                                                  extra: <String, dynamic>{
                                                     'artistDoc': artistItem,
                                                   },
-                                                  }.withoutNulls,
-                                                  
                                                 );
                                               },
                                               child: Container(
-                                                width: 100.0,
+                                                width: 100,
                                                 decoration: BoxDecoration(
                                                   color: FlutterFlowTheme.of(
                                                           context)
@@ -781,11 +784,11 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                                     ClipRRect(
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              10.0),
+                                                              10),
                                                       child: Image.network(
                                                         artistItem.artistImage,
-                                                        width: 115.0,
-                                                        height: 100.0,
+                                                        width: 115,
+                                                        height: 100,
                                                         fit: BoxFit.cover,
                                                       ),
                                                     ),
@@ -793,50 +796,46 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                                       padding:
                                                           EdgeInsetsDirectional
                                                               .fromSTEB(
-                                                                  2.0,
-                                                                  5.0,
-                                                                  0.0,
-                                                                  0.0),
+                                                                  2, 5, 0, 0),
                                                       child: Text(
                                                         artistItem.artistName,
                                                         textAlign:
                                                             TextAlign.start,
-                                                        style: FlutterFlowTheme
-                                                                .of(context)
-                                                            .bodyMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  'Poppins',
-                                                              fontSize: 12.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                            ),
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Poppins',
+                                                                  fontSize: 12,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                ),
                                                       ),
                                                     ),
                                                     Padding(
                                                       padding:
                                                           EdgeInsetsDirectional
                                                               .fromSTEB(
-                                                                  2.0,
-                                                                  0.0,
-                                                                  0.0,
-                                                                  0.0),
+                                                                  2, 0, 0, 0),
                                                       child: Text(
                                                         'Spark FM',
-                                                        style: FlutterFlowTheme
-                                                                .of(context)
-                                                            .bodyMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  'Poppins',
-                                                              color: Color(
-                                                                  0xFF575757),
-                                                              fontSize: 12.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w300,
-                                                            ),
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Poppins',
+                                                                  color: Color(
+                                                                      0xFF575757),
+                                                                  fontSize: 12,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w300,
+                                                                ),
                                                       ),
                                                     ),
                                                   ],
@@ -851,10 +850,10 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                 ),
                               ),
                               Divider(
-                                height: 25.0,
-                                thickness: 2.0,
-                                indent: 25.0,
-                                endIndent: 25.0,
+                                height: 25,
+                                thickness: 2,
+                                indent: 25,
+                                endIndent: 25,
                                 color: FlutterFlowTheme.of(context).lineColor,
                               ),
                             ],
@@ -869,11 +868,11 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                         if (!snapshot.hasData) {
                           return Center(
                             child: SizedBox(
-                              width: 50.0,
-                              height: 50.0,
+                              width: 50,
+                              height: 50,
                               child: SpinKitDualRing(
                                 color: Color(0xFFEB4323),
-                                size: 50.0,
+                                size: 50,
                               ),
                             ),
                           );
@@ -890,19 +889,18 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    5.0, 0.0, 5.0, 0.0),
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(5, 0, 5, 0),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Align(
-                                      alignment:
-                                          AlignmentDirectional(-0.9, 0.0),
+                                      alignment: AlignmentDirectional(-0.9, 0),
                                       child: Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
-                                            10.0, 0.0, 0.0, 0.0),
+                                            10, 0, 0, 0),
                                         child: Text(
                                           'Spark Playlists',
                                           textAlign: TextAlign.start,
@@ -910,8 +908,8 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                               .bodyMedium
                                               .override(
                                                 fontFamily: 'Poppins',
-                                                fontSize: 16.0,
-                                                lineHeight: 3.0,
+                                                fontSize: 16,
+                                                lineHeight: 3,
                                               ),
                                         ),
                                       ),
@@ -922,14 +920,19 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                       hoverColor: Colors.transparent,
                                       highlightColor: Colors.transparent,
                                       onTap: () async {
-                                        Navigator.pushNamed(context,
+                                        context.pushNamed(
                                           'ViewAllPlaylist',
-                                          arguments: {
-                                            'playlist': containerPlaylistRecordList, 
-                                            'extra': <String, dynamic>{
-                                            'playlist': containerPlaylistRecordList,
-                                          },
+                                          queryParameters: {
+                                            'playlist': serializeParam(
+                                              containerPlaylistRecordList,
+                                              ParamType.Document,
+                                              true,
+                                            ),
                                           }.withoutNulls,
+                                          extra: <String, dynamic>{
+                                            'playlist':
+                                                containerPlaylistRecordList,
+                                          },
                                         );
                                       },
                                       child: Row(
@@ -946,13 +949,13 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                                 .bodyMedium
                                                 .override(
                                                   fontFamily: 'Poppins',
-                                                  fontSize: 13.0,
+                                                  fontSize: 13,
                                                 ),
                                           ),
                                           Icon(
                                             Icons.navigate_next,
                                             color: Color(0xFFEB4323),
-                                            size: 30.0,
+                                            size: 30,
                                           ),
                                         ],
                                       ),
@@ -961,8 +964,8 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    10.0, 0.0, 0.0, 0.0),
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
                                 child: Builder(
                                   builder: (context) {
                                     final playlist = containerPlaylistRecordList
@@ -980,7 +983,7 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                           return Padding(
                                             padding:
                                                 EdgeInsetsDirectional.fromSTEB(
-                                                    0.0, 10.0, 10.0, 10.0),
+                                                    0, 10, 10, 10),
                                             child: InkWell(
                                               splashColor: Colors.transparent,
                                               focusColor: Colors.transparent,
@@ -988,18 +991,21 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                               highlightColor:
                                                   Colors.transparent,
                                               onTap: () async {
-                                                Navigator.pushNamed(context,
+                                                context.pushNamed(
                                                   'SongListPage',
-                                                  arguments: {
-                                                    'playlist': playlistItem,
-                                                    'extra': <String, dynamic>{
+                                                  queryParameters: {
+                                                    'playlist': serializeParam(
+                                                      playlistItem,
+                                                      ParamType.Document,
+                                                    ),
+                                                  }.withoutNulls,
+                                                  extra: <String, dynamic>{
                                                     'playlist': playlistItem,
                                                   },
-                                                  }.withoutNulls,
                                                 );
                                               },
                                               child: Container(
-                                                width: 100.0,
+                                                width: 100,
                                                 decoration: BoxDecoration(
                                                   color: FlutterFlowTheme.of(
                                                           context)
@@ -1014,12 +1020,12 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                                     ClipRRect(
                                                       borderRadius:
                                                           BorderRadius.circular(
-                                                              10.0),
+                                                              10),
                                                       child: Image.network(
                                                         playlistItem
                                                             .playlistImage,
-                                                        width: 115.0,
-                                                        height: 100.0,
+                                                        width: 115,
+                                                        height: 100,
                                                         fit: BoxFit.cover,
                                                       ),
                                                     ),
@@ -1027,51 +1033,47 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                                       padding:
                                                           EdgeInsetsDirectional
                                                               .fromSTEB(
-                                                                  2.0,
-                                                                  5.0,
-                                                                  0.0,
-                                                                  0.0),
+                                                                  2, 5, 0, 0),
                                                       child: Text(
                                                         playlistItem
                                                             .playlistName,
                                                         textAlign:
                                                             TextAlign.start,
-                                                        style: FlutterFlowTheme
-                                                                .of(context)
-                                                            .bodyMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  'Poppins',
-                                                              fontSize: 12.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                            ),
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Poppins',
+                                                                  fontSize: 12,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                ),
                                                       ),
                                                     ),
                                                     Padding(
                                                       padding:
                                                           EdgeInsetsDirectional
                                                               .fromSTEB(
-                                                                  2.0,
-                                                                  0.0,
-                                                                  0.0,
-                                                                  0.0),
+                                                                  2, 0, 0, 0),
                                                       child: Text(
                                                         'Spark FM',
-                                                        style: FlutterFlowTheme
-                                                                .of(context)
-                                                            .bodyMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  'Poppins',
-                                                              color: Color(
-                                                                  0xFF575757),
-                                                              fontSize: 12.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w300,
-                                                            ),
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Poppins',
+                                                                  color: Color(
+                                                                      0xFF575757),
+                                                                  fontSize: 12,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w300,
+                                                                ),
                                                       ),
                                                     ),
                                                   ],
@@ -1086,10 +1088,10 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                                 ),
                               ),
                               Divider(
-                                height: 25.0,
-                                thickness: 2.0,
-                                indent: 25.0,
-                                endIndent: 25.0,
+                                height: 25,
+                                thickness: 2,
+                                indent: 25,
+                                endIndent: 25,
                                 color: FlutterFlowTheme.of(context).lineColor,
                               ),
                             ],
@@ -1100,7 +1102,7 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                   ],
                 ),
               ),
-            ]
+            ],
           ),
         ),
       ),

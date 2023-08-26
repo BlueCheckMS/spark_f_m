@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+
 import 'sign_in_demo_model.dart';
 export 'sign_in_demo_model.dart';
 
@@ -50,7 +51,7 @@ class _SignInDemoWidgetState extends State<SignInDemoWidget> {
           mainAxisSize: MainAxisSize.max,
           children: [
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(24.0, 24.0, 24.0, 24.0),
+              padding: EdgeInsetsDirectional.fromSTEB(24, 24, 24, 24),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
@@ -59,33 +60,31 @@ class _SignInDemoWidgetState extends State<SignInDemoWidget> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Align(
-                        alignment: AlignmentDirectional(0.0, 0.0),
+                        alignment: AlignmentDirectional(0, 0),
                         child: Image.asset(
                           'assets/images/SparkFM_Transparent_Black_Emblem.png',
-                          width: 125.0,
-                          height: 125.0,
+                          width: 125,
+                          height: 125,
                           fit: BoxFit.fitWidth,
                         ),
                       ),
                     ],
                   ),
                   Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 32.0, 0.0, 0.0),
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 32, 0, 0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 0.0, 25.0, 0.0),
+                          padding: EdgeInsetsDirectional.fromSTEB(0, 0, 25, 0),
                           child: Container(
-                            width: 140.0,
-                            height: 50.0,
+                            width: 140,
+                            height: 50,
                             decoration: BoxDecoration(
                               color: FlutterFlowTheme.of(context).primary,
                             ),
-                            alignment: AlignmentDirectional(0.0, 0.0),
+                            alignment: AlignmentDirectional(0, 0),
                             child: Text(
                               'Sign In',
                               style: FlutterFlowTheme.of(context)
@@ -93,7 +92,7 @@ class _SignInDemoWidgetState extends State<SignInDemoWidget> {
                                   .override(
                                     fontFamily: 'Montserrat',
                                     color: Color(0xFF090F13),
-                                    fontSize: 20.0,
+                                    fontSize: 20,
                                     fontWeight: FontWeight.w600,
                                   ),
                             ),
@@ -117,12 +116,12 @@ class _SignInDemoWidgetState extends State<SignInDemoWidget> {
                             );
                           },
                           child: Container(
-                            width: 140.0,
-                            height: 50.0,
+                            width: 140,
+                            height: 50,
                             decoration: BoxDecoration(
                               color: FlutterFlowTheme.of(context).primary,
                             ),
-                            alignment: AlignmentDirectional(0.0, 0.0),
+                            alignment: AlignmentDirectional(0, 0),
                             child: Text(
                               'Sign Up',
                               style: FlutterFlowTheme.of(context)
@@ -130,7 +129,7 @@ class _SignInDemoWidgetState extends State<SignInDemoWidget> {
                                   .override(
                                     fontFamily: 'Montserrat',
                                     color: Color(0xFF95A1AC),
-                                    fontSize: 20.0,
+                                    fontSize: 20,
                                     fontWeight: FontWeight.w500,
                                   ),
                             ),
@@ -140,8 +139,7 @@ class _SignInDemoWidgetState extends State<SignInDemoWidget> {
                     ),
                   ),
                   Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 24.0),
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 24),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -153,7 +151,7 @@ class _SignInDemoWidgetState extends State<SignInDemoWidget> {
                               FlutterFlowTheme.of(context).bodySmall.override(
                                     fontFamily: 'Montserrat',
                                     color: Colors.black,
-                                    fontSize: 16.0,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.normal,
                                   ),
                         ),
@@ -161,8 +159,7 @@ class _SignInDemoWidgetState extends State<SignInDemoWidget> {
                     ),
                   ),
                   Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 12.0),
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 12),
                     child: TextFormField(
                       controller: _model.emailAddressController,
                       obscureText: false,
@@ -172,7 +169,7 @@ class _SignInDemoWidgetState extends State<SignInDemoWidget> {
                             FlutterFlowTheme.of(context).bodyMedium.override(
                                   fontFamily: 'Lexend Deca',
                                   color: Color(0xFF57636C),
-                                  fontSize: 14.0,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.normal,
                                 ),
                         hintText: 'Enter your email',
@@ -180,46 +177,46 @@ class _SignInDemoWidgetState extends State<SignInDemoWidget> {
                             FlutterFlowTheme.of(context).bodyMedium.override(
                                   fontFamily: 'Lexend Deca',
                                   color: Color(0xFF57636C),
-                                  fontSize: 14.0,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.normal,
                                 ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: Color(0xFFEB4323),
-                            width: 2.0,
+                            width: 2,
                           ),
-                          borderRadius: BorderRadius.circular(8.0),
+                          borderRadius: BorderRadius.circular(8),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: Color(0x00000000),
-                            width: 2.0,
+                            width: 2,
                           ),
-                          borderRadius: BorderRadius.circular(8.0),
+                          borderRadius: BorderRadius.circular(8),
                         ),
                         errorBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: Color(0x00000000),
-                            width: 2.0,
+                            width: 2,
                           ),
-                          borderRadius: BorderRadius.circular(8.0),
+                          borderRadius: BorderRadius.circular(8),
                         ),
                         focusedErrorBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: Color(0x00000000),
-                            width: 2.0,
+                            width: 2,
                           ),
-                          borderRadius: BorderRadius.circular(8.0),
+                          borderRadius: BorderRadius.circular(8),
                         ),
                         filled: true,
                         fillColor: Colors.white,
-                        contentPadding: EdgeInsetsDirectional.fromSTEB(
-                            24.0, 24.0, 20.0, 24.0),
+                        contentPadding:
+                            EdgeInsetsDirectional.fromSTEB(24, 24, 20, 24),
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             fontFamily: 'Lexend Deca',
                             color: Color(0xFF1D2429),
-                            fontSize: 14.0,
+                            fontSize: 14,
                             fontWeight: FontWeight.normal,
                           ),
                       validator: _model.emailAddressControllerValidator
@@ -227,8 +224,7 @@ class _SignInDemoWidgetState extends State<SignInDemoWidget> {
                     ),
                   ),
                   Padding(
-                    padding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 12.0),
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 12),
                     child: TextFormField(
                       controller: _model.passwordController,
                       obscureText: !_model.passwordVisibility,
@@ -238,7 +234,7 @@ class _SignInDemoWidgetState extends State<SignInDemoWidget> {
                             FlutterFlowTheme.of(context).bodyMedium.override(
                                   fontFamily: 'Lexend Deca',
                                   color: Color(0xFF57636C),
-                                  fontSize: 14.0,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.normal,
                                 ),
                         hintText: 'Enter your password',
@@ -246,41 +242,41 @@ class _SignInDemoWidgetState extends State<SignInDemoWidget> {
                             FlutterFlowTheme.of(context).bodyMedium.override(
                                   fontFamily: 'Lexend Deca',
                                   color: Color(0xFF57636C),
-                                  fontSize: 14.0,
+                                  fontSize: 14,
                                   fontWeight: FontWeight.normal,
                                 ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: Color(0xFFEB4323),
-                            width: 2.0,
+                            width: 2,
                           ),
-                          borderRadius: BorderRadius.circular(8.0),
+                          borderRadius: BorderRadius.circular(8),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: Color(0x00000000),
-                            width: 2.0,
+                            width: 2,
                           ),
-                          borderRadius: BorderRadius.circular(8.0),
+                          borderRadius: BorderRadius.circular(8),
                         ),
                         errorBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: Color(0x00000000),
-                            width: 2.0,
+                            width: 2,
                           ),
-                          borderRadius: BorderRadius.circular(8.0),
+                          borderRadius: BorderRadius.circular(8),
                         ),
                         focusedErrorBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: Color(0x00000000),
-                            width: 2.0,
+                            width: 2,
                           ),
-                          borderRadius: BorderRadius.circular(8.0),
+                          borderRadius: BorderRadius.circular(8),
                         ),
                         filled: true,
                         fillColor: Colors.white,
-                        contentPadding: EdgeInsetsDirectional.fromSTEB(
-                            24.0, 24.0, 20.0, 24.0),
+                        contentPadding:
+                            EdgeInsetsDirectional.fromSTEB(24, 24, 20, 24),
                         suffixIcon: InkWell(
                           onTap: () => setState(
                             () => _model.passwordVisibility =
@@ -292,14 +288,14 @@ class _SignInDemoWidgetState extends State<SignInDemoWidget> {
                                 ? Icons.visibility_outlined
                                 : Icons.visibility_off_outlined,
                             color: Color(0xFF95A1AC),
-                            size: 22.0,
+                            size: 22,
                           ),
                         ),
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             fontFamily: 'Lexend Deca',
                             color: Color(0xFF1D2429),
-                            fontSize: 14.0,
+                            fontSize: 14,
                             fontWeight: FontWeight.normal,
                           ),
                       validator: _model.passwordControllerValidator
@@ -310,7 +306,7 @@ class _SignInDemoWidgetState extends State<SignInDemoWidget> {
               ),
             ),
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
+              padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -328,31 +324,28 @@ class _SignInDemoWidgetState extends State<SignInDemoWidget> {
                         return;
                       }
 
-                      context.pushNamedAuth(
-                          'LiveRadioTabDemo', context.mounted);
+                      context.goNamed('LiveRadioTabDemo');
                     },
                     text: 'Login',
                     options: FFButtonOptions(
-                      width: 150.0,
-                      height: 50.0,
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                      iconPadding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                      width: 150,
+                      height: 50,
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                      iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                       color: Color(0xFF090F13),
                       textStyle:
                           FlutterFlowTheme.of(context).titleSmall.override(
                                 fontFamily: 'Montserrat',
                                 color: Colors.white,
-                                fontSize: 16.0,
+                                fontSize: 16,
                                 fontWeight: FontWeight.w500,
                               ),
-                      elevation: 3.0,
+                      elevation: 3,
                       borderSide: BorderSide(
                         color: Colors.transparent,
-                        width: 1.0,
+                        width: 1,
                       ),
-                      borderRadius: BorderRadius.circular(40.0),
+                      borderRadius: BorderRadius.circular(40),
                     ),
                   ),
                 ],
@@ -360,7 +353,7 @@ class _SignInDemoWidgetState extends State<SignInDemoWidget> {
             ),
             Expanded(
               child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 40.0),
+                padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 40),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -400,17 +393,14 @@ class _SignInDemoWidgetState extends State<SignInDemoWidget> {
                           return;
                         }
 
-                        context.pushNamedAuth(
-                            'LiveRadioTabDemo', context.mounted);
+                        context.goNamed('LiveRadioTabDemo');
                       },
                       text: 'Continue as Guest',
                       options: FFButtonOptions(
-                        width: 230.0,
-                        height: 50.0,
-                        padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                        iconPadding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                        width: 230,
+                        height: 50,
+                        padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                        iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                         color: Color(0xFFEB4323),
                         textStyle: FlutterFlowTheme.of(context)
                             .titleSmall
@@ -418,15 +408,15 @@ class _SignInDemoWidgetState extends State<SignInDemoWidget> {
                               fontFamily: 'Montserrat',
                               color:
                                   FlutterFlowTheme.of(context).primaryBtnText,
-                              fontSize: 16.0,
+                              fontSize: 16,
                               fontWeight: FontWeight.w500,
                             ),
-                        elevation: 1.0,
+                        elevation: 1,
                         borderSide: BorderSide(
                           color: Colors.transparent,
-                          width: 1.0,
+                          width: 1,
                         ),
-                        borderRadius: BorderRadius.circular(40.0),
+                        borderRadius: BorderRadius.circular(40),
                       ),
                     ),
                   ],

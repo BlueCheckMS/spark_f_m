@@ -81,7 +81,7 @@ class _NewsStoryDemoWidgetState extends State<NewsStoryDemoWidget> {
                         hoverColor: Colors.transparent,
                         highlightColor: Colors.transparent,
                         onTap: () async {
-                          Navigator.pop(context);
+                          context.pop();
                         },
                         child: Icon(
                           Icons.arrow_back_ios,
