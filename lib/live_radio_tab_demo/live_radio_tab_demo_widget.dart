@@ -49,50 +49,55 @@ class _LiveRadioTabDemoWidgetState extends State<LiveRadioTabDemoWidget>
 
     return Scaffold(
       key: scaffoldKey,
-      appBar: AppBar(leading: FlutterFlowIconButton(
-                    borderColor: Colors.transparent,
-                    borderRadius: 30,
-                    borderWidth: 1,
-                    buttonSize: 60,
-                    icon: Icon(
-                      Icons.account_circle_sharp,
-                      color: Color(0xFFEB4323),
-                      size: 30,
-                    ),
-                    onPressed: () async {
-                      Navigator.pushNamed(context,'EditProfile');
-                    },
-                  ), backgroundColor: Colors.white,
-                  title: Text('Spark FM'),
-                  centerTitle: true,
-                  titleTextStyle: FlutterFlowTheme.of(context).headlineMedium.override(
-                          fontFamily: 'Poppins',
-                          color: Colors.black,
-                          fontSize: 16,
-                        ),
-                        actions: [
-                           FlutterFlowIconButton(
-                    borderColor: Colors.transparent,
-                    borderRadius: 30,
-                    borderWidth: 1,
-                    buttonSize: 60,
-                    icon: Icon(
-                      Icons.message,
-                      color: Color(0xFFEB4323),
-                      size: 30,
-                    ),
-                    onPressed: () async {
-                      Navigator.pushNamed(context,'chatsCopy',
-                      );
-                    },
-                  ),
-                        ],
-                        elevation: 0,),
+      appBar: AppBar(
+        leading: FlutterFlowIconButton(
+          borderColor: Colors.transparent,
+          borderRadius: 30,
+          borderWidth: 1,
+          buttonSize: 60,
+          icon: Icon(
+            Icons.account_circle_sharp,
+            color: Color(0xFFEB4323),
+            size: 30,
+          ),
+          onPressed: () async {
+            context.pushNamed('EditProfile');
+          },
+        ),
+        backgroundColor: Colors.white,
+        title: Text('Spark FM'),
+        centerTitle: true,
+        titleTextStyle: FlutterFlowTheme.of(context).headlineMedium.override(
+              fontFamily: 'Poppins',
+              color: Colors.black,
+              fontSize: 16,
+            ),
+        actions: [
+          FlutterFlowIconButton(
+            borderColor: Colors.transparent,
+            borderRadius: 30,
+            borderWidth: 1,
+            buttonSize: 60,
+            icon: Icon(
+              Icons.message,
+              color: Color(0xFFEB4323),
+              size: 30,
+            ),
+            onPressed: () async {
+              context.pushNamed(
+                'chatsCopy',
+              );
+            },
+          ),
+        ],
+        elevation: 0,
+      ),
       body: SafeArea(
         top: true,
         child: Column(
           mainAxisSize: MainAxisSize.max,
-          children: [ Expanded(
+          children: [
+            Expanded(
               child: Column(
                 children: [
                   Align(

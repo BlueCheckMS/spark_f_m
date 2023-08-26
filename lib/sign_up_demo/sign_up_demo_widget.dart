@@ -84,7 +84,7 @@ class _SignUpDemoWidgetState extends State<SignUpDemoWidget> {
                             hoverColor: Colors.transparent,
                             highlightColor: Colors.transparent,
                             onTap: () async {
-                              context.pushNamed(
+                              context.goNamed(
                                 'SignInDemo',
                                 extra: <String, dynamic>{
                                   kTransitionInfoKey: TransitionInfo(
@@ -241,7 +241,7 @@ class _SignUpDemoWidgetState extends State<SignUpDemoWidget> {
                                   fontSize: 14.0,
                                   fontWeight: FontWeight.normal,
                                 ),
-                        hintText: 'Enter your email',
+                        hintText: 'Enter your password',
                         hintStyle:
                             FlutterFlowTheme.of(context).bodyMedium.override(
                                   fontFamily: 'Lexend Deca',
@@ -320,7 +320,7 @@ class _SignUpDemoWidgetState extends State<SignUpDemoWidget> {
                                   fontSize: 14.0,
                                   fontWeight: FontWeight.normal,
                                 ),
-                        hintText: 'Enter your email.',
+                        hintText: 'Confirm your email.',
                         hintStyle:
                             FlutterFlowTheme.of(context).bodyMedium.override(
                                   fontFamily: 'Lexend Deca',
@@ -425,8 +425,7 @@ class _SignUpDemoWidgetState extends State<SignUpDemoWidget> {
                             password: _model.confirmPasswordController.text,
                           ));
 
-                      context.pushNamedAuth(
-                          'LiveRadioTabDemo', context.mounted);
+                      context.goNamedAuth('LiveRadioTabDemo', context.mounted);
                     },
                     text: 'Get Started',
                     options: FFButtonOptions(
@@ -468,8 +467,7 @@ class _SignUpDemoWidgetState extends State<SignUpDemoWidget> {
                         return;
                       }
 
-                      context.pushNamedAuth(
-                          'LiveRadioTabDemo', context.mounted);
+                      context.goNamedAuth('LiveRadioTabDemo', context.mounted);
                     },
                     text: 'Continue As Guest',
                     options: FFButtonOptions(

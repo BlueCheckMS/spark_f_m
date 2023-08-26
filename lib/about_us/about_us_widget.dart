@@ -44,45 +44,49 @@ class _AboutUsWidgetState extends State<AboutUsWidget> {
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-        appBar:AppBar(leading: FlutterFlowIconButton(
-                    borderColor: Colors.transparent,
-                    borderRadius: 30,
-                    borderWidth: 1,
-                    buttonSize: 60,
-                    icon: Icon(
-                      Icons.account_circle_sharp,
-                      color: Color(0xFFEB4323),
-                      size: 30,
-                    ),
-                    onPressed: () async {
-                      Navigator.pushNamed(context,'EditProfile');
-                    },
-                  ), backgroundColor: Colors.white,
-                  title: Text('Spark FM'),
-                  centerTitle: true,
-                  titleTextStyle: FlutterFlowTheme.of(context).headlineMedium.override(
-                          fontFamily: 'Poppins',
-                          color: Colors.black,
-                          fontSize: 16,
-                        ),
-                        actions: [
-                           FlutterFlowIconButton(
-                    borderColor: Colors.transparent,
-                    borderRadius: 30,
-                    borderWidth: 1,
-                    buttonSize: 60,
-                    icon: Icon(
-                      Icons.message,
-                      color: Color(0xFFEB4323),
-                      size: 30,
-                    ),
-                    onPressed: () async {
-                      Navigator.pushNamed(context,'chatsCopy',
-                      );
-                    },
-                  ),
-                        ],
-                        elevation: 0,),
+        appBar: AppBar(
+          leading: FlutterFlowIconButton(
+            borderColor: Colors.transparent,
+            borderRadius: 30,
+            borderWidth: 1,
+            buttonSize: 60,
+            icon: Icon(
+              Icons.account_circle_sharp,
+              color: Color(0xFFEB4323),
+              size: 30,
+            ),
+            onPressed: () async {
+              context.goNamed('/editProfile');
+            },
+          ),
+          backgroundColor: Colors.white,
+          title: Text('About Us'),
+          centerTitle: true,
+          titleTextStyle: FlutterFlowTheme.of(context).headlineMedium.override(
+                fontFamily: 'Poppins',
+                color: Colors.black,
+                fontSize: 16,
+              ),
+          actions: [
+            FlutterFlowIconButton(
+              borderColor: Colors.transparent,
+              borderRadius: 30,
+              borderWidth: 1,
+              buttonSize: 60,
+              icon: Icon(
+                Icons.message,
+                color: Color(0xFFEB4323),
+                size: 30,
+              ),
+              onPressed: () async {
+                context.pushNamed(
+                  'chatsCopy',
+                );
+              },
+            ),
+          ],
+          elevation: 0,
+        ),
         body: SafeArea(
           top: true,
           child: SingleChildScrollView(
@@ -161,7 +165,7 @@ class _AboutUsWidgetState extends State<AboutUsWidget> {
                               ),
                               FFButtonWidget(
                                 onPressed: () async {
-                                  Navigator.pushNamed(context,'Advertise');
+                                  context.pushNamed('Advertise');
                                 },
                                 text: 'Advertise With Us',
                                 options: FFButtonOptions(

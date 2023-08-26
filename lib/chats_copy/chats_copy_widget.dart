@@ -9,6 +9,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+
 import 'chats_copy_model.dart';
 export 'chats_copy_model.dart';
 
@@ -48,16 +49,16 @@ class _ChatsCopyWidgetState extends State<ChatsCopyWidget> {
         automaticallyImplyLeading: false,
         leading: FlutterFlowIconButton(
           borderColor: Colors.transparent,
-          borderRadius: 30.0,
-          borderWidth: 1.0,
-          buttonSize: 60.0,
+          borderRadius: 30,
+          borderWidth: 1,
+          buttonSize: 60,
           icon: Icon(
             Icons.chevron_left,
             color: Color(0xFFEB4323),
-            size: 30.0,
+            size: 30,
           ),
           onPressed: () async {
-            Navigator.pop(context);
+            context.pop();
           },
         ),
         title: Text(
@@ -65,21 +66,21 @@ class _ChatsCopyWidgetState extends State<ChatsCopyWidget> {
           style: FlutterFlowTheme.of(context).bodyMedium.override(
                 fontFamily: 'Poppins',
                 color: Colors.black,
-                fontSize: 18.0,
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
         ),
         actions: [],
         centerTitle: true,
-        elevation: 2.0,
+        elevation: 2,
       ),
       body: SafeArea(
         top: true,
         child: Stack(
-          alignment: AlignmentDirectional(0.0, 0.0),
+          alignment: AlignmentDirectional(0, 0),
           children: [
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+              padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
               child: StreamBuilder<List<ChatsRecord>>(
                 stream: queryChatsRecord(),
                 builder: (context, snapshot) {
@@ -87,11 +88,11 @@ class _ChatsCopyWidgetState extends State<ChatsCopyWidget> {
                   if (!snapshot.hasData) {
                     return Center(
                       child: SizedBox(
-                        width: 50.0,
-                        height: 50.0,
+                        width: 50,
+                        height: 50,
                         child: SpinKitDualRing(
                           color: Color(0xFFEB4323),
-                          size: 50.0,
+                          size: 50,
                         ),
                       ),
                     );
@@ -103,20 +104,14 @@ class _ChatsCopyWidgetState extends State<ChatsCopyWidget> {
                     );
                   }
                   return ListView.builder(
-                    padding: EdgeInsets.fromLTRB(
-                      0,
-                      0,
-                      0,
-                      0,
-                    ),
+                    padding: EdgeInsets.zero,
                     scrollDirection: Axis.vertical,
                     itemCount: listViewChatsRecordList.length,
                     itemBuilder: (context, listViewIndex) {
                       final listViewChatsRecord =
                           listViewChatsRecordList[listViewIndex];
                       return Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
-                            10.0, 0.0, 10.0, 15.0),
+                        padding: EdgeInsetsDirectional.fromSTEB(10, 0, 10, 15),
                         child: StreamBuilder<UsersRecord>(
                           stream: UsersRecord.getDocument(
                               listViewChatsRecord.userA!),
@@ -125,11 +120,11 @@ class _ChatsCopyWidgetState extends State<ChatsCopyWidget> {
                             if (!snapshot.hasData) {
                               return Center(
                                 child: SizedBox(
-                                  width: 50.0,
-                                  height: 50.0,
+                                  width: 50,
+                                  height: 50,
                                   child: SpinKitDualRing(
                                     color: Color(0xFFEB4323),
-                                    size: 50.0,
+                                    size: 50,
                                   ),
                                 ),
                               );
@@ -148,47 +143,57 @@ class _ChatsCopyWidgetState extends State<ChatsCopyWidget> {
                                         [currentUserReference]),
                                   });
 
-                                  Navigator.pushNamed(context,
+                                  context.pushNamed(
                                     'chatPage',
-                                    arguments: {
-                                      'chatRef': listViewChatsRecord.reference,
-                                      'chatUser': containerUsersRecord,
-                                      'extra': <String, dynamic>{
+                                    queryParameters: {
+                                      'chatRef': serializeParam(
+                                        listViewChatsRecord.reference,
+                                        ParamType.DocumentReference,
+                                      ),
+                                      'chatUser': serializeParam(
+                                        containerUsersRecord,
+                                        ParamType.Document,
+                                      ),
+                                    }.withoutNulls,
+                                    extra: <String, dynamic>{
                                       'chatUser': containerUsersRecord,
                                     },
-                                    }.withoutNulls,
-                                    
                                   );
                                 } else {
-                                  Navigator.pushNamed(context,
+                                  context.pushNamed(
                                     'chatPage',
-                                    arguments: {
-                                      'chatRef': listViewChatsRecord.reference,
-                                      'chatUser':containerUsersRecord,
-                                      'extra': <String, dynamic>{
+                                    queryParameters: {
+                                      'chatRef': serializeParam(
+                                        listViewChatsRecord.reference,
+                                        ParamType.DocumentReference,
+                                      ),
+                                      'chatUser': serializeParam(
+                                        containerUsersRecord,
+                                        ParamType.Document,
+                                      ),
+                                    }.withoutNulls,
+                                    extra: <String, dynamic>{
                                       'chatUser': containerUsersRecord,
                                     },
-                                    }.withoutNulls,
-                                   
                                   );
                                 }
                               },
                               child: Material(
                                 color: Colors.transparent,
-                                elevation: 2.0,
+                                elevation: 2,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: Container(
-                                  height: 100.0,
+                                  height: 100,
                                   decoration: BoxDecoration(
                                     color:
                                         FlutterFlowTheme.of(context).lineColor,
-                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
-                                        10.0, 0.0, 10.0, 0.0),
+                                        10, 0, 10, 0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       mainAxisAlignment:
@@ -201,13 +206,13 @@ class _ChatsCopyWidgetState extends State<ChatsCopyWidget> {
                                             .contains(currentUserReference))
                                           FlutterFlowIconButton(
                                             borderColor: Colors.transparent,
-                                            borderRadius: 30.0,
-                                            borderWidth: 1.0,
-                                            buttonSize: 30.0,
+                                            borderRadius: 30,
+                                            borderWidth: 1,
+                                            buttonSize: 30,
                                             icon: FaIcon(
                                               FontAwesomeIcons.solidCircle,
                                               color: Color(0xFFFF1A1D),
-                                              size: 15.0,
+                                              size: 15,
                                             ),
                                             onPressed: () {
                                               print('IconButton pressed ...');
@@ -216,7 +221,7 @@ class _ChatsCopyWidgetState extends State<ChatsCopyWidget> {
                                         Padding(
                                           padding:
                                               EdgeInsetsDirectional.fromSTEB(
-                                                  10.0, 0.0, 0.0, 0.0),
+                                                  10, 0, 0, 0),
                                           child: Column(
                                             mainAxisSize: MainAxisSize.max,
                                             mainAxisAlignment:
@@ -226,8 +231,7 @@ class _ChatsCopyWidgetState extends State<ChatsCopyWidget> {
                                             children: [
                                               Padding(
                                                 padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        0.0, 20.0, 0.0, 0.0),
+                                                    .fromSTEB(0, 20, 0, 0),
                                                 child: Row(
                                                   mainAxisSize:
                                                       MainAxisSize.max,
@@ -250,10 +254,7 @@ class _ChatsCopyWidgetState extends State<ChatsCopyWidget> {
                                                       padding:
                                                           EdgeInsetsDirectional
                                                               .fromSTEB(
-                                                                  70.0,
-                                                                  0.0,
-                                                                  0.0,
-                                                                  0.0),
+                                                                  70, 0, 0, 0),
                                                       child: Text(
                                                         valueOrDefault<String>(
                                                           listViewChatsRecord
@@ -288,7 +289,7 @@ class _ChatsCopyWidgetState extends State<ChatsCopyWidget> {
                                                         .bodyMedium
                                                         .override(
                                                           fontFamily: 'Poppins',
-                                                          fontSize: 12.0,
+                                                          fontSize: 12,
                                                           fontWeight:
                                                               FontWeight.normal,
                                                         ),
@@ -315,9 +316,9 @@ class _ChatsCopyWidgetState extends State<ChatsCopyWidget> {
               true,
             ))
               Align(
-                alignment: AlignmentDirectional(0.0, 1.01),
+                alignment: AlignmentDirectional(0, 1.01),
                 child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(5.0, 0.0, 5.0, 0.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(5, 0, 5, 0),
                   child: AuthUserStreamWidget(
                     builder: (context) => StreamBuilder<List<UsersRecord>>(
                       stream: queryUsersRecord(),
@@ -326,11 +327,11 @@ class _ChatsCopyWidgetState extends State<ChatsCopyWidget> {
                         if (!snapshot.hasData) {
                           return Center(
                             child: SizedBox(
-                              width: 50.0,
-                              height: 50.0,
+                              width: 50,
+                              height: 50,
                               child: SpinKitDualRing(
                                 color: Color(0xFFEB4323),
-                                size: 50.0,
+                                size: 50,
                               ),
                             ),
                           );
@@ -356,19 +357,19 @@ class _ChatsCopyWidgetState extends State<ChatsCopyWidget> {
                           },
                           child: Material(
                             color: Colors.transparent,
-                            elevation: 2.0,
+                            elevation: 2,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
+                              borderRadius: BorderRadius.circular(10),
                             ),
                             child: Container(
                               width: 476.2,
-                              height: 100.0,
+                              height: 100,
                               decoration: BoxDecoration(
                                 color: FlutterFlowTheme.of(context).secondary,
-                                borderRadius: BorderRadius.circular(10.0),
+                                borderRadius: BorderRadius.circular(10),
                               ),
                               child: Align(
-                                alignment: AlignmentDirectional(0.0, 0.0),
+                                alignment: AlignmentDirectional(0, 0),
                                 child: Text(
                                   'Spark A New Conversation',
                                   style: FlutterFlowTheme.of(context)
@@ -377,7 +378,7 @@ class _ChatsCopyWidgetState extends State<ChatsCopyWidget> {
                                         fontFamily: 'Poppins',
                                         color: FlutterFlowTheme.of(context)
                                             .primaryBtnText,
-                                        fontSize: 20.0,
+                                        fontSize: 20,
                                       ),
                                 ),
                               ),

@@ -3,10 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:page_transition/page_transition.dart';
-import '../../root.dart';
 import '/backend/backend.dart';
 import '/backend/schema/structs/index.dart';
 
@@ -19,14 +17,23 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/lat_lng.dart';
 import '/flutter_flow/place.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import 'serialization_util.dart';
-
 export 'package:go_router/go_router.dart';
 export 'serialization_util.dart';
 export '/backend/firebase_dynamic_links/firebase_dynamic_links.dart'
     show generateCurrentPageLink;
 
 const kTransitionInfoKey = '__transition_info__';
+final _rootNavigatorKey = GlobalKey<NavigatorState>();
+final _shellNavigatorAKey =
+    GlobalKey<NavigatorState>(debugLabel: 'LiveRadioTabDemo');
+final _shellNavigatorBKey =
+    GlobalKey<NavigatorState>(debugLabel: 'NewsFeedDemo');
+final _shellNavigatorCKey = GlobalKey<NavigatorState>(debugLabel: 'BrowseDemo');
+final _shellNavigatorDdKey =
+    GlobalKey<NavigatorState>(debugLabel: 'SparkTVDemo');
+final _shellNavigatorEKey = GlobalKey<NavigatorState>(debugLabel: 'AboutUs');
+final _shellNavigatoreeKey =
+    GlobalKey<NavigatorState>(debugLabel: 'NewsStoryDemo');
 
 class AppStateNotifier extends ChangeNotifier {
   AppStateNotifier._();
@@ -82,211 +89,246 @@ class AppStateNotifier extends ChangeNotifier {
 }
 
 GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
+      navigatorKey: _rootNavigatorKey,
       initialLocation: '/',
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       errorBuilder: (context, state) => _RouteErrorBuilder(
         state: state,
-        child: appStateNotifier.loggedIn ? Root() : SignInDemoWidget(),
+        child: appStateNotifier.loggedIn
+            ? LiveRadioTabDemoWidget()
+            : SignInDemoWidget(),
       ),
       routes: [
-        FFRoute(
-          name: '_initialize',
-          path: '/',
-          builder: (context, _) =>
-              appStateNotifier.loggedIn ? Root() : SignInDemoWidget(),
-          routes: [
-            FFRoute(
-              name: 'SignInDemo',
-              path: 'signInDemo',
-              builder: (context, params) => SignInDemoWidget(),
-            ),
-            FFRoute(
-              name: 'SignUpDemo',
-              path: 'signUpDemo',
-              builder: (context, params) => SignUpDemoWidget(),
-            ),
-            FFRoute(
-              name: 'BrowseDemo',
-              path: 'browseDemo',
-              builder: (context, params) => params.isEmpty
-                  ? RootPage(destination: Destination(2, 'BrowseDemo', FontAwesomeIcons.music, BrowseDemoWidget()),)
-                  : BrowseDemoWidget(),
-            ),
-            FFRoute(
-              name: 'NewsFeedDemo',
-              path: 'newsFeedDemo',
-              builder: (context, params) => params.isEmpty
-                  ? RootPage(destination:  Destination(1, 'NewsFeedDemo', Icons.search, NewsFeedDemoWidget()),)
-                  : NewsFeedDemoWidget(),
-            ),
-            FFRoute(
-              name: 'LiveRadioTabDemo',
-              path: 'liveRadioTabDemo',
-              builder: (context, params) => params.isEmpty
-                  ? RootPage(destination:  Destination(0, 'LiveRadioTabDemo', Icons.online_prediction, LiveRadioTabDemoWidget()),)
-                  : LiveRadioTabDemoWidget()
-            ),
-            FFRoute(
-              name: 'SparkTVDemo',
-              path: 'sparkTVDemo',
-              builder: (context, params) => params.isEmpty
-                  ? RootPage(destination: Destination(1, 'SparkTVDemo', Icons.search, SparkTVDemoWidget()),)
-                  : SparkTVDemoWidget(),
-            ),
-            FFRoute(
-              name: 'SongListPage',
-              path: 'songListPage',
-              asyncParams: {
-                'playlist': getDoc(['playlist'], PlaylistRecord.fromSnapshot),
-                'music': getDoc(['Album'], AlbumRecord.fromSnapshot),
-                'singleSong': getDoc(['songs'], SongsRecord.fromSnapshot),
-              },
-              builder: (context, params) => SongListPageWidget(
-                  playlist: params.getParam('playlist', ParamType.Document),
-                  music: params.getParam('music', ParamType.Document),
-                  singleSong: params.getParam('singleSong', ParamType.Document),
-                ),
-              ),
-            FFRoute(
-              name: 'ViewAllArtist',
-              path: 'viewAllArtist',
-              asyncParams: {
-                'artist': getDocList(['Artist'], ArtistRecord.fromSnapshot),
-                'playlist':
-                    getDocList(['playlist'], PlaylistRecord.fromSnapshot),
-                'podcast': getDocList(['podcast'], PodcastRecord.fromSnapshot),
-                'album': getDocList(['Album'], AlbumRecord.fromSnapshot),
-              },
-              builder: (context, params) => ViewAllArtistWidget(
-                  artist: params.getParam<ArtistRecord>(
-                      'artist', ParamType.Document, true),
-                ),
-            ),
-            FFRoute(
-              name: 'MusicStreamDemo',
-              path: 'musicStreamDemo',
-              asyncParams: {
-                'album': getDoc(['Album'], AlbumRecord.fromSnapshot),
-              },
-              builder: (context, params) => MusicStreamDemoWidget(
-                  album: params.getParam('album', ParamType.Document),
-                  songIndex: params.getParam('songIndex', ParamType.int),
-                ),
-              ),
-            FFRoute(
-              name: 'ArtistProfileDemo',
-              path: 'artistProfileDemo',
-              asyncParams: {
-                'artistDoc': getDoc(['Artist'], ArtistRecord.fromSnapshot),
-              },
-              builder: (context, params) => ArtistProfileDemoWidget(
-                  artistDoc: params.getParam('artistDoc', ParamType.Document),
-                ),
-              ),
-            FFRoute(
-              name: 'NewsStoryDemo',
-              path: 'newsStoryDemo',
-              builder: (context, params) =>  NewsStoryDemoWidget(
-                  post: params.getParam('post', ParamType.JSON),
-                ),
-              ),
-            FFRoute(
-              name: 'PodcasPage',
-              path: 'podcasPage',
-              asyncParams: {
-                'podcastDoc': getDoc(['podcast'], PodcastRecord.fromSnapshot),
-              },
-              builder: (context, params) => PodcasPageWidget(
-                  podcastDoc: params.getParam('podcastDoc', ParamType.Document),
-                ),
-              ),
-            FFRoute(
-              name: 'AboutUs',
-              path: 'aboutUs',
-              builder: (context, params) => params.isEmpty
-                  ? RootPage(destination: Destination(3, 'AboutUs', Icons.bolt, AboutUsWidget()))
-                  : AboutUsWidget(),
-            ),
-            FFRoute(
-              name: 'Advertise',
-              path: 'advertise',
-              builder: (context, params) => AdvertiseWidget(),
-            ),
-            FFRoute(
-              name: 'ViewAllPodcast',
-              path: 'viewAllPodcast',
-              asyncParams: {
-                'artist': getDocList(['Artist'], ArtistRecord.fromSnapshot),
-                'podcast': getDocList(['podcast'], PodcastRecord.fromSnapshot),
-                'album': getDocList(['Album'], AlbumRecord.fromSnapshot),
-              },
-              builder: (context, params) => 
-               ViewAllPodcastWidget(
-                  podcast: params.getParam<PodcastRecord>(
-                      'podcast', ParamType.Document, true),
-                ),
-            ),
-            FFRoute(
-              name: 'ViewAllAlbum',
-              path: 'viewAllAlbum',
-              asyncParams: {
-                'music': getDocList(['Album'], AlbumRecord.fromSnapshot),
-              },
-              builder: (context, params) => ViewAllAlbumWidget(
-                  music: params.getParam<AlbumRecord>(
-                      'music', ParamType.Document, true),
-                ),
-              ),
-            FFRoute(
-              name: 'EditProfile',
-              path: 'editProfile',
-              builder: (context, params) => EditProfileWidget(),
-              ),
-            FFRoute(
-              name: 'chatPage',
-              path: 'chatPage',
-              asyncParams: {
-                'chatUser': getDoc(['users'], UsersRecord.fromSnapshot),
-              },
-              builder: (context, params) => ChatPageWidget(
-                  chatUser: params.getParam('chatUser', ParamType.Document),
-                  chatRef: params.getParam(
-                      'chatRef', ParamType.DocumentReference, false, ['chats']),
-                ),
-            ),
-            FFRoute(
-              name: 'ViewAllPlaylist',
-              path: 'viewAllPlaylist',
-              asyncParams: {
-                'artist': getDocList(['Artist'], ArtistRecord.fromSnapshot),
-                'playlist':
-                    getDocList(['playlist'], PlaylistRecord.fromSnapshot),
-              },
-              builder: (context, params) => ViewAllPlaylistWidget(
-                  playlist: params.getParam<PlaylistRecord>(
-                      'playlist', ParamType.Document, true),
-              ),
-            ),
-            FFRoute(
-              name: 'chatsCopy',
-              path: 'chatsCopy',
-              builder: (context, params) => ChatsCopyWidget(),
-            ),
-            FFRoute(
-              name: 'videoPage',
-              path: 'videoPage',
-              builder: (context, params) => VideoPageWidget(
-                  videoId: params.getParam('videoId', ParamType.String),
-                  videoTitle: params.getParam('videoTitle', ParamType.String),
-                  videoDiscription:
-                      params.getParam('videoDiscription', ParamType.String),
-                ),
-            )
-          ].map((r) => r.toRoute(appStateNotifier)).toList(),
+        GoRoute(
+            redirect: (context, state) {
+              if (!appStateNotifier.loggedIn) {
+                return '/signInDemo';
+              } else {
+                return '/liveRadioTabDemo';
+              }
+            },
+            name: '_initialize',
+            path: '/',
+            builder: (
+              context,
+              _,
+            ) =>
+                SignInDemoWidget()),
+        GoRoute(
+          name: 'SignInDemo',
+          path: '/signInDemo',
+          builder: (context, params) => SignInDemoWidget(),
         ),
-      ].map((r) => r.toRoute(appStateNotifier)).toList(),
-      observers: [routeObserver],
+        GoRoute(
+          name: 'SignUpDemo',
+          path: '/signUpDemo',
+          builder: (context, params) => SignUpDemoWidget(),
+        ),
+        StatefulShellRoute.indexedStack(
+          builder: (context, state, navigationShell) {
+            return MainPage(navigationShell: navigationShell);
+          },
+          branches: [
+            StatefulShellBranch(
+              navigatorKey: _shellNavigatorAKey,
+              routes: [
+                GoRoute(
+                  name: 'LiveRadioTabDemo',
+                  path: '/liveRadioTabDemo',
+                  builder: (context, state) => appStateNotifier.loggedIn
+                      ? LiveRadioTabDemoWidget()
+                      : SignInDemoWidget(),
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              navigatorKey: _shellNavigatorBKey,
+              routes: [
+                FFRoute(
+                  name: 'NewsFeedDemo',
+                  path: '/newsFeedDemo',
+                  builder: (context, params) => NewsFeedDemoWidget(),
+                  routes: [
+                    FFRoute(
+                      name: 'NewsStoryDemo',
+                      path: 'newsStoryDemo',
+                      builder: (context, params) => NewsStoryDemoWidget(
+                        post: params.getParam('post', ParamType.JSON),
+                      ),
+                    ),
+                  ].map((r) => r.toRoute(appStateNotifier)).toList(),
+                ),
+              ].map((r) => r.toRoute(appStateNotifier)).toList(),
+            ),
+            StatefulShellBranch(
+              navigatorKey: _shellNavigatorCKey,
+              routes: [
+                FFRoute(
+                  name: 'BrowseDemo',
+                  path: '/browseDemo',
+                  builder: (context, params) => BrowseDemoWidget(),
+                  routes: [
+                    FFRoute(
+                      name: 'ViewAllArtist',
+                      path: 'viewAllArtist',
+                      asyncParams: {
+                        'artist':
+                            getDocList(['Artist'], ArtistRecord.fromSnapshot),
+                      },
+                      builder: (context, params) => ViewAllArtistWidget(
+                        artist: params.getParam<ArtistRecord>(
+                            'artist', ParamType.Document, true),
+                      ),
+                      routes: [
+                        FFRoute(
+                          name: 'ArtistProfileDemo',
+                          path: 'artistProfileDemo',
+                          asyncParams: {
+                            'artistDoc':
+                                getDoc(['Artist'], ArtistRecord.fromSnapshot),
+                          },
+                          builder: (context, params) => ArtistProfileDemoWidget(
+                            artistDoc: params.getParam(
+                                'artistDoc', ParamType.Document),
+                          ),
+                        ),
+                        FFRoute(
+                          name: 'SongListPage',
+                          path: 'songListPage',
+                          asyncParams: {
+                            'playlist': getDoc(
+                                ['playlist'], PlaylistRecord.fromSnapshot),
+                            'music':
+                                getDoc(['Album'], AlbumRecord.fromSnapshot),
+                            'singleSong':
+                                getDoc(['songs'], SongsRecord.fromSnapshot),
+                            'podcast':
+                                getDoc(['podcast'], PodcastRecord.fromSnapshot),
+                          },
+                          builder: (context, params) => SongListPageWidget(
+                            playlist:
+                                params.getParam('playlist', ParamType.Document),
+                            music: params.getParam('music', ParamType.Document),
+                            singleSong: params.getParam(
+                                'singleSong', ParamType.Document),
+                            podcast:
+                                params.getParam('podcast', ParamType.Document),
+                          ),
+                        ),
+                      ].map((r) => r.toRoute(appStateNotifier)).toList(),
+                    ),
+                    FFRoute(
+                      name: 'ViewAllAlbum',
+                      path: 'viewAllAlbum',
+                      asyncParams: {
+                        'music':
+                            getDocList(['Album'], AlbumRecord.fromSnapshot),
+                      },
+                      builder: (context, params) => ViewAllAlbumWidget(
+                        music: params.getParam<AlbumRecord>(
+                            'music', ParamType.Document, true),
+                      ),
+                    ),
+                    FFRoute(
+                      name: 'ViewAllPlaylist',
+                      path: 'viewAllPlaylist',
+                      asyncParams: {
+                        'playlist': getDocList(
+                            ['playlist'], PlaylistRecord.fromSnapshot),
+                      },
+                      builder: (context, params) => ViewAllPlaylistWidget(
+                        playlist: params.getParam<PlaylistRecord>(
+                            'playlist', ParamType.Document, true),
+                      ),
+                    ),
+                    FFRoute(
+                      name: 'ViewAllPodcast',
+                      path: 'viewAllPodcast',
+                      asyncParams: {
+                        'podcast':
+                            getDocList(['podcast'], PodcastRecord.fromSnapshot),
+                      },
+                      builder: (context, params) => ViewAllPodcastWidget(
+                        podcast: params.getParam<PodcastRecord>(
+                            'podcast', ParamType.Document, true),
+                      ),
+                    ),
+                  ].map((r) => r.toRoute(appStateNotifier)).toList(),
+                ),
+              ].map((r) => r.toRoute(appStateNotifier)).toList(),
+            ),
+            StatefulShellBranch(
+                routes: [
+                  FFRoute(
+                    name: 'SparkTVDemo',
+                    path: '/sparkTVDemo',
+                    builder: (context, params) => SparkTVDemoWidget(),
+                    routes: [
+                      FFRoute(
+                        name: 'videoPage',
+                        path: 'videoPage',
+                        builder: (context, params) => VideoPageWidget(
+                          videoId: params.getParam('videoId', ParamType.String),
+                          videoTitle:
+                              params.getParam('videoTitle', ParamType.String),
+                          videoDiscription: params.getParam(
+                              'videoDiscription', ParamType.String),
+                        ),
+                      )
+                    ].map((r) => r.toRoute(appStateNotifier)).toList(),
+                  ),
+                ].map((r) => r.toRoute(appStateNotifier)).toList(),
+                navigatorKey: _shellNavigatorDdKey),
+            StatefulShellBranch(
+                routes: [
+                  FFRoute(
+                    name: 'AboutUs',
+                    path: '/aboutUs',
+                    builder: (context, params) => AboutUsWidget(),
+                  ),
+                ].map((r) => r.toRoute(appStateNotifier)).toList(),
+                navigatorKey: _shellNavigatorEKey),
+            StatefulShellBranch(
+                routes: [
+              FFRoute(
+                name: 'EditProfile',
+                path: '/editProfile',
+                builder: (context, params) => EditProfileWidget(),
+              ),
+            ].map((r) => r.toRoute(appStateNotifier)).toList()),
+            StatefulShellBranch(
+                routes: [
+              FFRoute(
+                  name: 'Advertise',
+                  path: '/advertise',
+                  builder: (context, params) => AdvertiseWidget()),
+            ].map((r) => r.toRoute(appStateNotifier)).toList()),
+            StatefulShellBranch(
+                routes: [
+              FFRoute(
+                  name: 'chatsCopy',
+                  path: '/chatsCopy',
+                  builder: (context, params) => ChatsCopyWidget(),
+                  routes: [
+                    FFRoute(
+                      name: 'chatPage',
+                      path: 'chatPage',
+                      asyncParams: {
+                        'chatUser': getDoc(['users'], UsersRecord.fromSnapshot),
+                      },
+                      builder: (context, params) => ChatPageWidget(
+                        chatUser:
+                            params.getParam('chatUser', ParamType.Document),
+                        chatRef: params.getParam('chatRef',
+                            ParamType.DocumentReference, false, ['chats']),
+                      ),
+                    ),
+                  ].map((r) => r.toRoute(appStateNotifier)).toList()),
+            ].map((r) => r.toRoute(appStateNotifier)).toList()),
+          ],
+        ),
+      ],
     );
 
 extension NavParamExtensions on Map<String, String?> {

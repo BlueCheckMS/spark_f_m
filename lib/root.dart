@@ -1,280 +1,1095 @@
-import 'package:assets_audio_player/assets_audio_player.dart';
-import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:spark_f_m/song_screen/song_screen.dart';
-import '/backend/backend.dart';
-import '/flutter_flow/flutter_flow_icon_button.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
-import '/flutter_flow/flutter_flow_util.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-import 'index.dart';
-import 'live_radio_tab_demo/live_radio_tab_demo_widget.dart';
-export 'live_radio_tab_demo/live_radio_tab_demo_model.dart';
+// import 'dart:async';
 
-/// Flutter code sample for [NavigationBar] with nested [Navigator] destinations.
+// import 'package:flutter/material.dart';
+// import 'package:flutter/scheduler.dart';
+// import 'package:flutter_spinkit/flutter_spinkit.dart';
+// import 'package:go_router/go_router.dart';
+// import 'package:page_transition/page_transition.dart';
+// import '/backend/backend.dart';
+// import '/backend/schema/structs/index.dart';
 
-class Root extends StatefulWidget {
-  const Root({super.key, String? destination});
+// import '../../auth/base_auth_user_provider.dart';
+// import '../../backend/push_notifications/push_notifications_handler.dart'
+//     show PushNotificationsHandler;
+// import '/index.dart';
+// import '/main.dart';
+// import '/flutter_flow/flutter_flow_theme.dart';
+// import '/flutter_flow/lat_lng.dart';
+// import '/flutter_flow/place.dart';
+// import '/flutter_flow/flutter_flow_util.dart';
+// export 'package:go_router/go_router.dart';
+// export 'serialization_util.dart';
+// export '/backend/firebase_dynamic_links/firebase_dynamic_links.dart'
+//     show generateCurrentPageLink;
 
-  @override
-  State<Root> createState() => _RootState();
-}
+// const kTransitionInfoKey = '__transition_info__';
+// final _rootNavigatorKey = GlobalKey<NavigatorState>();
+// final _shellNavigatorAKey = GlobalKey<NavigatorState>(debugLabel: 'LiveRadioTabDemo');
+// final _shellNavigatorBKey = GlobalKey<NavigatorState>(debugLabel: 'NewsFeedDemo');
+// final _shellNavigatorCKey = GlobalKey<NavigatorState>(debugLabel: 'BrowseDemo');
+// final _shellNavigatorDKey = GlobalKey<NavigatorState>(debugLabel: 'SparkTVDemo');
+// final _shellNavigatorEKey = GlobalKey<NavigatorState>(debugLabel: 'AboutUs');
+// class AppStateNotifier extends ChangeNotifier {
+//   AppStateNotifier._();
 
-class _RootState extends State<Root> with TickerProviderStateMixin<Root> {
-  static const List<Destination> allDestinations = <Destination>[
-    Destination(0, 'Home', Icons.online_prediction,
-        LiveRadioTabDemoWidget()),
-    Destination(1, 'News Feed', Icons.newspaper, NewsFeedDemoWidget()),
-    Destination(2, 'Browse', FontAwesomeIcons.music, BrowseDemoWidget()),
-    Destination(3, 'Spark TV', Icons.ondemand_video, SparkTVDemoWidget()),
-    Destination(4, 'About Us', Icons.bolt, AboutUsWidget()),
-  ];
+//   static AppStateNotifier? _instance;
+//   static AppStateNotifier get instance => _instance ??= AppStateNotifier._();
 
-  late final List<GlobalKey<NavigatorState>> navigatorKeys;
-  late final List<GlobalKey> destinationKeys;
+//   BaseAuthUser? initialUser;
+//   BaseAuthUser? user;
+//   bool showSplashImage = true;
+//   String? _redirectLocation;
 
-  late final List<Widget> destinationViews;
-  int selectedIndex = 0;
+//   /// Determines whether the app will refresh and build again when a sign
+//   /// in or sign out happens. This is useful when the app is launched or
+//   /// on an unexpected logout. However, this must be turned off when we
+//   /// intend to sign in/out and then navigate or perform any actions after.
+//   /// Otherwise, this will trigger a refresh and interrupt the action(s).
+//   bool notifyOnAuthChange = true;
 
-  @override
-  void initState() {
-    super.initState();
-    navigatorKeys = List<GlobalKey<NavigatorState>>.generate(
-            allDestinations.length, (int index) => GlobalKey<NavigatorState>())
-        .toList();
-    destinationViews = allDestinations.map((destination) {
-      return DestinationView(
-        destination: destination,
-        navigatorKey: navigatorKeys[destination.index],
-      );
-    }).toList();
-  }
+//   bool get loading => user == null || showSplashImage;
+//   bool get loggedIn => user?.loggedIn ?? false;
+//   bool get initiallyLoggedIn => initialUser?.loggedIn ?? false;
+//   bool get shouldRedirect => loggedIn && _redirectLocation != null;
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
+//   String getRedirectLocation() => _redirectLocation!;
+//   bool hasRedirect() => _redirectLocation != null;
+//   void setRedirectLocationIfUnset(String loc) => _redirectLocation ??= loc;
+//   void clearRedirectLocation() => _redirectLocation = null;
 
-  @override
-  Widget build(BuildContext context) => Consumer<FFAppState>(
-        builder: (context, appState, _) {
-          return WillPopScope(
-            onWillPop: () async {
-              final NavigatorState navigator =
-                  navigatorKeys[selectedIndex].currentState!;
-              if (!navigator.canPop()) {
-                return true;
-              }
-              navigator.pop();
-              return false;
-            },
-            child: Scaffold(
-                body: SafeArea(
-                  top: false,
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: allDestinations.map((Destination destination) {
-                      final int index = destination.index;
-                      final Widget view = destinationViews[index];
-                      if (index == selectedIndex) {
-                        return Offstage(offstage: false, child: view);
-                      } else {
-                        return Offstage(child: view);
-                      }
-                    }).toList(),
-                  ),
-                ),
-                bottomNavigationBar: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (appState.audioPlayer.isPlaying.value == true && appState.audioPlayer.stopped == false)
-                    GestureDetector(
-                      onTap: () => Navigator.push(context,
-                      PageTransition(child: LargeAssetAudioPlayer(), type: PageTransitionType.bottomToTop)),
-                      child: Hero(
-                        transitionOnUserGestures: true,
-                          tag: 'largeAudioPlayer',
-                          child: AssetAudioPlayer(
-                            titleTextStyle:
-                                FlutterFlowTheme.of(context).bodyText1.override(
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                            playbackDurationTextStyle:
-                                FlutterFlowTheme.of(context).bodyText1.override(
-                                      fontFamily: 'Poppins',
-                                      color: Color(0xFF9D9D9D),
-                                      fontSize: 12,
-                                    ),
-                            fillColor: Color.fromARGB(255, 238, 238, 238),
-                            playbackButtonColor:
-                                FlutterFlowTheme.of(context).secondaryColor,
-                            activeTrackColor: Color(0xFFEB4323),
-                            elevation: 4,
-                            width: double.infinity,
-                            height: 100,
-                          )),
-                    ),
-                    NavigationBar(
-                      selectedIndex: selectedIndex,
-                      onDestinationSelected: (int index) {
-                        setState(() {
-                          selectedIndex = index;
-                        });
-                      },
-                      destinations:
-                          allDestinations.map((Destination destination) {
-                        return NavigationDestination(
-                          icon:
-                              Icon(destination.icon, color: Color(0xFFEB4323)),
-                          label: destination.title,
-                        );
-                        
-                      }).toList(),
-                      indicatorColor: Color(0xffeee811),
-                    ),
-                  ],
-                )),
-          );
-        },
-      );
-}
+//   /// Mark as not needing to notify on a sign in / out when we intend
+//   /// to perform subsequent actions (such as navigation) afterwards.
+//   void updateNotifyOnAuthChange(bool notify) => notifyOnAuthChange = notify;
 
-class Destination {
-  const Destination(this.index, this.title, this.icon, this.child);
-  final int index;
-  final String title;
-  final IconData icon;
-  final Widget? child;
-}
+//   void update(BaseAuthUser newUser) {
+//     final shouldUpdate =
+//         user?.uid == null || newUser.uid == null || user?.uid != newUser.uid;
+//     initialUser ??= newUser;
+//     user = newUser;
+//     // Refresh the app on auth change unless explicitly marked otherwise.
+//     // No need to update unless the user has changed.
+//     if (notifyOnAuthChange && shouldUpdate) {
+//       notifyListeners();
+//     }
+//     // Once again mark the notifier as needing to update on auth change
+//     // (in order to catch sign in / out events).
+//     updateNotifyOnAuthChange(true);
+//   }
 
-class RootPage extends StatelessWidget {
-  const RootPage({
-    super.key,
-    required this.destination,
-  });
+//   void stopShowingSplashImage() {
+//     showSplashImage = false;
+//     notifyListeners();
+//   }
+// }
 
-  final Destination destination;
+// GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
+//         navigatorKey: _rootNavigatorKey,
+//         initialLocation: '/',
+//         debugLogDiagnostics: true,
+//         refreshListenable: appStateNotifier,
+//         errorBuilder: (context, state) => _RouteErrorBuilder(
+//               state: state,
+//               child: appStateNotifier.loggedIn
+//                   ? NavigatorBar()
+//                   : SignInDemoWidget(),
+//             ),
+//         routes: [
+//           GoRoute(
+//             name: '_initialize',
+//             path: '/',
+//             builder: (context, state) =>
+//                 appStateNotifier.loggedIn ? NavigatorBar() : SignInDemoWidget(),
+//             routes: [
+//               StatefulShellRoute.indexedStack(
+//                 builder: (context, state, child) {
+//                   return child;
+//                 },
+//                 branches: [
+//                   StatefulShellBranch(
+//                       navigatorKey: _shellNavigatorAKey,
+//                       routes: [
+//                         FFRoute(
+//                             name: 'LiveRadioTabDemo',
+//                             path: 'liveRadioTabDemo',
+//                             builder: (context, state) => SignInDemoWidget(),
+//                             routes: [
+//                               FFRoute(
+//                                 name: 'EditProfile',
+//                                 path: 'editProfile',
+//                                 builder: (context, state) => SignUpDemoWidget(),
+//                               ),
+//                               FFRoute(
+//                                   name: 'ChatPage',
+//                                   path: 'chatPage',
+//                                   builder: (context, state) =>
+//                                       LiveRadioTabDemoWidget()),
+//                             ].map((r) => r.toRoute(appStateNotifier)).toList(),
+//                             ),
+//                       ].map((r) => r.toRoute(appStateNotifier)).toList(),
+//                       observers: [routeObserver]),
+               
+//                 StatefulShellBranch(
+//                       navigatorKey: _shellNavigatorBKey,
+//                       routes: [
+//                         FFRoute(
+//                             name: 'LiveRadioTabDemo',
+//                             path: 'liveRadioTabDemo',
+//                             builder: (context, state) =>
+//                                 LiveRadioTabDemoWidget(),
+//                             routes: [
+//                               FFRoute(
+//                                 name: 'EditProfile',
+//                                 path: 'editProfile',
+//                                 builder: (context, params) => NavigatorBar(
+//                                   destination: '',
+//                                   page: EditProfileWidget(),
+//                                 ),
+//                               ),
+//                               FFRoute(
+//                                 name: 'chatsCopy',
+//                                 path: 'chatsCopy',
+//                                 builder: (context, params) => NavigatorBar(
+//                                   destination: '',
+//                                   page: ChatsCopyWidget(),
+//                                 ),
+//                               ),
+//                             ].map((r) => r.toRoute(appStateNotifier)).toList(),
+//                             ),
+//                       ].map((r) => r.toRoute(appStateNotifier)).toList(),
+//                       observers: [routeObserver]),
+//                       StatefulShellBranch(
+//                         navigatorKey: _shellNavigatorBKey,
+//                         routes: [
+//                           FFRoute(
+//                   name: 'NewsFeedDemo',
+//                   path: 'newsFeedDemo',
+//                   builder: (context, params) => params.isEmpty
+//                       ? NavigatorBar(destination: 'NewsFeedDemo')
+//                       : NewsFeedDemoWidget(),
+//                       routes: [
+//                                   FFRoute(
+//                   name: 'NewsStoryDemo',
+//                   path: 'newsStoryDemo',
+//                   builder: (context, params) => NavigatorBar(
+//                     destination: '',
+//                     page: NewsStoryDemoWidget(
+//                       post: params.getParam('post', ParamType.JSON),
+//                     ),
+//                   ),
+//                 ),
+//                   FFRoute(
+//                     name: 'EditProfile',
+//                     path: 'editProfile',
+//                     builder: (context, state) => SignUpDemoWidget(),
+//                   ),
+//                   FFRoute(
+//                       name: 'ChatPage',
+//                       path: 'chatPage',
+//                       builder: (context, state) =>
+//                           LiveRadioTabDemoWidget()),
+//                   ].map((r) => r.toRoute(appStateNotifier)).toList(),
+//             ),
+//                     ].map((r) => r.toRoute(appStateNotifier)).toList(),
+//                   observers: [routeObserver]
+//                   ),
+//                   StatefulShellBranch(
+//                     navigatorKey: _shellNavigatorCKey,
+//                     routes: [
+//                         FFRoute(
+//                             name: 'BrowseDemo',
+//                             path: 'browseDemo',
+//                             builder: (context, params) => params.isEmpty
+//                                 ? NavigatorBar(destination: 'BrowseDemo')
+//                                 : BrowseDemoWidget(),
+//                                 routes: [
+//                                     FFRoute(
+//                                       name: 'EditProfile',
+//                                       path: 'editProfile',
+//                                       builder: (context, state) => SignUpDemoWidget(),
+//                                     ),
+//                                     FFRoute(
+//                                         name: 'ChatPage',
+//                                         path: 'chatPage',
+//                                         builder: (context, state) => LiveRadioTabDemoWidget(),
+//                                         ),
+//                                         FFRoute(
+//                                             name: 'ViewAllArtist',
+//                                             path: 'viewAllArtist',
+//                                             asyncParams: {
+//                                               'artist': getDocList(
+//                                                   ['Artist'], ArtistRecord.fromSnapshot),
+//                                             },
+//                                             builder: (context, params) => NavigatorBar(
+//                                               destination: '',
+//                                               page: ViewAllArtistWidget(
+//                                                 artist: params.getParam<ArtistRecord>(
+//                                                     'artist', ParamType.Document, true),
+//                                               ),
+//                                             ),
+//                                             routes: [
+//                                                FFRoute(
+//                                                 name: 'EditProfile',
+//                                                 path: 'editProfile',
+//                                                 builder: (context, state) => SignUpDemoWidget(),
+//                                               ),
+//                                               FFRoute(
+//                                                   name: 'ChatPage',
+//                                                   path: 'chatPage',
+//                                                   builder: (context, state) => LiveRadioTabDemoWidget(),
+//                                                   ),
+//                                               FFRoute(
+//                                                 name: 'ArtistProfileDemo',
+//                                                 path: 'artistProfileDemo',
+//                                                 asyncParams: {
+//                                                   'artistDoc':
+//                                                       getDoc(['Artist'], ArtistRecord.fromSnapshot),
+//                                                 },
+//                                                 builder: (context, params) => NavigatorBar(
+//                                                   destination: '',
+//                                                   page: ArtistProfileDemoWidget(
+//                                                     artistDoc: params.getParam(
+//                                                         'artistDoc', ParamType.Document),
+//                                                   ),
+//                                                 ),
+//                                                 routes: [
+//                                                           FFRoute(
+//                                                     name: 'SongListPage',
+//                                                     path: 'songListPage',
+//                                                     asyncParams: {
+//                                                       'playlist': getDoc(
+//                                                           ['playlist'], PlaylistRecord.fromSnapshot),
+//                                                       'music':
+//                                                           getDoc(['Album'], AlbumRecord.fromSnapshot),
+//                                                       'singleSong':
+//                                                           getDoc(['songs'], SongsRecord.fromSnapshot),
+//                                                       'podcast':
+//                                                           getDoc(['podcast'], PodcastRecord.fromSnapshot),
+//                                                     },
+//                                                     builder: (context, params) => NavigatorBar(
+//                                                       destination: '',
+//                                                       page: SongListPageWidget(
+//                                                         playlist: params.getParam(
+//                                                             'playlist', ParamType.Document),
+//                                                         music:
+//                                                             params.getParam('music', ParamType.Document),
+//                                                         singleSong: params.getParam(
+//                                                             'singleSong', ParamType.Document),
+//                                                         podcast: params.getParam(
+//                                                             'podcast', ParamType.Document),
+//                                                       ),
+//                                                     ),
+//                                                   ),
+//                                                    FFRoute(
+//                                                     name: 'EditProfile',
+//                                                     path: 'editProfile',
+//                                                     builder: (context, state) => SignUpDemoWidget(),
+//                                                   ),
+//                                                   FFRoute(
+//                                                       name: 'ChatPage',
+//                                                       path: 'chatPage',
+//                                                       builder: (context, state) => LiveRadioTabDemoWidget(),
+//                                                       ),
+//                                                 ].map((r) => r.toRoute(appStateNotifier)).toList()
+//                                               ),
+//                                             ].map((r) => r.toRoute(appStateNotifier)).toList(),
+//                                           ),
+//                                         FFRoute(
+//                                           name: 'ViewAllAlbum',
+//                                           path: 'viewAllAlbum',
+//                                           asyncParams: {
+//                                             'music':
+//                                                 getDocList(['Album'], AlbumRecord.fromSnapshot),
+//                                           },
+//                                           builder: (context, params) => NavigatorBar(
+//                                             destination: '',
+//                                             page: ViewAllAlbumWidget(
+//                                               music: params.getParam<AlbumRecord>(
+//                                                   'music', ParamType.Document, true),
+//                                             ),
+//                                           ),
+//                                           routes: [
+//                                             FFRoute(
+//                                       name: 'EditProfile',
+//                                       path: 'editProfile',
+//                                       builder: (context, state) => SignUpDemoWidget(),
+//                                     ),
+//                                     FFRoute(
+//                                         name: 'ChatPage',
+//                                         path: 'chatPage',
+//                                         builder: (context, state) => LiveRadioTabDemoWidget(),
+//                                         ),
+//                                           FFRoute(
+//                                             name: 'SongListPage',
+//                                             path: 'songListPage',
+//                                             asyncParams: {
+//                                               'playlist': getDoc(
+//                                                   ['playlist'], PlaylistRecord.fromSnapshot),
+//                                               'music':
+//                                                   getDoc(['Album'], AlbumRecord.fromSnapshot),
+//                                               'singleSong':
+//                                                   getDoc(['songs'], SongsRecord.fromSnapshot),
+//                                               'podcast':
+//                                                   getDoc(['podcast'], PodcastRecord.fromSnapshot),
+//                                             },
+//                                             builder: (context, params) => NavigatorBar(
+//                                               destination: '',
+//                                               page: SongListPageWidget(
+//                                                 playlist: params.getParam(
+//                                                     'playlist', ParamType.Document),
+//                                                 music:
+//                                                     params.getParam('music', ParamType.Document),
+//                                                 singleSong: params.getParam(
+//                                                     'singleSong', ParamType.Document),
+//                                                 podcast: params.getParam(
+//                                                     'podcast', ParamType.Document),
+//                                               ),
+//                                             ),
+//                                             routes: [
+//                                                     FFRoute(
+//                                                       name: 'EditProfile',
+//                                                       path: 'editProfile',
+//                                                       builder: (context, state) => SignUpDemoWidget(),
+//                                                     ),
+//                                                     FFRoute(
+//                                                         name: 'ChatPage',
+//                                                         path: 'chatPage',
+//                                                         builder: (context, state) => LiveRadioTabDemoWidget(),
+//                                                         ),
+//                                             ].map((r) => r.toRoute(appStateNotifier)).toList()
+//                                           ),
+//                                           ].map((r) => r.toRoute(appStateNotifier)).toList(),
+//                                         ),
+//                                          FFRoute(
+//                                             name: 'ViewAllPlaylist',
+//                                             path: 'viewAllPlaylist',
+//                                             asyncParams: {
+//                                               'playlist': getDocList(
+//                                                   ['playlist'], PlaylistRecord.fromSnapshot),
+//                                             },
+//                                             builder: (context, params) => NavigatorBar(
+//                                               destination: '',
+//                                               page: ViewAllPlaylistWidget(
+//                                                 playlist: params.getParam<PlaylistRecord>(
+//                                                     'playlist', ParamType.Document, true),
+//                                                 artist: ParamType.Document,
+//                                               ),
+//                                             ),
+//                                             routes: [
+//                                               FFRoute(
+//                                                 name: 'EditProfile',
+//                                                 path: 'editProfile',
+//                                                 builder: (context, state) => SignUpDemoWidget(),
+//                                               ),
+//                                               FFRoute(
+//                                                   name: 'ChatPage',
+//                                                   path: 'chatPage',
+//                                                   builder: (context, state) => LiveRadioTabDemoWidget(),
+//                                                   ),
+//                                                FFRoute(
+//                                             name: 'SongListPage',
+//                                             path: 'songListPage',
+//                                             asyncParams: {
+//                                               'playlist': getDoc(
+//                                                   ['playlist'], PlaylistRecord.fromSnapshot),
+//                                               'music':
+//                                                   getDoc(['Album'], AlbumRecord.fromSnapshot),
+//                                               'singleSong':
+//                                                   getDoc(['songs'], SongsRecord.fromSnapshot),
+//                                               'podcast':
+//                                                   getDoc(['podcast'], PodcastRecord.fromSnapshot),
+//                                             },
+//                                             builder: (context, params) => NavigatorBar(
+//                                               destination: '',
+//                                               page: SongListPageWidget(
+//                                                 playlist: params.getParam(
+//                                                     'playlist', ParamType.Document),
+//                                                 music:
+//                                                     params.getParam('music', ParamType.Document),
+//                                                 singleSong: params.getParam(
+//                                                     'singleSong', ParamType.Document),
+//                                                 podcast: params.getParam(
+//                                                     'podcast', ParamType.Document),
+//                                               ),
+//                                             ),
+//                                           ),
+//                                             ].map((r) => r.toRoute(appStateNotifier)).toList(),
+//                                           ),
+//                                            FFRoute(
+//                                             name: 'ViewAllPodcast',
+//                                             path: 'viewAllPodcast',
+//                                             asyncParams: {
+//                                               'podcast': getDocList(['podcast'], PodcastRecord.fromSnapshot),
+//                                             },
+//                                             builder: (context, params) => NavigatorBar(
+//                                               destination: '',
+//                                               page: ViewAllPodcastWidget(
+//                                                 podcast: params.getParam<PodcastRecord>(
+//                                                     'podcast', ParamType.Document, true),
+//                                               ),
+//                                             ),
+//                                             routes: [
+//                                               FFRoute(
+//                                                 name: 'EditProfile',
+//                                                 path: 'editProfile',
+//                                                 builder: (context, state) => SignUpDemoWidget(),
+//                                               ),
+//                                               FFRoute(
+//                                                   name: 'ChatPage',
+//                                                   path: 'chatPage',
+//                                                   builder: (context, state) => LiveRadioTabDemoWidget(),
+//                                                   ),
+//                                               FFRoute(
+//                                             name: 'SongListPage',
+//                                             path: 'songListPage',
+//                                             asyncParams: {
+//                                               'playlist': getDoc(
+//                                                   ['playlist'], PlaylistRecord.fromSnapshot),
+//                                               'music':
+//                                                   getDoc(['Album'], AlbumRecord.fromSnapshot),
+//                                               'singleSong':
+//                                                   getDoc(['songs'], SongsRecord.fromSnapshot),
+//                                               'podcast':
+//                                                   getDoc(['podcast'], PodcastRecord.fromSnapshot),
+//                                             },
+//                                             builder: (context, params) => NavigatorBar(
+//                                               destination: '',
+//                                               page: SongListPageWidget(
+//                                                 playlist: params.getParam(
+//                                                     'playlist', ParamType.Document),
+//                                                 music:
+//                                                     params.getParam('music', ParamType.Document),
+//                                                 singleSong: params.getParam(
+//                                                     'singleSong', ParamType.Document),
+//                                                 podcast: params.getParam(
+//                                                     'podcast', ParamType.Document),
+//                                               ),
+//                                             ),
+//                                           ),
+//                                             ].map((r) => r.toRoute(appStateNotifier)).toList(),
+//                                           ),
+//                                           FFRoute(
+//                                             name: 'SongListPage',
+//                                             path: 'songListPage',
+//                                             asyncParams: {
+//                                               'playlist': getDoc(
+//                                                   ['playlist'], PlaylistRecord.fromSnapshot),
+//                                               'music':
+//                                                   getDoc(['Album'], AlbumRecord.fromSnapshot),
+//                                               'singleSong':
+//                                                   getDoc(['songs'], SongsRecord.fromSnapshot),
+//                                               'podcast':
+//                                                   getDoc(['podcast'], PodcastRecord.fromSnapshot),
+//                                             },
+//                                             builder: (context, params) => NavigatorBar(
+//                                               destination: '',
+//                                               page: SongListPageWidget(
+//                                                 playlist: params.getParam(
+//                                                     'playlist', ParamType.Document),
+//                                                 music:
+//                                                     params.getParam('music', ParamType.Document),
+//                                                 singleSong: params.getParam(
+//                                                     'singleSong', ParamType.Document),
+//                                                 podcast: params.getParam(
+//                                                     'podcast', ParamType.Document),
+//                                               ),
+//                                             ),
+//                                             routes: [
+//                                               FFRoute(
+//                                                 name: 'EditProfile',
+//                                                 path: 'editProfile',
+//                                                 builder: (context, state) => SignUpDemoWidget(),
+//                                               ),
+//                                               FFRoute(
+//                                                   name: 'ChatPage',
+//                                                   path: 'chatPage',
+//                                                   builder: (context, state) => LiveRadioTabDemoWidget(),
+//                                                   ),
+//                                             ].map((r) => r.toRoute(appStateNotifier)).toList(),
+//                                           ),
+//                                            FFRoute(
+//                                             name: 'ArtistProfileDemo',
+//                                             path: 'artistProfileDemo',
+//                                             asyncParams: {
+//                                               'artistDoc':
+//                                                   getDoc(['Artist'], ArtistRecord.fromSnapshot),
+//                                             },
+//                                             builder: (context, params) => NavigatorBar(
+//                                               destination: '',
+//                                               page: ArtistProfileDemoWidget(
+//                                                 artistDoc: params.getParam(
+//                                                     'artistDoc', ParamType.Document),
+//                                               ),
+//                                             ),
+//                                           ),
+//                                 ].map((r) => r.toRoute(appStateNotifier)).toList(),
+//                           ),
+//                     ].map((r) => r.toRoute(appStateNotifier)).toList(),
+//                   observers: [routeObserver]),
+//                   StatefulShellBranch(routes: [
+//                       FFRoute(
+//                   name: 'SparkTVDemo',
+//                   path: 'sparkTVDemo',
+//                   builder: (context, params) => params.isEmpty
+//                       ? NavigatorBar(destination: 'SparkTVDemo')
+//                       : SparkTVDemoWidget(),
+//                       routes: [
+//                               FFRoute(
+//                         name: 'videoPage',
+//                         path: 'videoPage',
+//                         builder: (context, params) => NavigatorBar(
+//                           destination: '',
+//                           page: VideoPageWidget(
+//                             videoId:
+//                                 params.getParam('videoId', ParamType.String),
+//                             videoTitle: params.getParam(
+//                                 'videoTitle', ParamType.String),
+//                             videoDiscription: params.getParam(
+//                                 'videoDiscription', ParamType.String),
+//                           ),
+//                         ),
+//                         routes: [
+//                             FFRoute(
+//                               name: 'EditProfile',
+//                               path: 'editProfile',
+//                               builder: (context, state) => SignUpDemoWidget(),
+//                             ),
+//                             FFRoute(
+//                                 name: 'ChatPage',
+//                                 path: 'chatPage',
+//                                 builder: (context, state) => LiveRadioTabDemoWidget(),
+//                                 ),
+//                         ].map((r) => r.toRoute(appStateNotifier)).toList(),
+//                       )
+//                       ].map((r) => r.toRoute(appStateNotifier)).toList(),
+//                 ),
+//                   ].map((r) => r.toRoute(appStateNotifier)).toList(),
+//                   observers: [routeObserver],
+//                   navigatorKey: _shellNavigatorDKey
+//                   ),
+//                   StatefulShellBranch(routes: [
+//                       FFRoute(
+//                   name: 'AboutUs',
+//                   path: 'aboutUs',
+//                   builder: (context, params) => params.isEmpty
+//                       ? NavigatorBar(destination: 'AboutUs')
+//                       : AboutUsWidget(),
+//                 ),
+//                      FFRoute(
+//                       name: 'EditProfile',
+//                       path: 'editProfile',
+//                       builder: (context, state) => SignUpDemoWidget(),
+//                     ),
+//                     FFRoute(
+//                         name: 'ChatPage',
+//                         path: 'chatPage',
+//                         builder: (context, state) => LiveRadioTabDemoWidget(),
+//                         ),
+//                   ].map((r) => r.toRoute(appStateNotifier)).toList(),
+//                   navigatorKey: _shellNavigatorEKey
+//                   )
+                  
+//           ],
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        body: Center(
-      child: destination.child,
-    ));
-  }
-}
+//                 // FFRoute(
+//                 //   name: 'BrowseDemo',
+//                 //   path: 'browseDemo',
+//                 //   builder: (context, params) => params.isEmpty
+//                 //       ? NavigatorBar(destination: 'BrowseDemo')
+//                 //       : BrowseDemoWidget(),
+//                 // ),
 
-class DestinationView extends StatefulWidget {
-  const DestinationView({
-    super.key,
-    required this.destination,
-    required this.navigatorKey,
-  });
+//                 // FFRoute(
+//                 //   name: 'SignUpDemo',
+//                 //   path: 'signUpDemo',
+//                 //   builder: (context, params) => SignUpDemoWidget(),
+//                 // ),
+//                 // FFRoute(
+//                 //   name: 'SparkTVDemo',
+//                 //   path: 'sparkTVDemo',
+//                 //   builder: (context, params) => params.isEmpty
+//                 //       ? NavigatorBar(destination: 'SparkTVDemo')
+//                 //       : SparkTVDemoWidget(),
+//                 // ),
+//                 // FFRoute(
+//                 //   name: 'NewsFeedDemo',
+//                 //   path: 'newsFeedDemo',
+//                 //   builder: (context, params) => params.isEmpty
+//                 //       ? NavigatorBar(destination: 'NewsFeedDemo')
+//                 //       : NewsFeedDemoWidget(),
+//                 // ),
+//                 // FFRoute(
+//                 //   name: 'LiveRadioTabDemo',
+//                 //   path: 'liveRadioTabDemo',
+//                 //   builder: (context, params) => params.isEmpty
+//                 //       ? NavigatorBar(destination: 'LiveRadioTabDemo')
+//                 //       : NavigatorBar(
+//                 //           destination: 'LiveRadioTabDemo',
+//                 //           page: LiveRadioTabDemoWidget(),
+//                 //         ),
+//                 // ),
+//                 // FFRoute(
+//                 //   name: 'ViewAllArtist',
+//                 //   path: 'viewAllArtist',
+//                 //   asyncParams: {
+//                 //     'artist': getDocList(
+//                 //         ['Artist'], ArtistRecord.fromSnapshot),
+//                 //   },
+//                 //   builder: (context, params) => NavigatorBar(
+//                 //     destination: '',
+//                 //     page: ViewAllArtistWidget(
+//                 //       artist: params.getParam<ArtistRecord>(
+//                 //           'artist', ParamType.Document, true),
+//                 //     ),
+//                 //   ),
+//                 // ),
+//                 // FFRoute(
+//                 //   name: 'MusicStreamDemo',
+//                 //   path: 'musicStreamDemo',
+//                 //   asyncParams: {
+//                 //     'album':
+//                 //         getDoc(['Album'], AlbumRecord.fromSnapshot),
+//                 //   },
+//                 //   builder: (context, params) => NavigatorBar(
+//                 //     destination: '',
+//                 //     page: MusicStreamDemoWidget(
+//                 //       album:
+//                 //           params.getParam('album', ParamType.Document),
+//                 //       songIndex:
+//                 //           params.getParam('songIndex', ParamType.int),
+//                 //     ),
+//                 //   ),
+//                 // ),
+//                 // FFRoute(
+//                 //   name: 'SongListPage',
+//                 //   path: 'songListPage',
+//                 //   asyncParams: {
+//                 //     'playlist': getDoc(
+//                 //         ['playlist'], PlaylistRecord.fromSnapshot),
+//                 //     'music':
+//                 //         getDoc(['Album'], AlbumRecord.fromSnapshot),
+//                 //     'singleSong':
+//                 //         getDoc(['songs'], SongsRecord.fromSnapshot),
+//                 //     'podcast':
+//                 //         getDoc(['podcast'], PodcastRecord.fromSnapshot),
+//                 //   },
+//                 //   builder: (context, params) => NavigatorBar(
+//                 //     destination: '',
+//                 //     page: SongListPageWidget(
+//                 //       playlist: params.getParam(
+//                 //           'playlist', ParamType.Document),
+//                 //       music:
+//                 //           params.getParam('music', ParamType.Document),
+//                 //       singleSong: params.getParam(
+//                 //           'singleSong', ParamType.Document),
+//                 //       podcast: params.getParam(
+//                 //           'podcast', ParamType.Document),
+//                 //     ),
+//                 //   ),
+//                 // ),
+//                 // FFRoute(
+//                 //   name: 'ArtistProfileDemo',
+//                 //   path: 'artistProfileDemo',
+//                 //   asyncParams: {
+//                 //     'artistDoc':
+//                 //         getDoc(['Artist'], ArtistRecord.fromSnapshot),
+//                 //   },
+//                 //   builder: (context, params) => NavigatorBar(
+//                 //     destination: '',
+//                 //     page: ArtistProfileDemoWidget(
+//                 //       artistDoc: params.getParam(
+//                 //           'artistDoc', ParamType.Document),
+//                 //     ),
+//                 //   ),
+//                 // ),
+//                 // FFRoute(
+//                 //   name: 'NewsStoryDemo',
+//                 //   path: 'newsStoryDemo',
+//                 //   builder: (context, params) => NavigatorBar(
+//                 //     destination: '',
+//                 //     page: NewsStoryDemoWidget(
+//                 //       post: params.getParam('post', ParamType.JSON),
+//                 //     ),
+//                 //   ),
+//                 // ),
+//                 // FFRoute(
+//                 //   name: 'AboutUs',
+//                 //   path: 'aboutUs',
+//                 //   builder: (context, params) => params.isEmpty
+//                 //       ? NavigatorBar(destination: 'AboutUs')
+//                 //       : AboutUsWidget(),
+//                 // ),
+//                 // FFRoute(
+//                 //   name: 'Advertise',
+//                 //   path: 'advertise',
+//                 //   builder: (context, params) => NavigatorBar(
+//                 //     destination: '',
+//                 //     page: AdvertiseWidget(),
+//                 //   ),
+//                 // ),
+//                 // // FFRoute(
+//                 // //   name: 'ViewAllPodcast',
+//                 // //   path: 'viewAllPodcast',
+//                 // //   asyncParams: {
+//                 // //     'podcast': getDocList(['podcast'], PodcastRecord.fromSnapshot),
+//                 // //   },
+//                 // //   builder: (context, params) => NavigatorBar(
+//                 // //     destination: '',
+//                 // //     page: ViewAllPodcastWidget(
+//                 // //       podcast: params.getParam<PodcastRecord>(
+//                 // //           'podcast', ParamType.Document, true),
+//                 // //     ),
+//                 // //   ),
+//                 // // ),
+//                 // FFRoute(
+//                 //   name: 'ViewAllAlbum',
+//                 //   path: 'viewAllAlbum',
+//                 //   asyncParams: {
+//                 //     'music':
+//                 //         getDocList(['Album'], AlbumRecord.fromSnapshot),
+//                 //   },
+//                 //   builder: (context, params) => NavigatorBar(
+//                 //     destination: '',
+//                 //     page: ViewAllAlbumWidget(
+//                 //       music: params.getParam<AlbumRecord>(
+//                 //           'music', ParamType.Document, true),
+//                 //     ),
+//                 //   ),
+//                 // ),
+//                 // FFRoute(
+//                 //   name: 'EditProfile',
+//                 //   path: 'editProfile',
+//                 //   builder: (context, params) => NavigatorBar(
+//                 //     destination: '',
+//                 //     page: EditProfileWidget(),
+//                 //   ),
+//                 // ),
+//                 // FFRoute(
+//                 //   name: 'PodcasPage',
+//                 //   path: 'podcasPage',
+//                 //   asyncParams: {
+//                 //     'podcastDoc':
+//                 //         getDoc(['podcast'], PodcastRecord.fromSnapshot),
+//                 //   },
+//                 //   builder: (context, params) => NavigatorBar(
+//                 //     destination: '',
+//                 //     page: PodcasPageWidget(
+//                 //       podcastDoc: params.getParam(
+//                 //           'podcastDoc', ParamType.Document),
+//                 //     ),
+//                 //   ),
+//                 // ),
+//                 // FFRoute(
+//                 //   name: 'chatPage',
+//                 //   path: 'chatPage',
+//                 //   asyncParams: {
+//                 //     'chatUser':
+//                 //         getDoc(['users'], UsersRecord.fromSnapshot),
+//                 //   },
+//                 //   builder: (context, params) => NavigatorBar(
+//                 //     destination: '',
+//                 //     page: ChatPageWidget(
+//                 //       chatUser: params.getParam(
+//                 //           'chatUser', ParamType.Document),
+//                 //       chatRef: params.getParam(
+//                 //           'chatRef',
+//                 //           ParamType.DocumentReference,
+//                 //           false,
+//                 //           ['chats']),
+//                 //     ),
+//                 //   ),
+//                 // ),
+//                 // FFRoute(
+//                 //   name: 'ViewAllPlaylist',
+//                 //   path: 'viewAllPlaylist',
+//                 //   asyncParams: {
+//                 //     'playlist': getDocList(
+//                 //         ['playlist'], PlaylistRecord.fromSnapshot),
+//                 //   },
+//                 //   builder: (context, params) => NavigatorBar(
+//                 //     destination: '',
+//                 //     page: ViewAllPlaylistWidget(
+//                 //       playlist: params.getParam<PlaylistRecord>(
+//                 //           'playlist', ParamType.Document, true),
+//                 //       artist: ParamType.Document,
+//                 //     ),
+//                 //   ),
+//                 // ),
+//                 // FFRoute(
+//                 //   name: 'chatsCopy',
+//                 //   path: 'chatsCopy',
+//                 //   builder: (context, params) => NavigatorBar(
+//                 //     destination: '',
+//                 //     page: ChatsCopyWidget(),
+//                 //   ),
+//                 // ),
+//                 // FFRoute(
+//                 //   name: 'videoPage',
+//                 //   path: 'videoPage',
+//                 //   builder: (context, params) => NavigatorBar(
+//                 //     destination: '',
+//                 //     page: VideoPageWidget(
+//                 //       videoId:
+//                 //           params.getParam('videoId', ParamType.String),
+//                 //       videoTitle: params.getParam(
+//                 //           'videoTitle', ParamType.String),
+//                 //       videoDiscription: params.getParam(
+//                 //           'videoDiscription', ParamType.String),
+//                 //     ),
+//                 //   ),
+//                 // )
+//                 ,
+//               ),
+//             ],
+//           )
+//         ]);
 
-  final Destination destination;
-  final Key navigatorKey;
+// extension NavParamExtensions on Map<String, String?> {
+//   Map<String, String> get withoutNulls => Map.fromEntries(
+//         entries
+//             .where((e) => e.value != null)
+//             .map((e) => MapEntry(e.key, e.value!)),
+//       );
+// }
 
-  @override
-  State<DestinationView> createState() => _DestinationViewState();
-}
+// extension NavigationExtensions on BuildContext {
+//   void goNamedAuth(
+//     String name,
+//     bool mounted, {
+//     Map<String, String> pathParameters = const <String, String>{},
+//     Map<String, String> queryParameters = const <String, String>{},
+//     Object? extra,
+//     bool ignoreRedirect = false,
+//   }) =>
+//       !mounted || GoRouter.of(this).shouldRedirect(ignoreRedirect)
+//           ? null
+//           : goNamed(
+//               name,
+//               pathParameters: pathParameters,
+//               queryParameters: queryParameters,
+//               extra: extra,
+//             );
 
-class _DestinationViewState extends State<DestinationView> {
-  @override
-  Widget build(BuildContext context) {
-    return Navigator(
-      key: widget.navigatorKey,
-      onGenerateRoute: (RouteSettings settings) {
-        return MaterialPageRoute<void>(
-          settings: settings,
-          builder: (
-            BuildContext context,
-          ) {
-            switch (settings.name) {
-              case '/':
-                return RootPage(destination: widget.destination);
-              case '/LiveRadioTabDemo':
-                return LiveRadioTabDemoWidget();
-              case '/NewsFeedDemo':
-                return NewsFeedDemoWidget();
-              case '/BrowseDemo':
-                return BrowseDemoWidget();
-              case '/SparkTVDemo':
-                return SparkTVDemoWidget();
-              case '/AboutUs':
-                return AboutUsWidget();
-              case 'NewsStoryDemo':
-                final Map<String, dynamic> params =
-                    settings.arguments as Map<String, dynamic>;
-                final dynamic postJsonString = params['post'];
-                final dynamic post = jsonDecode(postJsonString);
-                return NewsStoryDemoWidget(post: post);
-              case 'SongListPage':
-                final args = settings.arguments as Map<String, dynamic>;
-                final dynamic playlist = args['playlist'];
-                final dynamic music = args['music'];
-                final dynamic singleSong = args['singleSong'];
-                final dynamic podcast = args['podcast'];
-                return SongListPageWidget(
-                    playlist: playlist,
-                    music: music,
-                    singleSong: singleSong,
-                    podcast: podcast);
-              case 'PodcasPage':
-                final args = settings.arguments as Map<String, dynamic>;
-                final dynamic podcast = args['podcastDoc'];
-                return PodcasPageWidget(
-                  podcastDoc: podcast,
-                );
-              case 'ViewAllArtist':
-                final args = settings.arguments as Map<String, dynamic>;
-                final dynamic artists = args['artist'];
-                return ViewAllArtistWidget(artist: artists);
-              case 'ArtistProfileDemo':
-                final args = settings.arguments as Map<String, dynamic>;
-                final dynamic artist = args['artistDoc'];
-                return ArtistProfileDemoWidget(artistDoc: artist);
-                case 'LargeAssetAudioPlayer' :
-                return LargeAssetAudioPlayer();
-                case 'ViewAllPodcast' :
-              final args = settings.arguments as Map<String, dynamic>;
-              final dynamic podcasts = args['podcast'];
-              return ViewAllPodcastWidget(podcast: podcasts);
-              case 'ViewAllAlbum' :
-              final args = settings.arguments as Map<String, dynamic>;
-               final dynamic music = args['music'];
-               return ViewAllAlbumWidget(music: music);
-               case 'ViewAllPlaylist' :
-               final args = settings.arguments as Map<String, dynamic>;
-               final dynamic playlist = args['playlist'];
-               return ViewAllPlaylistWidget(playlist: playlist);
-               case 'Advertise' : 
-               return AdvertiseWidget();
-               case 'EditProfile' :
-               return EditProfileWidget();
-               case 'chatPage' :
-               final args = settings.arguments as Map<String, dynamic>;
-               final dynamic chatRef = args['chatRef'];
-               final dynamic chatUser = args['chatUser'];
-               return ChatPageWidget(chatRef: chatRef, chatUser: chatUser,);
-               case 'chatsCopy' :
-               return ChatsCopyWidget();
-               case 'videoPage' : 
-               final args = settings.arguments as Map<String, dynamic>;
-               final dynamic videoId = args['videoId'];
-               final dynamic videoTitle = args['videoTitle'];
-               final dynamic videoDiscription = args['videoDiscription'];
-               return VideoPageWidget(videoId: videoId, videoTitle: videoTitle, videoDiscription: videoDiscription);
-            }
-            assert(false);
-            return const SizedBox();
-          },
-        );
-      },
-    );
-  }
-}
+//   void pushNamedAuth(
+//     String name,
+//     bool mounted, {
+//     Map<String, String> pathParameters = const <String, String>{},
+//     Map<String, String> queryParameters = const <String, String>{},
+//     Object? extra,
+//     bool ignoreRedirect = false,
+//   }) =>
+//       !mounted || GoRouter.of(this).shouldRedirect(ignoreRedirect)
+//           ? null
+//           : pushNamed(
+//               name,
+//               pathParameters: pathParameters,
+//               queryParameters: queryParameters,
+//               extra: extra,
+//             );
+
+//   void safePop() {
+//     // If there is only one route on the stack, navigate to the initial
+//     // page instead of popping.
+//     if (canPop()) {
+//       pop();
+//     } else {
+//       go('/');
+//     }
+//   }
+// }
+
+// extension GoRouterExtensions on GoRouter {
+//   AppStateNotifier get appState => AppStateNotifier.instance;
+//   void prepareAuthEvent([bool ignoreRedirect = false]) =>
+//       appState.hasRedirect() && !ignoreRedirect
+//           ? null
+//           : appState.updateNotifyOnAuthChange(false);
+//   bool shouldRedirect(bool ignoreRedirect) =>
+//       !ignoreRedirect && appState.hasRedirect();
+//   void clearRedirectLocation() => appState.clearRedirectLocation();
+//   void setRedirectLocationIfUnset(String location) =>
+//       appState.updateNotifyOnAuthChange(false);
+// }
+
+// extension _GoRouterStateExtensions on GoRouterState {
+//   Map<String, dynamic> get extraMap =>
+//       extra != null ? extra as Map<String, dynamic> : {};
+//   Map<String, dynamic> get allParams => <String, dynamic>{}
+//     ..addAll(pathParameters)
+//     ..addAll(queryParameters)
+//     ..addAll(extraMap);
+//   TransitionInfo get transitionInfo => extraMap.containsKey(kTransitionInfoKey)
+//       ? extraMap[kTransitionInfoKey] as TransitionInfo
+//       : TransitionInfo.appDefault();
+// }
+
+// class FFParameters {
+//   FFParameters(this.state, [this.asyncParams = const {}]);
+
+//   final GoRouterState state;
+//   final Map<String, Future<dynamic> Function(String)> asyncParams;
+
+//   Map<String, dynamic> futureParamValues = {};
+
+//   // Parameters are empty if the params map is empty or if the only parameter
+//   // present is the special extra parameter reserved for the transition info.
+//   bool get isEmpty =>
+//       state.allParams.isEmpty ||
+//       (state.extraMap.length == 1 &&
+//           state.extraMap.containsKey(kTransitionInfoKey));
+//   bool isAsyncParam(MapEntry<String, dynamic> param) =>
+//       asyncParams.containsKey(param.key) && param.value is String;
+//   bool get hasFutures => state.allParams.entries.any(isAsyncParam);
+//   Future<bool> completeFutures() => Future.wait(
+//         state.allParams.entries.where(isAsyncParam).map(
+//           (param) async {
+//             final doc = await asyncParams[param.key]!(param.value)
+//                 .onError((_, __) => null);
+//             if (doc != null) {
+//               futureParamValues[param.key] = doc;
+//               return true;
+//             }
+//             return false;
+//           },
+//         ),
+//       ).onError((_, __) => [false]).then((v) => v.every((e) => e));
+
+//   dynamic getParam<T>(
+//     String paramName,
+//     ParamType type, [
+//     bool isList = false,
+//     List<String>? collectionNamePath,
+//   ]) {
+//     if (futureParamValues.containsKey(paramName)) {
+//       return futureParamValues[paramName];
+//     }
+//     if (!state.allParams.containsKey(paramName)) {
+//       return null;
+//     }
+//     final param = state.allParams[paramName];
+//     // Got parameter from `extras`, so just directly return it.
+//     if (param is! String) {
+//       return param;
+//     }
+//     // Return serialized value.
+//     return deserializeParam<T>(param, type, isList,
+//         collectionNamePath: collectionNamePath);
+//   }
+// }
+
+// class FFRoute {
+//   const FFRoute({
+//     required this.name,
+//     required this.path,
+//     required this.builder,
+//     this.requireAuth = false,
+//     this.asyncParams = const {},
+//     this.routes = const [],
+//   });
+
+//   final String name;
+//   final String path;
+//   final bool requireAuth;
+//   final Map<String, Future<dynamic> Function(String)> asyncParams;
+//   final Widget Function(BuildContext, FFParameters) builder;
+//   final List<GoRoute> routes;
+
+//   GoRoute toRoute(AppStateNotifier appStateNotifier) => GoRoute(
+//         name: name,
+//         path: path,
+//         redirect: (context, state) {
+//           if (appStateNotifier.shouldRedirect) {
+//             final redirectLocation = appStateNotifier.getRedirectLocation();
+//             appStateNotifier.clearRedirectLocation();
+//             return redirectLocation;
+//           }
+
+//           if (requireAuth && !appStateNotifier.loggedIn) {
+//             appStateNotifier.setRedirectLocationIfUnset(state.location);
+//             return '/signInDemo';
+//           }
+//           return null;
+//         },
+//         pageBuilder: (context, state) {
+//           final ffParams = FFParameters(state, asyncParams);
+//           final page = ffParams.hasFutures
+//               ? FutureBuilder(
+//                   future: ffParams.completeFutures(),
+//                   builder: (context, _) => builder(context, ffParams),
+//                 )
+//               : builder(context, ffParams);
+//           final child = appStateNotifier.loading
+//               ? Center(
+//                   child: SizedBox(
+//                     width: 50.0,
+//                     height: 50.0,
+//                     child: SpinKitDualRing(
+//                       color: Color(0xFFEB4323),
+//                       size: 50.0,
+//                     ),
+//                   ),
+//                 )
+//               : PushNotificationsHandler(child: page);
+
+//           final transitionInfo = state.transitionInfo;
+//           return transitionInfo.hasTransition
+//               ? CustomTransitionPage(
+//                   key: state.pageKey,
+//                   child: child,
+//                   transitionDuration: transitionInfo.duration,
+//                   transitionsBuilder: PageTransition(
+//                     type: transitionInfo.transitionType,
+//                     duration: transitionInfo.duration,
+//                     reverseDuration: transitionInfo.duration,
+//                     alignment: transitionInfo.alignment,
+//                     child: child,
+//                   ).transitionsBuilder,
+//                 )
+//               : MaterialPage(key: state.pageKey, child: child);
+//         },
+//         routes: routes,
+//       );
+// }
+
+// class TransitionInfo {
+//   const TransitionInfo({
+//     required this.hasTransition,
+//     this.transitionType = PageTransitionType.fade,
+//     this.duration = const Duration(milliseconds: 300),
+//     this.alignment,
+//   });
+
+//   final bool hasTransition;
+//   final PageTransitionType transitionType;
+//   final Duration duration;
+//   final Alignment? alignment;
+
+//   static TransitionInfo appDefault() => TransitionInfo(hasTransition: false);
+// }
+
+// class _RouteErrorBuilder extends StatefulWidget {
+//   const _RouteErrorBuilder({
+//     Key? key,
+//     required this.state,
+//     required this.child,
+//   }) : super(key: key);
+
+//   final GoRouterState state;
+//   final Widget child;
+
+//   @override
+//   State<_RouteErrorBuilder> createState() => _RouteErrorBuilderState();
+// }
+
+// class _RouteErrorBuilderState extends State<_RouteErrorBuilder> {
+//   @override
+//   void initState() {
+//     super.initState();
+//     // Handle erroneous links from Firebase Dynamic Links.
+//     if (widget.state.location.startsWith('/link?request_ip_version')) {
+//       SchedulerBinding.instance.addPostFrameCallback((_) => context.go('/'));
+//     }
+//   }
+
+//   @override
+//   Widget build(BuildContext context) => widget.child;
+// }

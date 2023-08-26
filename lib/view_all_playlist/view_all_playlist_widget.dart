@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+
 import 'view_all_playlist_model.dart';
 export 'view_all_playlist_model.dart';
 
@@ -53,16 +54,16 @@ class _ViewAllPlaylistWidgetState extends State<ViewAllPlaylistWidget> {
           automaticallyImplyLeading: false,
           leading: FlutterFlowIconButton(
             borderColor: Colors.transparent,
-            borderRadius: 30.0,
-            borderWidth: 1.0,
-            buttonSize: 60.0,
+            borderRadius: 30,
+            borderWidth: 1,
+            buttonSize: 60,
             icon: Icon(
               Icons.arrow_back,
               color: Color(0xFFEB4323),
-              size: 30.0,
+              size: 30,
             ),
             onPressed: () async {
-            Navigator.pop(context);
+              context.pushNamed('BrowseDemo');
             },
           ),
           title: Text(
@@ -70,12 +71,12 @@ class _ViewAllPlaylistWidgetState extends State<ViewAllPlaylistWidget> {
             style: FlutterFlowTheme.of(context).headlineMedium.override(
                   fontFamily: 'Poppins',
                   color: Colors.black,
-                  fontSize: 16.0,
+                  fontSize: 16,
                 ),
           ),
           actions: [],
           centerTitle: true,
-          elevation: 2.0,
+          elevation: 2,
         ),
         body: SafeArea(
           top: true,
@@ -85,8 +86,7 @@ class _ViewAllPlaylistWidgetState extends State<ViewAllPlaylistWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding:
-                      EdgeInsetsDirectional.fromSTEB(16.0, 25.0, 16.0, 5.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(16, 25, 16, 5),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
@@ -94,7 +94,7 @@ class _ViewAllPlaylistWidgetState extends State<ViewAllPlaylistWidget> {
                         'Featured in this Category',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
                               fontFamily: 'Poppins',
-                              fontSize: 16.0,
+                              fontSize: 16,
                             ),
                       ),
                     ],
@@ -102,7 +102,7 @@ class _ViewAllPlaylistWidgetState extends State<ViewAllPlaylistWidget> {
                 ),
                 Container(
                   width: double.infinity,
-                  height: 420.0,
+                  height: 420,
                   decoration: BoxDecoration(
                     color: FlutterFlowTheme.of(context).primaryBackground,
                   ),
@@ -124,43 +124,45 @@ class _ViewAllPlaylistWidgetState extends State<ViewAllPlaylistWidget> {
                           final featuredPlaylistItem =
                               featuredPlaylist[featuredPlaylistIndex];
                           return Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                16.0, 8.0, 16.0, 8.0),
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(16, 8, 16, 8),
                             child: InkWell(
                               splashColor: Colors.transparent,
                               focusColor: Colors.transparent,
                               hoverColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                               onTap: () async {
-                                Navigator.pushNamed(context,
+                                context.pushNamed(
                                   'SongListPage',
-                                  arguments: {
-                                    'playlist':featuredPlaylistItem,
-                                    'extra': <String, dynamic>{
+                                  queryParameters: {
+                                    'playlist': serializeParam(
+                                      featuredPlaylistItem,
+                                      ParamType.Document,
+                                    ),
+                                  }.withoutNulls,
+                                  extra: <String, dynamic>{
                                     'playlist': featuredPlaylistItem,
                                   },
-                                  }.withoutNulls,
-                                 
                                 );
                               },
                               child: Container(
                                 width: MediaQuery.sizeOf(context).width * 0.7,
-                                height: 40.0,
+                                height: 40,
                                 decoration: BoxDecoration(
                                   color: FlutterFlowTheme.of(context)
                                       .secondaryBackground,
                                   boxShadow: [
                                     BoxShadow(
-                                      blurRadius: 5.0,
+                                      blurRadius: 5,
                                       color: Color(0x44111417),
-                                      offset: Offset(0.0, 2.0),
+                                      offset: Offset(0, 2),
                                     )
                                   ],
-                                  borderRadius: BorderRadius.circular(8.0),
+                                  borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
-                                      12.0, 12.0, 12.0, 12.0),
+                                      12, 12, 12, 12),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
                                     children: [
@@ -173,28 +175,26 @@ class _ViewAllPlaylistWidgetState extends State<ViewAllPlaylistWidget> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Container(
-                                              width: 250.0,
-                                              height: 250.0,
+                                              width: 250,
+                                              height: 250,
                                               decoration: BoxDecoration(
                                                 color:
                                                     FlutterFlowTheme.of(context)
                                                         .lineColor,
                                                 borderRadius:
-                                                    BorderRadius.circular(8.0),
+                                                    BorderRadius.circular(8),
                                               ),
                                               child: Padding(
                                                 padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        2.0, 2.0, 2.0, 2.0),
+                                                    .fromSTEB(2, 2, 2, 2),
                                                 child: ClipRRect(
                                                   borderRadius:
-                                                      BorderRadius.circular(
-                                                          6.0),
+                                                      BorderRadius.circular(6),
                                                   child: Image.network(
                                                     featuredPlaylistItem
                                                         .playlistImage,
-                                                    width: 100.0,
-                                                    height: 100.0,
+                                                    width: 100,
+                                                    height: 100,
                                                     fit: BoxFit.cover,
                                                   ),
                                                 ),
@@ -202,7 +202,7 @@ class _ViewAllPlaylistWidgetState extends State<ViewAllPlaylistWidget> {
                                             ),
                                             Padding(
                                               padding: EdgeInsetsDirectional
-                                                  .fromSTEB(0.0, 8.0, 0.0, 4.0),
+                                                  .fromSTEB(0, 8, 0, 4),
                                               child: Text(
                                                 featuredPlaylistItem
                                                     .playlistName,
@@ -226,14 +226,12 @@ class _ViewAllPlaylistWidgetState extends State<ViewAllPlaylistWidget> {
                   ),
                 ),
                 Padding(
-                  padding:
-                      EdgeInsetsDirectional.fromSTEB(16.0, 4.0, 16.0, 12.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(16, 4, 16, 12),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Padding(
-                        padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 25.0, 0.0, 0.0),
+                        padding: EdgeInsetsDirectional.fromSTEB(0, 25, 0, 0),
                         child: Text(
                           'More from this Category',
                           style: FlutterFlowTheme.of(context)
@@ -241,128 +239,120 @@ class _ViewAllPlaylistWidgetState extends State<ViewAllPlaylistWidget> {
                               .override(
                                 fontFamily: 'Poppins',
                                 color: Colors.black,
-                                fontSize: 16.0,
+                                fontSize: 16,
                               ),
                         ),
                       ),
                     ],
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
-                  child: Builder(
-                    builder: (context) {
-                      final playlist = widget.playlist?.toList() ?? [];
-                      if (playlist.isEmpty) {
-                        return Image.asset(
-                          'assets/images/No_media_to_display._Come_back_later_for_more!.png',
-                        );
-                      }
-                      return ListView.separated(
-                               padding: EdgeInsets.zero,
-                              shrinkWrap: true,
-                              scrollDirection: Axis.vertical,
-                              itemCount: playlist.length,
-                              separatorBuilder: (_, __) => SizedBox(height: 20),
-                        itemBuilder: (context, podcastIndex) {
-                          final playlistItem = playlist[podcastIndex];
-                          return InkWell(
-                            splashColor: Colors.transparent,
-                            focusColor: Colors.transparent,
-                            hoverColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            onTap: () async {
-                              Navigator.pushNamed(context,
-                                'SongListPage',
-                                arguments: {
-                                  'playlist':playlistItem,
-                                  'extra': <String, dynamic>{
-                                  'playlist': playlistItem,
-                                },
-                                }.withoutNulls,
-                                
-                              );
-                            },
-                            child: Material(
-                               elevation: 2,
-                                shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),),
-                              child: Container(
-                             width: MediaQuery.sizeOf(context).width,
+                Builder(
+                  builder: (context) {
+                    final playlist = widget.playlist?.toList() ?? [];
+                    if (playlist.isEmpty) {
+                      return Image.asset(
+                        '',
+                      );
+                    }
+                    return ListView.separated(
+                      padding: EdgeInsets.zero,
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      itemCount: playlist.length,
+                      separatorBuilder: (_, __) => SizedBox(height: 30),
+                      itemBuilder: (context, playlistIndex) {
+                        final playlistItem = playlist[playlistIndex];
+                        return InkWell(
+                          splashColor: Colors.transparent,
+                          focusColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          onTap: () async {
+                            context.pushNamed(
+                              'SongListPage',
+                              queryParameters: {
+                                'playlist': serializeParam(
+                                  playlistItem,
+                                  ParamType.Document,
+                                ),
+                              }.withoutNulls,
+                              extra: <String, dynamic>{
+                                'playlist': playlistItem,
+                              },
+                            );
+                          },
+                          child: Container(
+                            width: MediaQuery.sizeOf(context).width,
+                            height: 150,
                             decoration: BoxDecoration(
-                              color: FlutterFlowTheme.of(context).primaryBtnText,
-                              borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      10.0, 10.0, 10.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        height: 100.0,
-                                        decoration: BoxDecoration(),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Image.network(
-                                              playlistItem.playlistImage,
-                                              width: 100.0,
-                                              height: 100.0,
-                                              fit: BoxFit.fitWidth,
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  EdgeInsetsDirectional.fromSTEB(
-                                                      10.0, 0.0, 0.0, 0.0),
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.max,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    playlistItem.playlistName,
-                                                    textAlign: TextAlign.start,
-                                                    style:
-                                                        FlutterFlowTheme.of(context)
-                                                            .bodyMedium,
-                                                  ),
-                                                  Text(
-                                                    'Exclusively on Spark FM.',
-                                                    style:
-                                                        FlutterFlowTheme.of(context)
-                                                            .bodyMedium
-                                                            .override(
-                                                              fontFamily: 'Poppins',
-                                                              fontSize: 10.0,
-                                                              fontWeight:
-                                                                  FontWeight.normal,
-                                                            ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
+                              color:
+                                  FlutterFlowTheme.of(context).primaryBtnText,
+                            ),
+                            child: Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(20, 0, 10, 10),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    height: 100,
+                                    decoration: BoxDecoration(),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Image.network(
+                                          playlistItem.playlistImage,
+                                          width: 100,
+                                          height: 100,
+                                          fit: BoxFit.fitWidth,
                                         ),
-                                      ),
-                                    ],
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  10, 0, 0, 0),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.max,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                playlistItem.playlistName,
+                                                textAlign: TextAlign.start,
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium,
+                                              ),
+                                              Text(
+                                                'Exclusively on Spark FM.',
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily: 'Poppins',
+                                                          fontSize: 10,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                        ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
+                                ],
                               ),
                             ),
-                          );
-                        },
-                      );
-                    },
-                  ),
+                          ),
+                        );
+                      },
+                    );
+                  },
                 ),
-              ].addToEnd(SizedBox(
-                  height: FFAppState().isLive || FFAppState().streamPlaying
-                      ? 100.0
-                      : 40.0)),
+              ],
             ),
           ),
         ),

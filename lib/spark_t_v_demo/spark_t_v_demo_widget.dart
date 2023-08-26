@@ -75,29 +75,32 @@ class _SparkTVDemoWidgetState extends State<SparkTVDemoWidget> {
             child: Scaffold(
               key: scaffoldKey,
               backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-              appBar: AppBar(leading: FlutterFlowIconButton(
-                    borderColor: Colors.transparent,
-                    borderRadius: 30,
-                    borderWidth: 1,
-                    buttonSize: 60,
-                    icon: Icon(
-                      Icons.account_circle_sharp,
-                      color: Color(0xFFEB4323),
-                      size: 30,
-                    ),
-                    onPressed: () async {
-                      Navigator.pushNamed(context,'EditProfile');
-                    },
-                  ), backgroundColor: Colors.white,
-                  title: Text('Spark TV'),
-                  centerTitle: true,
-                  titleTextStyle: FlutterFlowTheme.of(context).headlineMedium.override(
+              appBar: AppBar(
+                leading: FlutterFlowIconButton(
+                  borderColor: Colors.transparent,
+                  borderRadius: 30,
+                  borderWidth: 1,
+                  buttonSize: 60,
+                  icon: Icon(
+                    Icons.account_circle_sharp,
+                    color: Color(0xFFEB4323),
+                    size: 30,
+                  ),
+                  onPressed: () async {
+                    context.pushNamed('EditProfile');
+                  },
+                ),
+                backgroundColor: Colors.white,
+                title: Text('Spark TV'),
+                centerTitle: true,
+                titleTextStyle:
+                    FlutterFlowTheme.of(context).headlineMedium.override(
                           fontFamily: 'Poppins',
                           color: Colors.black,
                           fontSize: 16,
                         ),
-                        actions: [
-                           FlutterFlowIconButton(
+                actions: [
+                  FlutterFlowIconButton(
                     borderColor: Colors.transparent,
                     borderRadius: 30,
                     borderWidth: 1,
@@ -108,12 +111,14 @@ class _SparkTVDemoWidgetState extends State<SparkTVDemoWidget> {
                       size: 30,
                     ),
                     onPressed: () async {
-                      Navigator.pushNamed(context,'chatsCopy',
+                      context.pushNamed(
+                        'chatsCopy',
                       );
                     },
                   ),
-                        ],
-                        elevation: 0,),
+                ],
+                elevation: 0,
+              ),
               body: SafeArea(
                 top: true,
                 child: Column(
@@ -295,9 +300,9 @@ class _SparkTVDemoWidgetState extends State<SparkTVDemoWidget> {
                                   hoverColor: Colors.transparent,
                                   highlightColor: Colors.transparent,
                                   onTap: () async {
-                                    Navigator.pushNamed(context,
+                                    context.pushNamed(
                                       'videoPage',
-                                      arguments: {
+                                      queryParameters: {
                                         'videoId': serializeParam(
                                           getJsonField(
                                             chItem,
