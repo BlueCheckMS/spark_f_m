@@ -202,6 +202,11 @@ class _NavigatorState extends State<NavigatorBar>
           print(currentRoute);
           // Now you can conditionally render or modify your UI based on the route
           bool hideNavigationBar = currentRoute == '/liveRadioTabDemo';
+          if (!AppStateNotifier.instance.loggedIn) {
+            if (!appState.audioPlayer.stopped) {
+              appState.audioPlayer.stop();
+            }
+          }
           return Scaffold(
               body: SafeArea(top: false, child: widget.body),
               bottomNavigationBar: hideNavigationBar &&
