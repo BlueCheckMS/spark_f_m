@@ -84,13 +84,16 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
             size: 24.0,
           ),
           onPressed: () async {
-            Navigator.pop(context);
+            context.pop();
           },
         ),
         title: Stack(
           children: [
             Text(
-              'Spark Chat',
+              valueOrDefault<String>(
+                _chatInfo!.chatRecord.chatTitle,
+                'Spark Chat',
+              ),
               style: FlutterFlowTheme.of(context).bodyMedium.override(
                     fontFamily: 'Lexend Deca',
                     color: Colors.black,
@@ -181,10 +184,6 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
                     fontSize: 14.0,
-                  ),
-                  emptyChatWidget: Image.asset(
-                    'assets/images/2vqf7_',
-                    width: MediaQuery.sizeOf(context).width * 0.76,
                   ),
                 )
               : Center(
