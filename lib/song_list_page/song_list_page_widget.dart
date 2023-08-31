@@ -46,6 +46,7 @@ class AudioPlayerManager {
 
   AudioPlayerManager._();
 }
+
 class _SongListPageWidgetState extends State<SongListPageWidget> {
   late SongListPageModel _model;
   final AudioPlayerManager _audioPlayerManager = AudioPlayerManager();
@@ -56,8 +57,8 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => SongListPageModel());
-  
   }
+
   @override
   void dispose() {
     _model.dispose();
@@ -332,14 +333,23 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                                 FlutterFlowTheme.of(context)
                                                     .primaryBtnText,
                                             icon: Icon(
-                                              Icons.shuffle_on,
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .secondary,
+                                              _audioPlayerManager
+                                                      ._assetsAudioPlayer
+                                                      .shuffle
+                                                  ? Icons.shuffle
+                                                  : Icons.shuffle_on_outlined,
+                                              color: Color(0xFFEB4323),
                                               size: 30,
                                             ),
-                                            onPressed: () {
-                                              print('IconButton pressed ...');
+                                            onPressed: () async {
+                                              setState(() {
+                                                _audioPlayerManager
+                                                        ._assetsAudioPlayer
+                                                        .shuffle =
+                                                    !_audioPlayerManager
+                                                        ._assetsAudioPlayer
+                                                        .shuffle;
+                                              });
                                             },
                                           ),
                                           FlutterFlowIconButton(
@@ -355,14 +365,17 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                               size: 30,
                                             ),
                                             onPressed: () async {
-                                               await FFAppState().audioMetaList(
-                                                               artist: containerArtistRecord
-                                                                        .artistName,
-                                                                       album: widget.music!.reference,
-                                                                 songs: widget.music?.songs
-                                                                        .toList(),
-                                                                   assetsAudioPlayer: _audioPlayerManager.player,
-                                                                  index:  0);
+                                              await FFAppState().audioMetaList(
+                                                  artist: containerArtistRecord
+                                                      .artistName,
+                                                  album:
+                                                      widget.music!.reference,
+                                                  songs: widget.music?.songs
+                                                      .toList(),
+                                                  assetsAudioPlayer:
+                                                      _audioPlayerManager
+                                                          .player,
+                                                  index: 0);
                                             },
                                           ),
                                         ],
@@ -415,17 +428,22 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                                         Colors.transparent,
                                                     highlightColor:
                                                         Colors.transparent,
-                                                      onTap: () async {
-                                                        await FFAppState().audioMetaList(
-                                                                artist:
-                                                                      containerArtistRecord
-                                                                          .artistName,
-                                                                        album:  widget.music!.reference,
-                                                                  songs:    widget.music?.songs
-                                                                          .toList(),
-                                                                  assetsAudioPlayer: _audioPlayerManager.player,
-                                                                   index: songslistIndex);
-                                                      },
+                                                    onTap: () async {
+                                                      await FFAppState().audioMetaList(
+                                                          artist:
+                                                              containerArtistRecord
+                                                                  .artistName,
+                                                          album: widget
+                                                              .music!.reference,
+                                                          songs: widget
+                                                              .music?.songs
+                                                              .toList(),
+                                                          assetsAudioPlayer:
+                                                              _audioPlayerManager
+                                                                  .player,
+                                                          index:
+                                                              songslistIndex);
+                                                    },
                                                     child: Container(
                                                       width: MediaQuery.sizeOf(
                                                               context)
@@ -680,23 +698,24 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                                     .fromSTEB(0, 10, 0, 0),
                                                 child: Text(
                                                   valueOrDefault<String>(
-                                                    widget.playlist?.playlistName,
+                                                    widget
+                                                        .playlist?.playlistName,
                                                     'n/a',
                                                   ),
-                                                  style:
-                                                      FlutterFlowTheme.of(context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            fontFamily: 'Poppins',
-                                                            fontSize: 16,
-                                                            lineHeight: 3,
-                                                          ),
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        fontFamily: 'Poppins',
+                                                        fontSize: 16,
+                                                        lineHeight: 3,
+                                                      ),
                                                 ),
                                               ),
                                               Text(
                                                 valueOrDefault<String>(
-                                                  widget
-                                                      .playlist?.playlistCreator,
+                                                  widget.playlist
+                                                      ?.playlistCreator,
                                                   'creater',
                                                 ),
                                                 style:
@@ -728,16 +747,26 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                           borderRadius: 30,
                                           borderWidth: 1,
                                           buttonSize: 60,
-                                          fillColor: FlutterFlowTheme.of(context)
-                                              .primaryBtnText,
+                                          fillColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .primaryBtnText,
                                           icon: Icon(
-                                            Icons.shuffle_on,
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondary,
+                                            _audioPlayerManager
+                                                    ._assetsAudioPlayer.shuffle
+                                                ? Icons.shuffle
+                                                : Icons.shuffle_on_outlined,
+                                            color: Color(0xFFEB4323),
                                             size: 30,
                                           ),
-                                          onPressed: () {
-                                            print('IconButton pressed ...');
+                                          onPressed: () async {
+                                            setState(() {
+                                              _audioPlayerManager
+                                                      ._assetsAudioPlayer
+                                                      .shuffle =
+                                                  !_audioPlayerManager
+                                                      ._assetsAudioPlayer
+                                                      .shuffle;
+                                            });
                                           },
                                         ),
                                         FlutterFlowIconButton(
@@ -753,17 +782,17 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                           ),
                                           onPressed: () async {
                                             await FFAppState().audioMetaList(
-                                                                  artist:widget.playlist!.playlistCreator,  
-                                                                   playlist: widget.playlist!.reference ,
-                                                                  songs: widget
-                                                                        .playlist!
-                                                                        .playlistSongs
-                                                                        .toList(),
-                                                                  assetsAudioPlayer: _audioPlayerManager.player,
-                                                                 index: 0);
-
+                                                artist: widget
+                                                    .playlist!.playlistCreator,
+                                                playlist:
+                                                    widget.playlist!.reference,
+                                                songs: widget
+                                                    .playlist!.playlistSongs
+                                                    .toList(),
+                                                assetsAudioPlayer:
+                                                    _audioPlayerManager.player,
+                                                index: 0);
                                           },
-                                          
                                         ),
                                       ],
                                     ),
@@ -786,7 +815,8 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                           itemBuilder:
                                               (context, playListSongsIndex) {
                                             final playListSongsItem =
-                                                playListSongs[playListSongsIndex];
+                                                playListSongs[
+                                                    playListSongsIndex];
                                             return StreamBuilder<SongsRecord>(
                                               stream: SongsRecord.getDocument(
                                                   playListSongsItem),
@@ -798,7 +828,8 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                                       width: 50,
                                                       height: 50,
                                                       child: SpinKitDualRing(
-                                                        color: Color(0xFFEB4323),
+                                                        color:
+                                                            Color(0xFFEB4323),
                                                         size: 50,
                                                       ),
                                                     ),
@@ -816,13 +847,14 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                                             context)
                                                         .primaryBtnText,
                                                   ),
-                                                  child:
-                                                      StreamBuilder<ArtistRecord>(
-                                                    stream:
-                                                        ArtistRecord.getDocument(
+                                                  child: StreamBuilder<
+                                                      ArtistRecord>(
+                                                    stream: ArtistRecord
+                                                        .getDocument(
                                                             containerSongsRecord
                                                                 .songArtist!),
-                                                    builder: (context, snapshot) {
+                                                    builder:
+                                                        (context, snapshot) {
                                                       // Customize what your widget looks like when it's loading.
                                                       if (!snapshot.hasData) {
                                                         return Center(
@@ -850,17 +882,23 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                                         highlightColor:
                                                             Colors.transparent,
                                                         onTap: () async {
-                                                                await FFAppState().audioMetaList(
-                                                                  artist:containerArtistRecord
-                                                                        .artistName,
-                                                                   playlist: widget.playlist!.reference ,
-                                                                  songs: widget
-                                                                        .playlist!
-                                                                        .playlistSongs
-                                                                        .toList(),
-                                                                  assetsAudioPlayer: _audioPlayerManager.player,
-                                                                 index: playListSongsIndex);
-                                                              },
+                                                          await FFAppState().audioMetaList(
+                                                              artist:
+                                                                  containerArtistRecord
+                                                                      .artistName,
+                                                              playlist: widget
+                                                                  .playlist!
+                                                                  .reference,
+                                                              songs: widget
+                                                                  .playlist!
+                                                                  .playlistSongs
+                                                                  .toList(),
+                                                              assetsAudioPlayer:
+                                                                  _audioPlayerManager
+                                                                      .player,
+                                                              index:
+                                                                  playListSongsIndex);
+                                                        },
                                                         child: Container(
                                                           width: 100,
                                                           height: 100,
@@ -913,10 +951,9 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                                                             .fitWidth,
                                                                       ),
                                                                       Align(
-                                                                        alignment:
-                                                                            AlignmentDirectional(
-                                                                                0,
-                                                                                0),
+                                                                        alignment: AlignmentDirectional(
+                                                                            0,
+                                                                            0),
                                                                         child:
                                                                             Padding(
                                                                           padding: EdgeInsetsDirectional.fromSTEB(
@@ -1161,14 +1198,23 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                                 FlutterFlowTheme.of(context)
                                                     .primaryBtnText,
                                             icon: Icon(
-                                              Icons.shuffle_on,
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .secondary,
+                                              _audioPlayerManager
+                                                      ._assetsAudioPlayer
+                                                      .shuffle
+                                                  ? Icons.shuffle
+                                                  : Icons.shuffle_on_outlined,
+                                              color: Color(0xFFEB4323),
                                               size: 30,
                                             ),
-                                            onPressed: () {
-                                              print('IconButton pressed ...');
+                                            onPressed: () async {
+                                              setState(() {
+                                                _audioPlayerManager
+                                                        ._assetsAudioPlayer
+                                                        .shuffle =
+                                                    !_audioPlayerManager
+                                                        ._assetsAudioPlayer
+                                                        .shuffle;
+                                              });
                                             },
                                           ),
                                           FlutterFlowIconButton(
@@ -1184,11 +1230,14 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                               size: 30,
                                             ),
                                             onPressed: () async {
-                                           await FFAppState().audioMetaList(
-                                              song: widget.singleSong!.reference,
-                                              artist: containerArtistRecord.artistName,
-                                              assetsAudioPlayer: _audioPlayerManager.player
-                                            );
+                                              await FFAppState().audioMetaList(
+                                                  song: widget
+                                                      .singleSong!.reference,
+                                                  artist: containerArtistRecord
+                                                      .artistName,
+                                                  assetsAudioPlayer:
+                                                      _audioPlayerManager
+                                                          .player);
                                             },
                                           ),
                                         ],
@@ -1224,11 +1273,15 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                                 highlightColor:
                                                     Colors.transparent,
                                                 onTap: () async {
-                                                   await FFAppState().audioMetaList(
-                                              song: widget.singleSong!.reference,
-                                              artist: containerArtistRecord.artistName,
-                                              assetsAudioPlayer: _audioPlayerManager.player
-                                            );
+                                                  await FFAppState().audioMetaList(
+                                                      song: widget.singleSong!
+                                                          .reference,
+                                                      artist:
+                                                          containerArtistRecord
+                                                              .artistName,
+                                                      assetsAudioPlayer:
+                                                          _audioPlayerManager
+                                                              .player);
                                                 },
                                                 child: Container(
                                                   width:
@@ -1874,30 +1927,26 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                                                               epsItem.reference)
                                                                           .toList();
 
-                                                                          if (widget.podcast?.episodes == null) {
-                                                                            await FFAppState().audioMetaList(
-                                                                          podcast: widget
-                                                                              .podcast!
-                                                                              .reference,
-                                                                          episodes:
-                                                                              filteredEpisodes,
-                                                                          assetsAudioPlayer:
-                                                                              _audioPlayerManager.player,
-                                                                          index:
-                                                                              epsIndex);
-                                                                          } else {
-                                                                            await FFAppState().audioMetaList(
-                                                                          podcast: widget
-                                                                              .podcast!
-                                                                              .reference,
-                                                                          episodes:
-                                                                              widget.podcast!.episodes,
-                                                                          assetsAudioPlayer:
-                                                                              _audioPlayerManager.player,
-                                                                          index:
-                                                                              epsIndex);
-                                                                          }
-                                                                      
+                                                                      if (widget
+                                                                              .podcast
+                                                                              ?.episodes ==
+                                                                          null) {
+                                                                        await FFAppState().audioMetaList(
+                                                                            podcast: widget
+                                                                                .podcast!.reference,
+                                                                            episodes:
+                                                                                filteredEpisodes,
+                                                                            assetsAudioPlayer:
+                                                                                _audioPlayerManager.player,
+                                                                            index: epsIndex);
+                                                                      } else {
+                                                                        await FFAppState().audioMetaList(
+                                                                            podcast:
+                                                                                widget.podcast!.reference,
+                                                                            episodes: widget.podcast!.episodes,
+                                                                            assetsAudioPlayer: _audioPlayerManager.player,
+                                                                            index: epsIndex);
+                                                                      }
                                                                     },
                                                                   ),
                                                                 ),
@@ -1949,7 +1998,7 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
               },
             ),
           ),
-        ); 
+        );
       },
     );
   }

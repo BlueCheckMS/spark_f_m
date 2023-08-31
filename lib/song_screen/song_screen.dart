@@ -84,7 +84,7 @@ class __AssetAudioPlayerState extends State<AssetAudioPlayer> {
                       duration: Duration(milliseconds: 250),
                       height: mini
                           ? MediaQuery.sizeOf(context).height * .07
-                          : MediaQuery.sizeOf(context).height * .877,
+                          : MediaQuery.sizeOf(context).height * .8658,
                       child: mini
                           ? Padding(
                               padding: const EdgeInsetsDirectional.fromSTEB(
@@ -134,10 +134,12 @@ class __AssetAudioPlayerState extends State<AssetAudioPlayer> {
                           : Container(
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          20, 90, 0, 100),
+                                          0, 0, 0, 0),
                                       child: Container(
                                         child: Row(children: [
                                           GestureDetector(
@@ -293,198 +295,6 @@ class __AssetAudioPlayerState extends State<AssetAudioPlayer> {
   }
 }
 
-class LargeAssetAudioPlayer extends StatefulWidget {
-  @override
-  __LargeAssetAudioPlayerState createState() => __LargeAssetAudioPlayerState();
-}
-
-class __LargeAssetAudioPlayerState extends State<LargeAssetAudioPlayer> {
-  bool mini = true;
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    // if (_subscribedRoute) {
-    //   routeObserver.unsubscribe(this);
-    // }
-    FFAppState().audioPlayer;
-    super.dispose();
-  }
-
-  Duration currentPosition(RealtimePlayingInfos infos) => infos.currentPosition;
-  Duration duration(RealtimePlayingInfos infos) => infos.duration;
-
-  String playbackStateText(RealtimePlayingInfos infos) {
-    final currentPositionString = durationToString(currentPosition(infos));
-    final durationString = durationToString(duration(infos));
-    return '$currentPositionString/$durationString';
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<FFAppState>(builder: (context, ffAppState, _) {
-      return ffAppState.audioPlayer.builderRealtimePlayingInfos(
-          builder: (context, infos) => PlayerBuilder.isPlaying(
-              player: ffAppState.audioPlayer,
-              builder: (context, isPlaying) {
-                final childWidget = Scaffold(
-                  body: Hero(
-                    tag: 'largeAudioPlayer',
-                    child: Container(
-                      height: MediaQuery.sizeOf(context).height * 1,
-                      child: Column(
-                        children: [
-                          Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  20, 90, 0, 100),
-                              child: Container(
-                                child: Row(children: [
-                                  GestureDetector(
-                                      onTap: () => context.pop(),
-                                      child: Icon(
-                                        Icons.keyboard_arrow_down,
-                                        size: 50,
-                                      )),
-                                ]),
-                              )),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Column(
-                                children: [
-                                  Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Image.network(
-                                        ffAppState
-                                            .audioPlayer
-                                            .getCurrentAudioImage
-                                            ?.path as String,
-                                        height: 400,
-                                      ),
-                                      Text(
-                                        ffAppState
-                                            .audioPlayer.getCurrentAudioTitle,
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyText1
-                                            .override(
-                                              fontFamily: 'Poppins',
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                      ),
-                                      Text(
-                                        playbackStateText(infos),
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyText1
-                                            .override(
-                                              fontFamily: 'Poppins',
-                                              color: Color(0xFF9D9D9D),
-                                              fontSize: 12,
-                                            ),
-                                      )
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      ClipRRect(
-                                          child: Material(
-                                        child: IconButton(
-                                          onPressed: () async {
-                                            ffAppState.audioPlayer
-                                                .toggleShuffle();
-                                          },
-                                          icon: Icon(Icons.shuffle),
-                                        ),
-                                      )),
-                                      ClipRRect(
-                                          child: Material(
-                                        child: IconButton(
-                                          onPressed: () async {
-                                            ffAppState.audioPlayer.previous();
-                                          },
-                                          icon:
-                                              Icon(Icons.skip_previous_rounded),
-                                        ),
-                                      )),
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(34),
-                                        child: Material(
-                                          color: Colors.transparent,
-                                          child: IconButton(
-                                            onPressed: () async {
-                                              ffAppState.audioPlayer
-                                                  .playOrPause();
-                                            },
-                                            icon: Icon(
-                                              (isPlaying)
-                                                  ? Icons
-                                                      .pause_circle_filled_rounded
-                                                  : Icons
-                                                      .play_circle_fill_rounded,
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .secondaryColor,
-                                              size: 50,
-                                            ),
-                                            iconSize: 50,
-                                          ),
-                                        ),
-                                      ),
-                                      ClipRRect(
-                                          child: Material(
-                                        child: IconButton(
-                                          icon: Icon(Icons.skip_next_rounded),
-                                          onPressed: () async {
-                                            ffAppState.audioPlayer.next();
-                                          },
-                                        ),
-                                      )),
-                                      ClipRRect(
-                                          child: Material(
-                                        child: IconButton(
-                                          icon: Icon(Icons.repeat),
-                                          onPressed: () {},
-                                        ),
-                                      )),
-                                    ],
-                                  ),
-                                  PositionSeekWidget(
-                                    currentPosition: currentPosition(infos),
-                                    duration: duration(infos),
-                                    seekTo: (to) {
-                                      ffAppState.audioPlayer.seek(to);
-                                    },
-                                    activeTrackColor: Color(0xFFEB4323),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-
-                return Material(
-                    color: Colors.white,
-                    elevation: 4,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: childWidget);
-              }));
-    });
-  }
-}
-
 class LiveAssetAudioPlayer extends StatefulWidget {
   const LiveAssetAudioPlayer({
     required this.audio,
@@ -535,9 +345,6 @@ class _LiveAssetAudioPlayerState extends State<LiveAssetAudioPlayer> {
         autoStart: false,
         playInBackground: PlayInBackground.enabled,
       );
-      // _largeAssetsAudioPlayer.next();
-      // _largeAssetsAudioPlayer.previous();
-      // _largeAssetsAudioPlayer.playlistPlayAtIndex(1);
     }
   }
 
@@ -790,11 +597,16 @@ class _PositionSeekWidgetState extends State<PositionSeekWidget> {
 
 String durationToString(Duration duration) {
   String twoDigits(int n) => (n >= 10) ? '$n' : '0$n';
-
+  final twoDigitHour =
+      twoDigits(duration.inHours.remainder(Duration.hoursPerDay).toInt());
   final twoDigitMinutes =
       twoDigits(duration.inMinutes.remainder(Duration.minutesPerHour).toInt());
   final twoDigitSeconds = twoDigits(
       duration.inSeconds.remainder(Duration.secondsPerMinute).toInt());
+
+  if (duration.inHours > 0) {
+    return '$twoDigitHour:$twoDigitMinutes:$twoDigitSeconds';
+  }
   return '$twoDigitMinutes:$twoDigitSeconds';
 }
 
