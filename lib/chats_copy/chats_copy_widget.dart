@@ -98,11 +98,6 @@ class _ChatsCopyWidgetState extends State<ChatsCopyWidget> {
                     );
                   }
                   List<ChatsRecord> listViewChatsRecordList = snapshot.data!;
-                  if (listViewChatsRecordList.isEmpty) {
-                    return Image.asset(
-                      'assets/images/LOVE_IN_MUSIC_(13).png',
-                    );
-                  }
                   return ListView.builder(
                     padding: EdgeInsets.zero,
                     scrollDirection: Axis.vertical,
