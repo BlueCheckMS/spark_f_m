@@ -323,7 +323,7 @@ class _NewsFeedDemoWidgetState extends State<NewsFeedDemoWidget>
                                       hoverColor: Colors.transparent,
                                       highlightColor: Colors.transparent,
                                       onTap: () async {
-                                        context.push(
+                                        context.pushNamed(
                                           'NewsStoryDemo',
                                           extra: {
                                             'post': serializeParam(

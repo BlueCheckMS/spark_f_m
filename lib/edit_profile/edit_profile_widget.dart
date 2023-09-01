@@ -162,86 +162,86 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
               padding: EdgeInsets.zero,
               scrollDirection: Axis.vertical,
               children: [
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 1, 0, 0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Container(
-                        width: MediaQuery.sizeOf(context).width,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color:
-                              FlutterFlowTheme.of(context).secondaryBackground,
-                          shape: BoxShape.rectangle,
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(24, 0, 0, 0),
-                              child: Text(
-                                'Settings',
-                                style: FlutterFlowTheme.of(context).bodyMedium,
-                              ),
-                            ),
-                            Expanded(
-                              child: Align(
-                                alignment: AlignmentDirectional(0.9, 0),
-                                child: Icon(
-                                  Icons.arrow_forward_ios,
-                                  color: Color(0xFF95A1AC),
-                                  size: 18,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 1, 0, 0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Container(
-                        width: MediaQuery.sizeOf(context).width,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color:
-                              FlutterFlowTheme.of(context).secondaryBackground,
-                          shape: BoxShape.rectangle,
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(24, 0, 0, 0),
-                              child: Text(
-                                'Notifications',
-                                style: FlutterFlowTheme.of(context).bodyMedium,
-                              ),
-                            ),
-                            Expanded(
-                              child: Align(
-                                alignment: AlignmentDirectional(0.9, 0),
-                                child: Icon(
-                                  Icons.arrow_forward_ios,
-                                  color: Color(0xFF95A1AC),
-                                  size: 18,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                // Padding(
+                //   padding: EdgeInsetsDirectional.fromSTEB(0, 1, 0, 0),
+                //   child: Row(
+                //     mainAxisSize: MainAxisSize.max,
+                //     children: [
+                //       Container(
+                //         width: MediaQuery.sizeOf(context).width,
+                //         height: 50,
+                //         decoration: BoxDecoration(
+                //           color:
+                //               FlutterFlowTheme.of(context).secondaryBackground,
+                //           shape: BoxShape.rectangle,
+                //         ),
+                //         child: Row(
+                //           mainAxisSize: MainAxisSize.max,
+                //           children: [
+                //             Padding(
+                //               padding:
+                //                   EdgeInsetsDirectional.fromSTEB(24, 0, 0, 0),
+                //               child: Text(
+                //                 'Settings',
+                //                 style: FlutterFlowTheme.of(context).bodyMedium,
+                //               ),
+                //             ),
+                //             Expanded(
+                //               child: Align(
+                //                 alignment: AlignmentDirectional(0.9, 0),
+                //                 child: Icon(
+                //                   Icons.arrow_forward_ios,
+                //                   color: Color(0xFF95A1AC),
+                //                   size: 18,
+                //                 ),
+                //               ),
+                //             ),
+                //           ],
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                // Padding(
+                //   padding: EdgeInsetsDirectional.fromSTEB(0, 1, 0, 0),
+                //   child: Row(
+                //     mainAxisSize: MainAxisSize.max,
+                //     children: [
+                //       Container(
+                //         width: MediaQuery.sizeOf(context).width,
+                //         height: 50,
+                //         decoration: BoxDecoration(
+                //           color:
+                //               FlutterFlowTheme.of(context).secondaryBackground,
+                //           shape: BoxShape.rectangle,
+                //         ),
+                //         child: Row(
+                //           mainAxisSize: MainAxisSize.max,
+                //           children: [
+                //             Padding(
+                //               padding:
+                //                   EdgeInsetsDirectional.fromSTEB(24, 0, 0, 0),
+                //               child: Text(
+                //                 'Notifications',
+                //                 style: FlutterFlowTheme.of(context).bodyMedium,
+                //               ),
+                //             ),
+                //             Expanded(
+                //               child: Align(
+                //                 alignment: AlignmentDirectional(0.9, 0),
+                //                 child: Icon(
+                //                   Icons.arrow_forward_ios,
+                //                   color: Color(0xFF95A1AC),
+                //                   size: 18,
+                //                 ),
+                //               ),
+                //             ),
+                //           ],
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0, 1, 0, 0),
                   child: Row(
@@ -344,6 +344,43 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                     ],
                   ),
                 ),
+                // Generated code for this Row Widget...
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 20),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FFButtonWidget(
+                        onPressed: () async {
+                          await authManager.deleteUser(context);
+                          context.pushNamed('SignInDemo');
+                        },
+                        text: 'Delete Account',
+                        options: FFButtonOptions(
+                          width: 109,
+                          height: 40,
+                          padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                          iconPadding:
+                              EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                          color: FlutterFlowTheme.of(context).secondary,
+                          textStyle:
+                              FlutterFlowTheme.of(context).bodySmall.override(
+                                    fontFamily: 'Lexend Deca',
+                                    color: FlutterFlowTheme.of(context).primary,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                          elevation: 3,
+                          borderSide: BorderSide(
+                            color: Colors.transparent,
+                            width: 1,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
               ],
             ),
           ),

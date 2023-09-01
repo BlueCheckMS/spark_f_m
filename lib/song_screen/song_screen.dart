@@ -84,7 +84,7 @@ class __AssetAudioPlayerState extends State<AssetAudioPlayer> {
                       duration: Duration(milliseconds: 250),
                       height: mini
                           ? MediaQuery.sizeOf(context).height * .07
-                          : MediaQuery.sizeOf(context).height * .8658,
+                          : MediaQuery.sizeOf(context).height * .8649,
                       child: mini
                           ? Padding(
                               padding: const EdgeInsetsDirectional.fromSTEB(
