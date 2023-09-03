@@ -187,6 +187,7 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                               height: 320,
                                               fit: BoxFit.cover,
                                             ),
+                                            // Generated code for this Image Widget...
                                             Align(
                                               alignment:
                                                   AlignmentDirectional(0, 0),
@@ -197,18 +198,14 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                                   borderRadius:
                                                       BorderRadius.circular(10),
                                                   child: Image.network(
-                                                    valueOrDefault<String>(
-                                                      widget.playlist
-                                                          ?.playlistImage,
-                                                      'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/spark-f-m-2-k3szws/assets/3e0pw8rz460f/Untitled_design_(4).png',
-                                                    ),
+                                                    widget.music!.albumCover,
                                                     width: 200,
                                                     height: 200,
                                                     fit: BoxFit.fill,
                                                   ),
                                                 ),
                                               ),
-                                            ),
+                                            )
                                           ],
                                         ),
                                       ),
@@ -387,7 +384,7 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                                   .toList();
                                           if (songslist.isEmpty) {
                                             return Image.asset(
-                                              'assets/images/LOVE_IN_MUSIC_(13).png',
+                                              'assets/images/No_media_to_display._Come_back_later_for_more!.png',
                                             );
                                           }
                                           return ListView.builder(
