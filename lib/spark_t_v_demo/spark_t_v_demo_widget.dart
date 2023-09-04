@@ -283,134 +283,139 @@ class _SparkTVDemoWidgetState extends State<SparkTVDemoWidget> {
                               sparkTVDemoSparkFMYoutubeResponse.jsonBody,
                             )?.toList() ??
                             [];
-                        return Expanded(
-                          child: ListView.builder(
-                            padding: EdgeInsets.zero,
-                            shrinkWrap: true,
-                            scrollDirection: Axis.vertical,
-                            itemCount: ch.length,
-                            itemBuilder: (context, chIndex) {
-                              final chItem = ch[chIndex];
-                              return Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    10.0, 10.0, 10.0, 10.0),
-                                child: InkWell(
-                                  splashColor: Colors.transparent,
-                                  focusColor: Colors.transparent,
-                                  hoverColor: Colors.transparent,
-                                  highlightColor: Colors.transparent,
-                                  onTap: () async {
-                                    context.pushNamed(
-                                      'videoPage',
-                                      queryParameters: {
-                                        'videoId': serializeParam(
-                                          getJsonField(
-                                            chItem,
-                                            r'''$..videoId''',
-                                          ).toString(),
-                                          ParamType.String,
-                                        ),
-                                        'videoTitle': serializeParam(
-                                          getJsonField(
-                                            chItem,
-                                            r'''$..title''',
-                                          ).toString(),
-                                          ParamType.String,
-                                        ),
-                                        'videoDiscription': serializeParam(
-                                          getJsonField(
-                                            chItem,
-                                            r'''$..description''',
-                                          ).toString(),
-                                          ParamType.String,
-                                        ),
-                                      }.withoutNulls,
-                                    );
-                                  },
-                                  child: Container(
-                                    width: 100.0,
-                                    height: 100.0,
-                                    decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          blurRadius: 4.0,
-                                          color: Color(0x33000000),
-                                          offset: Offset(0.0, 2.0),
-                                        )
-                                      ],
-                                      borderRadius: BorderRadius.circular(10.0),
-                                    ),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        ClipRRect(
+                        return RefreshIndicator(
+                            child: Expanded(
+                              child: ListView.builder(
+                                padding: EdgeInsets.zero,
+                                shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+                                itemCount: ch.length,
+                                itemBuilder: (context, chIndex) {
+                                  final chItem = ch[chIndex];
+                                  return Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        10.0, 10.0, 10.0, 10.0),
+                                    child: InkWell(
+                                      splashColor: Colors.transparent,
+                                      focusColor: Colors.transparent,
+                                      hoverColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                      onTap: () async {
+                                        context.pushNamed(
+                                          'videoPage',
+                                          queryParameters: {
+                                            'videoId': serializeParam(
+                                              getJsonField(
+                                                chItem,
+                                                r'''$..videoId''',
+                                              ).toString(),
+                                              ParamType.String,
+                                            ),
+                                            'videoTitle': serializeParam(
+                                              getJsonField(
+                                                chItem,
+                                                r'''$..title''',
+                                              ).toString(),
+                                              ParamType.String,
+                                            ),
+                                            'videoDiscription': serializeParam(
+                                              getJsonField(
+                                                chItem,
+                                                r'''$..description''',
+                                              ).toString(),
+                                              ParamType.String,
+                                            ),
+                                          }.withoutNulls,
+                                        );
+                                      },
+                                      child: Container(
+                                        width: 100.0,
+                                        height: 100.0,
+                                        decoration: BoxDecoration(
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondaryBackground,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              blurRadius: 4.0,
+                                              color: Color(0x33000000),
+                                              offset: Offset(0.0, 2.0),
+                                            )
+                                          ],
                                           borderRadius:
                                               BorderRadius.circular(10.0),
-                                          child: Image.network(
-                                            getJsonField(
-                                              chItem,
-                                              r'''$..thumbnails.default.url''',
-                                            ),
-                                            width: 100.0,
-                                            height: 100.0,
-                                            fit: BoxFit.cover,
-                                          ),
                                         ),
-                                        Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  10.0, 10.0, 0.0, 10.0),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                width: 250.0,
-                                                decoration: BoxDecoration(),
-                                                child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      getJsonField(
-                                                        chItem,
-                                                        r'''$..title''',
-                                                      )
-                                                          .toString()
-                                                          .maybeHandleOverflow(
-                                                              maxChars: 50),
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                'Poppins',
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                          ),
-                                                    ),
-                                                    Text(
-                                                      getJsonField(
-                                                        chItem,
-                                                        r'''$..description''',
-                                                      )
-                                                          .toString()
-                                                          .maybeHandleOverflow(
-                                                            maxChars: 50,
-                                                            replacement: '…',
-                                                          ),
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                              child: Image.network(
+                                                getJsonField(
+                                                  chItem,
+                                                  r'''$..thumbnails.default.url''',
+                                                ),
+                                                width: 100.0,
+                                                height: 100.0,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(
+                                                      10.0, 10.0, 0.0, 10.0),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.max,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Container(
+                                                    width: 250.0,
+                                                    decoration: BoxDecoration(),
+                                                    child: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          getJsonField(
+                                                            chItem,
+                                                            r'''$..title''',
+                                                          )
+                                                              .toString()
+                                                              .maybeHandleOverflow(
+                                                                  maxChars: 50),
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Poppins',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                              ),
+                                                        ),
+                                                        Text(
+                                                          getJsonField(
+                                                            chItem,
+                                                            r'''$..description''',
+                                                          )
+                                                              .toString()
+                                                              .maybeHandleOverflow(
+                                                                maxChars: 50,
+                                                                replacement:
+                                                                    '…',
+                                                              ),
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
                                                               .bodyMedium
                                                               .override(
                                                                 fontFamily:
@@ -420,21 +425,25 @@ class _SparkTVDemoWidgetState extends State<SparkTVDemoWidget> {
                                                                     FontWeight
                                                                         .normal,
                                                               ),
+                                                        ),
+                                                      ],
                                                     ),
-                                                  ],
-                                                ),
+                                                  ),
+                                                ],
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        );
+                                  );
+                                },
+                              ),
+                            ),
+                            onRefresh: () async {
+                              _model.apiResultbpa =
+                                  await SparkFMYoutubeCall.call();
+                            });
                       },
                     ),
                   ],

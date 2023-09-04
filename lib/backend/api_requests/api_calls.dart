@@ -92,6 +92,7 @@ class SparkFMYoutubeCall {
         'key': key,
         'maxResults': 50,
         'channelld': "UCDU6t3K4JWih1zXJgWN3_hQ",
+        'type': 'video',
       },
       returnBody: true,
       encodeBodyUtf8: false,
