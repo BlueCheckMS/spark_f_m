@@ -16,6 +16,8 @@ class SparkTVDemoModel extends FlutterFlowModel {
   final unfocusNode = FocusNode();
   bool apiRequestCompleted = false;
   String? apiRequestLastUniqueKey;
+  // Stores action output result for [Backend Call - API (sparkFMYoutube)] action in ListView widget.
+  ApiCallResponse? apiResultbpa;
 
   /// Initialization and disposal methods.
 
