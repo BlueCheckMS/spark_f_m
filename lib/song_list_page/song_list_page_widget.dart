@@ -363,6 +363,7 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                             ),
                                             onPressed: () async {
                                               await FFAppState().audioMetaList(
+                                                  live: false,
                                                   artist: containerArtistRecord
                                                       .artistName,
                                                   album:
@@ -427,6 +428,7 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                                         Colors.transparent,
                                                     onTap: () async {
                                                       await FFAppState().audioMetaList(
+                                                          live: false,
                                                           artist:
                                                               containerArtistRecord
                                                                   .artistName,
@@ -779,6 +781,7 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                           ),
                                           onPressed: () async {
                                             await FFAppState().audioMetaList(
+                                                live: false,
                                                 artist: widget
                                                     .playlist!.playlistCreator,
                                                 playlist:
@@ -880,6 +883,7 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                                             Colors.transparent,
                                                         onTap: () async {
                                                           await FFAppState().audioMetaList(
+                                                              live: false,
                                                               artist:
                                                                   containerArtistRecord
                                                                       .artistName,
@@ -1228,6 +1232,7 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                             ),
                                             onPressed: () async {
                                               await FFAppState().audioMetaList(
+                                                  live: false,
                                                   song: widget
                                                       .singleSong!.reference,
                                                   artist: containerArtistRecord
@@ -1271,6 +1276,7 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                                     Colors.transparent,
                                                 onTap: () async {
                                                   await FFAppState().audioMetaList(
+                                                      live: false,
                                                       song: widget.singleSong!
                                                           .reference,
                                                       artist:
@@ -1929,6 +1935,8 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                                                               ?.episodes ==
                                                                           null) {
                                                                         await FFAppState().audioMetaList(
+                                                                            live:
+                                                                                false,
                                                                             podcast: widget
                                                                                 .podcast!.reference,
                                                                             episodes:
@@ -1938,6 +1946,8 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                                                             index: epsIndex);
                                                                       } else {
                                                                         await FFAppState().audioMetaList(
+                                                                            live:
+                                                                                false,
                                                                             podcast:
                                                                                 widget.podcast!.reference,
                                                                             episodes: widget.podcast!.episodes,

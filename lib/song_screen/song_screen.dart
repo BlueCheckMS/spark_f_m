@@ -95,13 +95,20 @@ class __AssetAudioPlayerState extends State<AssetAudioPlayer> {
                                     MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  CircleAvatar(
-                                    backgroundImage: NetworkImage(ffAppState
-                                        .audioPlayer
-                                        .getCurrentAudioImage
-                                        ?.path as String),
-                                    radius: 20,
-                                  ),
+                                  ffAppState.isLive
+                                      ? CircleAvatar(
+                                          backgroundImage: AssetImage(ffAppState
+                                              .audioPlayer
+                                              .getCurrentAudioImage
+                                              ?.path as String))
+                                      : CircleAvatar(
+                                          backgroundImage: NetworkImage(
+                                              ffAppState
+                                                  .audioPlayer
+                                                  .getCurrentAudioImage
+                                                  ?.path as String),
+                                          radius: 20,
+                                        ),
                                   Text(
                                     ffAppState.audioPlayer.getCurrentAudioTitle,
                                     style: widget.titleTextStyle,
@@ -162,13 +169,21 @@ class __AssetAudioPlayerState extends State<AssetAudioPlayer> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
                                             children: [
-                                              Image.network(
-                                                ffAppState
-                                                    .audioPlayer
-                                                    .getCurrentAudioImage
-                                                    ?.path as String,
-                                                height: 400,
-                                              ),
+                                              !ffAppState.isLive
+                                                  ? Image.network(
+                                                      ffAppState
+                                                          .audioPlayer
+                                                          .getCurrentAudioImage
+                                                          ?.path as String,
+                                                      height: 400,
+                                                    )
+                                                  : Image.asset(
+                                                      ffAppState
+                                                          .audioPlayer
+                                                          .getCurrentAudioImage
+                                                          ?.path as String,
+                                                      height: 400,
+                                                    ),
                                               Text(
                                                 ffAppState.audioPlayer
                                                     .getCurrentAudioTitle,
@@ -293,240 +308,6 @@ class __AssetAudioPlayerState extends State<AssetAudioPlayer> {
               }));
     });
   }
-}
-
-class LiveAssetAudioPlayer extends StatefulWidget {
-  const LiveAssetAudioPlayer({
-    required this.audio,
-    required this.titleTextStyle,
-    required this.playbackDurationTextStyle,
-    required this.fillColor,
-    required this.playbackButtonColor,
-    required this.activeTrackColor,
-    required this.elevation,
-    required this.height,
-    required this.image,
-    required this.width,
-  });
-
-  final Audio audio;
-  final TextStyle titleTextStyle;
-  final TextStyle playbackDurationTextStyle;
-  final Color fillColor;
-  final Color playbackButtonColor;
-  final Color activeTrackColor;
-  final double elevation;
-  final double height;
-  final Image image;
-  final double width;
-
-  @override
-  _LiveAssetAudioPlayerState createState() => _LiveAssetAudioPlayerState();
-}
-
-class _LiveAssetAudioPlayerState extends State<LiveAssetAudioPlayer> {
-  AssetsAudioPlayer player = new AssetsAudioPlayer();
-
-  late AssetsAudioPlayer _liveAssetsAudioPlayer;
-  bool mini = true;
-  @override
-  void initState() {
-    super.initState();
-    openPlayer();
-  }
-
-  Future openPlayer() async {
-    if (_liveAssetsAudioPlayer.playlist != null) {
-      _liveAssetsAudioPlayer.playlist!.replaceAt(0, (oldAudio) => widget.audio);
-    } else {
-      await _liveAssetsAudioPlayer.open(
-        Playlist(audios: [widget.audio]),
-        showNotification: true,
-        autoStart: false,
-        playInBackground: PlayInBackground.enabled,
-      );
-    }
-  }
-
-  @override
-  void dispose() {
-    _liveAssetsAudioPlayer.dispose();
-    super.dispose();
-  }
-
-  Duration currentPosition(RealtimePlayingInfos infos) => infos.currentPosition;
-  Duration duration(RealtimePlayingInfos infos) => infos.duration;
-
-  String playbackStateText(RealtimePlayingInfos infos) {
-    final currentPositionString = durationToString(currentPosition(infos));
-    final durationString = durationToString(duration(infos));
-    return '$currentPositionString/$durationString';
-  }
-
-  @override
-  Widget build(BuildContext context) =>
-      _liveAssetsAudioPlayer.builderRealtimePlayingInfos(
-          builder: (context, infos) => PlayerBuilder.isPlaying(
-              player: _liveAssetsAudioPlayer,
-              builder: (context, isPlaying) {
-                final childWidget = GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      mini = !mini;
-                    });
-                  },
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 100),
-                    height: mini ? 70 : 742,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: widget.fillColor,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(15, 10, 0, 0),
-                      child: mini
-                          ? Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  'assets/images/LOVE_IN_MUSIC_(1).png',
-                                  height: 50,
-                                ),
-                                Text(
-                                  widget.audio.metas.title ?? 'Audio Title',
-                                  style: widget.titleTextStyle,
-                                ),
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(34),
-                                  child: Material(
-                                    color: Colors.transparent,
-                                    child: IconButton(
-                                      onPressed:
-                                          _liveAssetsAudioPlayer.playOrPause,
-                                      icon: Icon(
-                                        (isPlaying)
-                                            ? Icons.pause_circle_filled_rounded
-                                            : Icons.play_circle_fill_rounded,
-                                        color: widget.playbackButtonColor,
-                                        size: 34,
-                                      ),
-                                      iconSize: 34,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
-                          : Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      15, 10, 15, 10),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                        'assets/images/LOVE_IN_MUSIC_(1).png',
-                                        height: 400,
-                                      ),
-                                      Text(
-                                        widget.audio.metas.title ??
-                                            'Audio Title',
-                                        style: widget.titleTextStyle,
-                                      ),
-                                      Text(
-                                        playbackStateText(infos),
-                                        style: widget.playbackDurationTextStyle,
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    ClipRRect(
-                                        child: Material(
-                                      child: IconButton(
-                                        onPressed: () {
-                                          player.shuffle;
-                                        },
-                                        icon: Icon(Icons.shuffle),
-                                      ),
-                                    )),
-                                    ClipRRect(
-                                        child: Material(
-                                      child: IconButton(
-                                        onPressed: () {
-                                          player.loopMode;
-                                        },
-                                        icon: Icon(Icons.skip_previous_rounded),
-                                      ),
-                                    )),
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(34),
-                                      child: Material(
-                                        color: Colors.transparent,
-                                        child: IconButton(
-                                          onPressed: _liveAssetsAudioPlayer
-                                              .playOrPause,
-                                          icon: Icon(
-                                            (isPlaying)
-                                                ? Icons
-                                                    .pause_circle_filled_rounded
-                                                : Icons
-                                                    .play_circle_fill_rounded,
-                                            color: widget.playbackButtonColor,
-                                            size: 50,
-                                          ),
-                                          iconSize: 50,
-                                        ),
-                                      ),
-                                    ),
-                                    ClipRRect(
-                                        child: Material(
-                                      child: IconButton(
-                                        icon: Icon(Icons.skip_next_rounded),
-                                        onPressed: () {},
-                                      ),
-                                    )),
-                                    ClipRRect(
-                                        child: Material(
-                                      child: IconButton(
-                                        icon: Icon(Icons.repeat),
-                                        onPressed: () {},
-                                      ),
-                                    )),
-                                  ],
-                                ),
-                                PositionSeekWidget(
-                                  currentPosition: currentPosition(infos),
-                                  duration: duration(infos),
-                                  seekTo: (to) {
-                                    _liveAssetsAudioPlayer.seek(to);
-                                  },
-                                  activeTrackColor: widget.activeTrackColor,
-                                ),
-                              ],
-                            ),
-                    ),
-                  ),
-                );
-                return Material(
-                    color: Color.fromARGB(210, 230, 153, 82),
-                    elevation: widget.elevation,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: childWidget);
-              }));
 }
 
 class PositionSeekWidget extends StatefulWidget {
