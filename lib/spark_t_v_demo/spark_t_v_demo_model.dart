@@ -17,7 +17,7 @@ class SparkTVDemoModel extends FlutterFlowModel {
   bool apiRequestCompleted = false;
   String? apiRequestLastUniqueKey;
   // Stores action output result for [Backend Call - API (sparkFMYoutube)] action in ListView widget.
-  ApiCallResponse? apiResultbpa;
+  ApiCallResponse? apiResultqph;
 
   /// Initialization and disposal methods.
 

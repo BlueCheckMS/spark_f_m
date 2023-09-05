@@ -29,9 +29,12 @@ class FFAppState extends ChangeNotifier {
     List<DocumentReference>? songs,
     AssetsAudioPlayer? assetsAudioPlayer,
     int? index,
+    bool? live,
   }) async {
+    if (live != null) {
+      isLive = live;
+    }
     List<Audio> audios = [];
-
     if (audios.isNotEmpty) {
       audios.clear();
     }
@@ -140,27 +143,57 @@ class FFAppState extends ChangeNotifier {
 
     if (assetsAudioPlayer!.isPlaying.value == true) {
       await assetsAudioPlayer.stop();
-      await assetsAudioPlayer.open(
-        Playlist(audios: audios),
-        showNotification: true,
-        autoStart: true,
-        loopMode: LoopMode.playlist,
-        playInBackground: PlayInBackground.enabled,
-        headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,
-      );
-      audioPlayer = assetsAudioPlayer;
-      notifyListeners();
+      if (live == true) {
+        await assetsAudioPlayer.open(
+          Audio.liveStream("https://s2.radio.co/s642c89cd0/listen",
+              metas: Metas(
+                  title: 'Spark FM Radio',
+                  image: MetasImage.asset("assets/images/SFM APP ICON.png"),
+                  artist: 'Spark FM')),
+          playInBackground: PlayInBackground.enabled,
+          headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,
+          showNotification: true,
+        );
+        audioPlayer = assetsAudioPlayer;
+        notifyListeners();
+      } else {
+        await assetsAudioPlayer.open(
+          Playlist(audios: audios),
+          showNotification: true,
+          autoStart: true,
+          loopMode: LoopMode.playlist,
+          playInBackground: PlayInBackground.enabled,
+          headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,
+        );
+        notifyListeners();
+        audioPlayer = assetsAudioPlayer;
+      }
     } else {
-      await assetsAudioPlayer.open(
-        Playlist(audios: audios),
-        showNotification: true,
-        autoStart: true,
-        loopMode: LoopMode.playlist,
-        playInBackground: PlayInBackground.enabled,
-        headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,
-      );
-      audioPlayer = assetsAudioPlayer;
-      notifyListeners();
+      if (live == true) {
+        await assetsAudioPlayer.open(
+          Audio.liveStream("https://s2.radio.co/s642c89cd0/listen",
+              metas: Metas(
+                  title: 'Spark FM Radio',
+                  image: MetasImage.asset("assets/images/SFM APP ICON.png"),
+                  artist: 'Spark FM')),
+          playInBackground: PlayInBackground.enabled,
+          headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,
+          showNotification: true,
+        );
+        audioPlayer = assetsAudioPlayer;
+        notifyListeners();
+      } else {
+        await assetsAudioPlayer.open(
+          Playlist(audios: audios),
+          showNotification: true,
+          autoStart: true,
+          loopMode: LoopMode.playlist,
+          playInBackground: PlayInBackground.enabled,
+          headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,
+        );
+        audioPlayer = assetsAudioPlayer;
+        notifyListeners();
+      }
     }
     // Add your function code here!
   }
