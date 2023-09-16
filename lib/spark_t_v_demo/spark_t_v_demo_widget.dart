@@ -9,7 +9,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-
+import '/flutter_flow/custom_functions.dart' as functions;
 import 'spark_t_v_demo_model.dart';
 export 'spark_t_v_demo_model.dart';
 
@@ -240,10 +240,9 @@ class _SparkTVDemoWidgetState extends State<SparkTVDemoWidget> {
                             ),
                           ],
                         ),
-                        if (SparkFMYoutubeCall.channelLive(
-                              sparkTVDemoSparkFMYoutubeResponse.jsonBody,
-                            ).toString() ==
-                            'live')
+                        if (SparkFMYoutubeCall.liveBrodcastList(
+                          sparkTVDemoSparkFMYoutubeResponse.jsonBody,
+                        ).contains('live'))
                           Padding(
                             padding:
                                 EdgeInsetsDirectional.fromSTEB(10, 10, 10, 0),
@@ -252,16 +251,10 @@ class _SparkTVDemoWidgetState extends State<SparkTVDemoWidget> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: FlutterFlowYoutubePlayer(
-                                url: SparkFMYoutubeCall.channelLive(
-                                          sparkTVDemoSparkFMYoutubeResponse
-                                              .jsonBody,
-                                        ).toString() ==
-                                        'live'
-                                    ? SparkFMYoutubeCall.liveId(
-                                        sparkTVDemoSparkFMYoutubeResponse
-                                            .jsonBody,
-                                      )
-                                    : 'null',
+                                url:
+                                    'https://www.youtube.com/watch?v=${functions.filterJsonData(SparkFMYoutubeCall.channalvideos(
+                                  sparkTVDemoSparkFMYoutubeResponse.jsonBody,
+                                )?.toList())}',
                                 autoPlay: false,
                                 looping: true,
                                 mute: false,

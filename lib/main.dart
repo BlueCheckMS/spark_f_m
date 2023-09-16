@@ -107,6 +107,7 @@ class _MyAppState extends State<MyApp> {
       ),
       themeMode: _themeMode,
       routerConfig: _router,
+      debugShowCheckedModeBanner: false,
     );
   }
 }

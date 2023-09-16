@@ -98,6 +98,11 @@ class _ChatsCopyWidgetState extends State<ChatsCopyWidget> {
                     );
                   }
                   List<ChatsRecord> listViewChatsRecordList = snapshot.data!;
+                  if (listViewChatsRecordList.isEmpty) {
+                    return Image.asset(
+                      'assets/images/No Messages.png',
+                    );
+                  }
                   return ListView.builder(
                     padding: EdgeInsets.zero,
                     scrollDirection: Axis.vertical,
