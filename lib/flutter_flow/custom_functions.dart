@@ -40,3 +40,13 @@ List<dynamic>? blogfilter(
       posts.body); // Assuming you already have the API response JSON decoded
   final filteredPosts = blogfilter(category, apiResponse);
 }
+
+String? filterJsonData(List<dynamic>? items) {
+  for (var item in items!) {
+    if (item['snippet']['liveBroadcastContent'] == 'live') {
+      var videoId = item['id']['videoId'];
+      return videoId;
+    }
+  }
+  return null;
+}

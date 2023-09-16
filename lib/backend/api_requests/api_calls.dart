@@ -78,8 +78,8 @@ class SparkFMTWitchRadioClipsCall {
 class SparkFMYoutubeCall {
   static Future<ApiCallResponse> call({
     String? part = 'snippet',
-    String? q = 'Spark FM Network',
     String? key = 'AIzaSyDz9BDIDT-OOa3BTeYT48abIt8f79K0boc',
+    String? type = 'channel',
   }) {
     return ApiManager.instance.makeApiCall(
       callName: 'sparkFMYoutube',
@@ -88,11 +88,11 @@ class SparkFMYoutubeCall {
       headers: {},
       params: {
         'part': part,
-        'q': q,
         'key': key,
         'maxResults': 50,
         'channelld': "UCDU6t3K4JWih1zXJgWN3_hQ",
-        'type': 'video',
+        'type': "video",
+        'q': "Spark FM Network",
       },
       returnBody: true,
       encodeBodyUtf8: false,
@@ -137,56 +137,12 @@ class SparkFMYoutubeCall {
       );
   static dynamic liveId(dynamic response) => getJsonField(
         response,
-        r'''$.items[1]..videoId''',
+        r'''$.items[0]..videoId''',
       );
-}
-
-class SparkFMYoutubeCopyCall {
-  static Future<ApiCallResponse> call({
-    String? part = 'snippet',
-    String? q = 'Spark FM Network',
-    String? key = 'AIzaSyDz9BDIDT-OOa3BTeYT48abIt8f79K0boc',
-  }) {
-    return ApiManager.instance.makeApiCall(
-      callName: 'sparkFMYoutube Copy',
-      apiUrl: 'https://www.googleapis.com/youtube/v3/search',
-      callType: ApiCallType.GET,
-      headers: {},
-      params: {
-        'part': part,
-        'q': q,
-        'key': key,
-      },
-      returnBody: true,
-      encodeBodyUtf8: false,
-      decodeUtf8: false,
-      cache: false,
-    );
-  }
-
-  static dynamic sparkFMvideoID(dynamic response) => getJsonField(
+  static dynamic liveBrodcastList(dynamic response) => getJsonField(
         response,
-        r'''$.items[:].id.videoId''',
-      );
-  static dynamic sparkFMVideoTitle(dynamic response) => getJsonField(
-        response,
-        r'''$.items[:].snippet.title''',
-      );
-  static dynamic thumbnail(dynamic response) => getJsonField(
-        response,
-        r'''$.items[:].snippet.thumbnails.default.url''',
-      );
-  static dynamic channeltitle(dynamic response) => getJsonField(
-        response,
-        r'''$.items[:].snippet.channelTitle''',
-      );
-  static dynamic video(dynamic response) => getJsonField(
-        response,
-        r'''$.items[:].snippet''',
-      );
-  static dynamic channel(dynamic response) => getJsonField(
-        response,
-        r'''$.items''',
+        r'''$.items[1:].snippet.liveBroadcastContent''',
+        true,
       );
 }
 

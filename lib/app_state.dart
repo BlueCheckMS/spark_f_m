@@ -153,6 +153,11 @@ class FFAppState extends ChangeNotifier {
           playInBackground: PlayInBackground.enabled,
           headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,
           showNotification: true,
+          notificationSettings: NotificationSettings(
+              playPauseEnabled: true,
+              nextEnabled: true,
+              prevEnabled: true,
+              seekBarEnabled: true),
         );
         audioPlayer = assetsAudioPlayer;
         notifyListeners();
@@ -164,6 +169,11 @@ class FFAppState extends ChangeNotifier {
           loopMode: LoopMode.playlist,
           playInBackground: PlayInBackground.enabled,
           headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,
+          notificationSettings: NotificationSettings(
+              playPauseEnabled: true,
+              nextEnabled: true,
+              prevEnabled: true,
+              seekBarEnabled: true),
         );
         notifyListeners();
         audioPlayer = assetsAudioPlayer;
@@ -179,6 +189,11 @@ class FFAppState extends ChangeNotifier {
           playInBackground: PlayInBackground.enabled,
           headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,
           showNotification: true,
+          notificationSettings: NotificationSettings(
+              playPauseEnabled: true,
+              nextEnabled: true,
+              prevEnabled: true,
+              seekBarEnabled: true),
         );
         audioPlayer = assetsAudioPlayer;
         notifyListeners();
@@ -186,6 +201,11 @@ class FFAppState extends ChangeNotifier {
         await assetsAudioPlayer.open(
           Playlist(audios: audios),
           showNotification: true,
+          notificationSettings: NotificationSettings(
+              playPauseEnabled: true,
+              nextEnabled: true,
+              prevEnabled: true,
+              seekBarEnabled: true),
           autoStart: true,
           loopMode: LoopMode.playlist,
           playInBackground: PlayInBackground.enabled,
