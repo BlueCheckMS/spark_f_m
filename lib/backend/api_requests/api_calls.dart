@@ -132,7 +132,7 @@ class SparkFMYoutubeCall {
       );
   static dynamic channalvideos(dynamic response) => getJsonField(
         response,
-        r'''$.items[1:]''',
+        r'''$.items[:]''',
         true,
       );
   static dynamic liveId(dynamic response) => getJsonField(
@@ -141,7 +141,7 @@ class SparkFMYoutubeCall {
       );
   static dynamic liveBrodcastList(dynamic response) => getJsonField(
         response,
-        r'''$.items[1:].snippet.liveBroadcastContent''',
+        r'''$.items[:].snippet.liveBroadcastContent''',
         true,
       );
 }

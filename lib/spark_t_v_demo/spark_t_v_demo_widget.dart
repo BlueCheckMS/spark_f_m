@@ -43,14 +43,9 @@ class _SparkTVDemoWidgetState extends State<SparkTVDemoWidget> {
     context.watch<FFAppState>();
 
     return FutureBuilder<ApiCallResponse>(
-      future: FFAppState()
-          .sparkTv(
+      future: FFAppState().sparkTv(
         requestFn: () => SparkFMYoutubeCall.call(),
-      )
-          .then((result) {
-        _model.apiRequestCompleted = true;
-        return result;
-      }),
+      ),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
@@ -124,7 +119,8 @@ class _SparkTVDemoWidgetState extends State<SparkTVDemoWidget> {
                 top: true,
                 child: RefreshIndicator(
                   onRefresh: () async {
-                    _model.apiResultqph = await SparkFMYoutubeCall.call();
+                    setState(() => _model.apiRequestCompleter = null);
+                    await _model.waitForApiRequestCompleted();
                   },
                   child: SingleChildScrollView(
                     physics: const AlwaysScrollableScrollPhysics(),
@@ -142,10 +138,8 @@ class _SparkTVDemoWidgetState extends State<SparkTVDemoWidget> {
                               hoverColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                               onTap: () async {
-                                setState(() {
-                                  FFAppState().clearSparkTvCache();
-                                  _model.apiRequestCompleted = false;
-                                });
+                                setState(
+                                    () => _model.apiRequestCompleter = null);
                                 await _model.waitForApiRequestCompleted();
                               },
                               child: Container(
@@ -240,7 +234,7 @@ class _SparkTVDemoWidgetState extends State<SparkTVDemoWidget> {
                             ),
                           ],
                         ),
-                        if (SparkFMYoutubeCall.liveBrodcastList(
+                        if (SparkFMYoutubeCall.channelLive(
                           sparkTVDemoSparkFMYoutubeResponse.jsonBody,
                         ).contains('live'))
                           Padding(
@@ -254,7 +248,7 @@ class _SparkTVDemoWidgetState extends State<SparkTVDemoWidget> {
                                 url:
                                     'https://www.youtube.com/watch?v=${functions.filterJsonData(SparkFMYoutubeCall.channalvideos(
                                   sparkTVDemoSparkFMYoutubeResponse.jsonBody,
-                                )?.toList())}',
+                                ))}',
                                 autoPlay: false,
                                 looping: true,
                                 mute: false,

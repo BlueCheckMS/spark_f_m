@@ -150,7 +150,6 @@ class FFAppState extends ChangeNotifier {
                   title: 'Spark FM Radio',
                   image: MetasImage.asset("assets/images/SFM APP ICON.png"),
                   artist: 'Spark FM')),
-          playInBackground: PlayInBackground.enabled,
           headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,
           showNotification: true,
           notificationSettings: NotificationSettings(
@@ -167,7 +166,6 @@ class FFAppState extends ChangeNotifier {
           showNotification: true,
           autoStart: true,
           loopMode: LoopMode.playlist,
-          playInBackground: PlayInBackground.enabled,
           headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,
           notificationSettings: NotificationSettings(
               playPauseEnabled: true,
@@ -186,7 +184,6 @@ class FFAppState extends ChangeNotifier {
                   title: 'Spark FM Radio',
                   image: MetasImage.asset("assets/images/SFM APP ICON.png"),
                   artist: 'Spark FM')),
-          playInBackground: PlayInBackground.enabled,
           headPhoneStrategy: HeadPhoneStrategy.pauseOnUnplug,
           showNotification: true,
           notificationSettings: NotificationSettings(
