@@ -43,9 +43,18 @@ class _SparkTVDemoWidgetState extends State<SparkTVDemoWidget> {
     context.watch<FFAppState>();
 
     return FutureBuilder<ApiCallResponse>(
-      future: FFAppState().sparkTv(
+      future: _model
+          .videosCache(
+        uniqueQueryKey: 'sparkFM',
         requestFn: () => SparkFMYoutubeCall.call(),
-      ),
+      )
+          .then((result) {
+        try {
+          _model.apiRequestCompleted = true;
+          _model.apiRequestLastUniqueKey = 'sparkFM';
+        } finally {}
+        return result;
+      }),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
@@ -119,8 +128,24 @@ class _SparkTVDemoWidgetState extends State<SparkTVDemoWidget> {
                 top: true,
                 child: RefreshIndicator(
                   onRefresh: () async {
-                    setState(() => _model.apiRequestCompleter = null);
-                    await _model.waitForApiRequestCompleted();
+                    _model.apiResulty26 = await SparkFMYoutubeCall.call();
+                    if ((_model.apiResulty26?.succeeded ?? true)) {
+                      if (SparkFMYoutubeCall.channalvideos(
+                            sparkTVDemoSparkFMYoutubeResponse.jsonBody,
+                          ) !=
+                          getJsonField(
+                            (_model.apiResulty26?.jsonBody ?? ''),
+                            r'''$.items[:]''',
+                          )) {
+                        _model.clearVideosCacheCache();
+                        setState(() {
+                          _model.clearVideosCacheCacheKey(
+                              _model.apiRequestLastUniqueKey);
+                          _model.apiRequestCompleted = false;
+                        });
+                        await _model.waitForApiRequestCompleted();
+                      }
+                    }
                   },
                   child: SingleChildScrollView(
                     physics: const AlwaysScrollableScrollPhysics(),
@@ -138,8 +163,11 @@ class _SparkTVDemoWidgetState extends State<SparkTVDemoWidget> {
                               hoverColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                               onTap: () async {
-                                setState(
-                                    () => _model.apiRequestCompleter = null);
+                                setState(() {
+                                  _model.clearVideosCacheCacheKey(
+                                      _model.apiRequestLastUniqueKey);
+                                  _model.apiRequestCompleted = false;
+                                });
                                 await _model.waitForApiRequestCompleted();
                               },
                               child: Container(
