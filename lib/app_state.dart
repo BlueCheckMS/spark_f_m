@@ -145,6 +145,7 @@ class FFAppState extends ChangeNotifier {
       await assetsAudioPlayer.stop();
       if (live == true) {
         await assetsAudioPlayer.open(
+          playInBackground: PlayInBackground.enabled,
           Audio.liveStream("https://s2.radio.co/s642c89cd0/listen",
               metas: Metas(
                   title: 'Spark FM Radio',
@@ -162,6 +163,7 @@ class FFAppState extends ChangeNotifier {
         notifyListeners();
       } else {
         await assetsAudioPlayer.open(
+          playInBackground: PlayInBackground.enabled,
           Playlist(audios: audios),
           showNotification: true,
           autoStart: true,
@@ -179,6 +181,7 @@ class FFAppState extends ChangeNotifier {
     } else {
       if (live == true) {
         await assetsAudioPlayer.open(
+          playInBackground: PlayInBackground.enabled,
           Audio.liveStream("https://s2.radio.co/s642c89cd0/listen",
               metas: Metas(
                   title: 'Spark FM Radio',
