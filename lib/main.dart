@@ -1,10 +1,10 @@
+import 'package:just_audio_background/just_audio_background.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:spark_f_m/flutter_flow/flutter_flow_widgets.dart';
 import 'package:spark_f_m/song_screen/song_screen.dart';
 import 'auth/firebase_auth/firebase_user_provider.dart';
 import 'auth/firebase_auth/auth_util.dart';
@@ -14,16 +14,16 @@ import 'backend/firebase/firebase_config.dart';
 import 'flutter_flow/flutter_flow_theme.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 import 'flutter_flow/internationalization.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 import 'flutter_flow/nav/nav.dart';
 import 'index.dart';
 
-import '/backend/firebase_dynamic_links/firebase_dynamic_links.dart';
-
-void main() async {
+Future<void> main() async {
+  await JustAudioBackground.init(
+    androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
+    androidNotificationChannelName: 'Audio playback',
+    androidNotificationOngoing: true,
+  );
   WidgetsFlutterBinding.ensureInitialized();
   usePathUrlStrategy();
   await initFirebase();
@@ -204,11 +204,40 @@ class _NavigatorState extends State<NavigatorBar>
           // Now you can conditionally render or modify your UI based on the route
           bool hideNavigationBar = currentRoute == '/liveRadioTabDemo';
           if (!AppStateNotifier.instance.loggedIn) {
-            if (!appState.audioPlayer.stopped) {
+            if (!appState.audioPlayer.playing) {
               appState.audioPlayer.stop();
             }
           }
           return Scaffold(
+              floatingActionButton: Visibility(
+                  visible: !appState.isLive,
+                  child: FFButtonWidget(
+                    onPressed: () async {
+                      setState(() {
+                        FFAppState().audioMetaList(
+                          live: true,
+                        );
+                      });
+                    },
+                    text: 'Listen Live',
+                    options: FFButtonOptions(
+                      height: 40,
+                      padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
+                      iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                      color: FlutterFlowTheme.of(context).secondary,
+                      textStyle:
+                          FlutterFlowTheme.of(context).titleSmall.override(
+                                fontFamily: 'Poppins',
+                                color: Colors.white,
+                              ),
+                      elevation: 3,
+                      borderSide: BorderSide(
+                        color: Colors.transparent,
+                        width: 1,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  )),
               body: SafeArea(top: false, child: widget.body),
               bottomNavigationBar: hideNavigationBar &&
                       !AppStateNotifier.instance.loggedIn
@@ -216,8 +245,9 @@ class _NavigatorState extends State<NavigatorBar>
                   : Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        if (appState.audioPlayer.stopped == false)
-                          AssetAudioPlayer(
+                        Visibility(
+                          visible: appState.audioPlayer.audioSource != null,
+                          child: AudioPlayerWidget(
                             titleTextStyle:
                                 FlutterFlowTheme.of(context).bodyText1.override(
                                       fontFamily: 'Poppins',
@@ -237,6 +267,7 @@ class _NavigatorState extends State<NavigatorBar>
                             width: double.infinity,
                             height: 100,
                           ),
+                        ),
                         NavigationBar(
                           selectedIndex: widget.selectedIndex,
                           onDestinationSelected: widget.onDestinationSelected,

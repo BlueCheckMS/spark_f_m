@@ -1,4 +1,3 @@
-import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:spark_f_m/flutter_flow/flutter_flow_widgets.dart';
 import 'package:spark_f_m/song_list_page/song_list_page_widget.dart';
 
@@ -102,36 +101,7 @@ class _BrowseDemoWidgetState extends State<BrowseDemoWidget> {
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      FFButtonWidget(
-                        onPressed: () async {
-                          setState(() {
-                            FFAppState().audioMetaList(
-                                live: true,
-                                assetsAudioPlayer: AudioPlayerManager().player);
-                          });
-                        },
-                        text: 'Listen Live',
-                        options: FFButtonOptions(
-                          height: 40,
-                          padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                          iconPadding:
-                              EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                          color: FlutterFlowTheme.of(context).secondary,
-                          textStyle:
-                              FlutterFlowTheme.of(context).titleSmall.override(
-                                    fontFamily: 'Poppins',
-                                    color: Colors.white,
-                                  ),
-                          elevation: 3,
-                          borderSide: BorderSide(
-                            color: Colors.transparent,
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                    ],
+                    children: [],
                   ),
                 ),
               ),
