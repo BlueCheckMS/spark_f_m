@@ -657,7 +657,7 @@ class _AdvertiseWidgetState extends State<AdvertiseWidget> {
                                               String phone,
                                               String howDidYouHearAboutUs,
                                               String whatAreYouIntrestedIn) {
-                                        return 'This Request comes from {$firstName} {$lastName}   Company: {$companyName} Company Website: {$companyWebsite} Email: {$email} Phone: {$phone} How did you hear about us: {$howDidYouHearAboutUs} What service are you intrested in {$whatAreYouIntrestedIn}';
+                                        return 'This Request comes from $firstName $lastName   Company: $companyName Company Website: $companyWebsite Email: $email Phone: $phone How did you hear about us: $howDidYouHearAboutUs What service are you intrested in $whatAreYouIntrestedIn';
                                       }(
                                           _model.adReq!.firstName,
                                           _model.adReq!.lastName,

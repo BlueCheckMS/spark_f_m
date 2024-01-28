@@ -1,10 +1,11 @@
+import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
-import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:just_audio/just_audio.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 import 'package:provider/provider.dart';
-import 'package:spark_f_m/flutter_flow/nav/nav.dart';
-
+import 'package:rxdart/rxdart.dart';
 import '../app_state.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 
@@ -16,8 +17,8 @@ void main() async {
   FFAppState(); // Initialize FFAppState
 }
 
-class AssetAudioPlayer extends StatefulWidget {
-  const AssetAudioPlayer({
+class AudioPlayerWidget extends StatefulWidget {
+  const AudioPlayerWidget({
     required this.titleTextStyle,
     required this.playbackDurationTextStyle,
     required this.fillColor,
@@ -38,15 +39,46 @@ class AssetAudioPlayer extends StatefulWidget {
   final double width;
 
   @override
-  __AssetAudioPlayerState createState() => __AssetAudioPlayerState();
+  __AudioPlayerWidgetState createState() => __AudioPlayerWidgetState();
 }
 
-class __AssetAudioPlayerState extends State<AssetAudioPlayer> {
+class PositionData {
+  const PositionData(
+    this.position,
+    this.bufferedPosition,
+    this.duration,
+  );
+  final Duration position;
+  final Duration bufferedPosition;
+  final Duration duration;
+}
+
+class __AudioPlayerWidgetState extends State<AudioPlayerWidget> {
+  late AudioPlayer _audioPlayer;
+  Stream<PositionData> _positionDataStream() =>
+      Rx.combineLatest3<Duration, Duration, Duration?, PositionData>(
+        _audioPlayer.positionStream,
+        _audioPlayer.bufferedPositionStream,
+        _audioPlayer.durationStream,
+        (position, bufferedPosition, duration) => PositionData(
+          position,
+          bufferedPosition,
+          duration ?? Duration.zero,
+        ),
+      );
+
   bool mini = true;
   late double height;
   @override
   void initState() {
     super.initState();
+    _audioPlayer = FFAppState().audioPlayer;
+
+    _init();
+  }
+
+  Future<void> _init() async {
+    await _audioPlayer.setLoopMode(LoopMode.all);
   }
 
   @override
@@ -54,430 +86,238 @@ class __AssetAudioPlayerState extends State<AssetAudioPlayer> {
     // if (_subscribedRoute) {
     //   routeObserver.unsubscribe(this);
     // }
-    FFAppState().audioPlayer;
+    if (FFAppState().AudioPlayerMeta.children.isEmpty) {
+      _audioPlayer.dispose();
+    }
+
     super.dispose();
-  }
-
-  Duration currentPosition(RealtimePlayingInfos infos) => infos.currentPosition;
-  Duration duration(RealtimePlayingInfos infos) => infos.duration;
-
-  String playbackStateText(RealtimePlayingInfos infos) {
-    final currentPositionString = durationToString(currentPosition(infos));
-    final durationString = durationToString(duration(infos));
-    return '$currentPositionString/$durationString';
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<FFAppState>(builder: (context, ffAppState, _) {
-      return ffAppState.audioPlayer.builderRealtimePlayingInfos(
-          builder: (context, infos) => PlayerBuilder.isPlaying(
-              player: ffAppState.audioPlayer,
-              builder: (context, isPlaying) {
-                final childWidget = GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        mini = !mini;
-                      });
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          mini = !mini;
+        });
+      },
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Visibility(
+            visible: !mini,
+            child: Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(0, 40, 0, 0),
+              child: Row(
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        setState(() {
+                          mini = !mini;
+                        });
+                      },
+                      icon: const Icon(Icons.keyboard_arrow_down))
+                ],
+              ),
+            ),
+          ),
+          AnimatedContainer(
+            duration: Duration(milliseconds: 250),
+            height: mini
+                ? MediaQuery.sizeOf(context).height * .07
+                : MediaQuery.sizeOf(context).height * .762,
+            child: Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(15, 0, 0, 0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  StreamBuilder<SequenceState?>(
+                    stream: _audioPlayer.sequenceStateStream,
+                    builder: (context, snapshot) {
+                      final state = snapshot.data;
+                      if (state?.sequence.isEmpty ?? true) {
+                        return const SizedBox();
+                      }
+                      final metaData = state?.currentSource?.tag;
+                      return Consumer<FFAppState>(
+                          builder: (context, ffAppState, _) => MediaMetaData(
+                                imageurl: metaData.artUri.toString(),
+                                title: metaData.title,
+                                artist: metaData.artist.toString(),
+                                mini: mini,
+                                live: ffAppState.isLive,
+                              ));
                     },
-                    child: AnimatedContainer(
-                      duration: Duration(milliseconds: 250),
-                      height: mini
-                          ? MediaQuery.sizeOf(context).height * .07
-                          : MediaQuery.sizeOf(context).height * .8649,
-                      child: mini
-                          ? Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  15, 0, 0, 0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  ffAppState.isLive
-                                      ? CircleAvatar(
-                                          backgroundImage: AssetImage(ffAppState
-                                              .audioPlayer
-                                              .getCurrentAudioImage
-                                              ?.path as String))
-                                      : CircleAvatar(
-                                          backgroundImage: NetworkImage(
-                                              ffAppState
-                                                  .audioPlayer
-                                                  .getCurrentAudioImage
-                                                  ?.path as String),
-                                          radius: 20,
-                                        ),
-                                  Text(
-                                    ffAppState.audioPlayer.getCurrentAudioTitle,
-                                    style: widget.titleTextStyle,
-                                  ),
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(34),
-                                    child: Material(
-                                      color: Colors.transparent,
-                                      child: IconButton(
-                                        onPressed: () async {
-                                          await ffAppState.audioPlayer
-                                              .playOrPause();
-                                        },
-                                        icon: Icon(
-                                          (ffAppState
-                                                  .audioPlayer.isPlaying.value)
-                                              ? Icons
-                                                  .pause_circle_filled_rounded
-                                              : Icons.play_circle_fill_rounded,
-                                          color: widget.playbackButtonColor,
-                                          size: 34,
-                                        ),
-                                        iconSize: 34,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          : Container(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0, 0, 0, 0),
-                                      child: Container(
-                                        child: Row(children: [
-                                          GestureDetector(
-                                              onTap: () => setState(() {
-                                                    mini = !mini;
-                                                  }),
-                                              child: Icon(
-                                                Icons.keyboard_arrow_down,
-                                                size: 50,
-                                              )),
-                                        ]),
-                                      )),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Column(
-                                        children: [
-                                          Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              !ffAppState.isLive
-                                                  ? Image.network(
-                                                      ffAppState
-                                                          .audioPlayer
-                                                          .getCurrentAudioImage
-                                                          ?.path as String,
-                                                      height: 400,
-                                                    )
-                                                  : Image.asset(
-                                                      ffAppState
-                                                          .audioPlayer
-                                                          .getCurrentAudioImage
-                                                          ?.path as String,
-                                                      height: 400,
-                                                    ),
-                                              Text(
-                                                ffAppState.audioPlayer
-                                                    .getCurrentAudioTitle,
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyText1
-                                                        .override(
-                                                          fontFamily: 'Poppins',
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                        ),
-                                              ),
-                                              Text(
-                                                playbackStateText(infos),
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyText1
-                                                        .override(
-                                                          fontFamily: 'Poppins',
-                                                          color:
-                                                              Color(0xFF9D9D9D),
-                                                          fontSize: 12,
-                                                        ),
-                                              )
-                                            ],
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              ClipRRect(
-                                                  child: Material(
-                                                child: IconButton(
-                                                  onPressed: () async {
-                                                    ffAppState.audioPlayer
-                                                        .toggleShuffle();
-                                                  },
-                                                  icon: Icon(Icons.shuffle),
-                                                ),
-                                              )),
-                                              ClipRRect(
-                                                  child: Material(
-                                                child: IconButton(
-                                                  onPressed: () async {
-                                                    ffAppState.audioPlayer
-                                                        .previous();
-                                                  },
-                                                  icon: Icon(Icons
-                                                      .skip_previous_rounded),
-                                                ),
-                                              )),
-                                              ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(34),
-                                                child: Material(
-                                                  color: Colors.transparent,
-                                                  child: IconButton(
-                                                    onPressed: () async {
-                                                      ffAppState.audioPlayer
-                                                          .playOrPause();
-                                                    },
-                                                    icon: Icon(
-                                                      (isPlaying)
-                                                          ? Icons
-                                                              .pause_circle_filled_rounded
-                                                          : Icons
-                                                              .play_circle_fill_rounded,
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .secondaryColor,
-                                                      size: 50,
-                                                    ),
-                                                    iconSize: 50,
-                                                  ),
-                                                ),
-                                              ),
-                                              ClipRRect(
-                                                  child: Material(
-                                                child: IconButton(
-                                                  icon: Icon(
-                                                      Icons.skip_next_rounded),
-                                                  onPressed: () async {
-                                                    ffAppState.audioPlayer
-                                                        .next();
-                                                  },
-                                                ),
-                                              )),
-                                              ClipRRect(
-                                                  child: Material(
-                                                child: IconButton(
-                                                  icon: Icon(Icons.repeat),
-                                                  onPressed: () {},
-                                                ),
-                                              )),
-                                            ],
-                                          ),
-                                          PositionSeekWidget(
-                                            currentPosition:
-                                                currentPosition(infos),
-                                            duration: duration(infos),
-                                            seekTo: (to) {
-                                              ffAppState.audioPlayer.seek(to);
-                                            },
-                                            activeTrackColor: Color(0xFFEB4323),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                    ));
-                return Material(
-                    color: Colors.white,
-                    elevation: 10,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                  ),
+                  if (!mini)
+                    StreamBuilder<PositionData>(
+                      stream: _positionDataStream(),
+                      builder: (context, snapshot) {
+                        final positionData = snapshot.data;
+                        return ProgressBar(
+                          barHeight: 8,
+                          baseBarColor: const Color(0xFFC9D0D5),
+                          progressBarColor: Color(0xFFEB4323),
+                          thumbColor: Color(0xFFEB4323),
+                          timeLabelTextStyle: TextStyle(
+                            color: Color(0xFFEB4323),
+                            fontWeight: FontWeight.w600,
+                          ),
+                          progress: positionData?.position ?? Duration.zero,
+                          buffered:
+                              positionData?.bufferedPosition ?? Duration.zero,
+                          total: positionData?.duration ?? Duration.zero,
+                          onSeek: _audioPlayer.seek,
+                        );
+                      },
                     ),
-                    child: childWidget);
-              }));
-    });
-  }
-}
-
-class PositionSeekWidget extends StatefulWidget {
-  const PositionSeekWidget({
-    required this.currentPosition,
-    required this.duration,
-    required this.seekTo,
-    required this.activeTrackColor,
-  });
-
-  final Duration currentPosition;
-  final Duration duration;
-  final Function(Duration) seekTo;
-  final Color activeTrackColor;
-
-  @override
-  _PositionSeekWidgetState createState() => _PositionSeekWidgetState();
-}
-
-class _PositionSeekWidgetState extends State<PositionSeekWidget> {
-  late Duration _visibleValue;
-  bool listenOnlyUserInteraction = false;
-  double get percent => widget.duration.inMilliseconds == 0
-      ? 0
-      : _visibleValue.inMilliseconds / widget.duration.inMilliseconds;
-
-  @override
-  void initState() {
-    super.initState();
-    _visibleValue = widget.currentPosition;
-  }
-
-  @override
-  void didUpdateWidget(PositionSeekWidget oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (!listenOnlyUserInteraction) {
-      _visibleValue = widget.currentPosition;
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) => SliderTheme(
-        data: SliderTheme.of(context).copyWith(
-          activeTrackColor: widget.activeTrackColor,
-          inactiveTrackColor: const Color(0xFFC9D0D5),
-          trackShape: const FlutterFlowRoundedRectSliderTrackShape(),
-          trackHeight: 6.0,
-          thumbShape: SliderComponentShape.noThumb,
-          overlayColor: const Color(0xFF57636C).withAlpha(32),
-          overlayShape: const RoundSliderOverlayShape(overlayRadius: 12.0),
-        ),
-        child: Slider(
-          min: 0,
-          max: widget.duration.inMilliseconds.toDouble(),
-          value: math.min(1.0, percent) *
-              widget.duration.inMilliseconds.toDouble(),
-          onChangeEnd: (newValue) => setState(() {
-            listenOnlyUserInteraction = false;
-            widget.seekTo(_visibleValue);
-          }),
-          onChangeStart: (_) =>
-              setState(() => listenOnlyUserInteraction = true),
-          onChanged: (newValue) => setState(
-              () => _visibleValue = Duration(milliseconds: newValue.floor())),
-        ),
-      );
-}
-
-String durationToString(Duration duration) {
-  String twoDigits(int n) => (n >= 10) ? '$n' : '0$n';
-  final twoDigitHour =
-      twoDigits(duration.inHours.remainder(Duration.hoursPerDay).toInt());
-  final twoDigitMinutes =
-      twoDigits(duration.inMinutes.remainder(Duration.minutesPerHour).toInt());
-  final twoDigitSeconds = twoDigits(
-      duration.inSeconds.remainder(Duration.secondsPerMinute).toInt());
-
-  if (duration.inHours > 0) {
-    return '$twoDigitHour:$twoDigitMinutes:$twoDigitSeconds';
-  }
-  return '$twoDigitMinutes:$twoDigitSeconds';
-}
-
-class FlutterFlowRoundedRectSliderTrackShape extends SliderTrackShape
-    with BaseSliderTrackShape {
-  /// Create a slider track that draws two rectangles with rounded outer edges.
-  const FlutterFlowRoundedRectSliderTrackShape();
-
-  @override
-  void paint(
-    PaintingContext context,
-    Offset offset, {
-    required RenderBox parentBox,
-    required SliderThemeData sliderTheme,
-    required Animation<double> enableAnimation,
-    required Offset thumbCenter,
-    Offset? secondaryOffset,
-    bool? isEnabled,
-    bool? isDiscrete,
-    required TextDirection textDirection,
-    double additionalActiveTrackHeight = 0,
-  }) {
-    assert(sliderTheme.disabledActiveTrackColor != null);
-    assert(sliderTheme.disabledInactiveTrackColor != null);
-    assert(sliderTheme.activeTrackColor != null);
-    assert(sliderTheme.inactiveTrackColor != null);
-    assert(sliderTheme.thumbShape != null);
-    // If the slider [SliderThemeData.trackHeight] is less than or equal to 0,
-    // then it makes no difference whether the track is painted or not,
-    // therefore the painting  can be a no-op.
-    if (sliderTheme.trackHeight == null || sliderTheme.trackHeight! <= 0) {
-      return;
-    }
-
-    // Assign the track segment paints, which are leading: active and
-    // trailing: inactive.
-    final ColorTween activeTrackColorTween = ColorTween(
-        begin: sliderTheme.disabledActiveTrackColor,
-        end: sliderTheme.activeTrackColor);
-    final ColorTween inactiveTrackColorTween = ColorTween(
-        begin: sliderTheme.disabledInactiveTrackColor,
-        end: sliderTheme.inactiveTrackColor);
-    final Paint activePaint = Paint()
-      ..color = activeTrackColorTween.evaluate(enableAnimation)!;
-    final Paint inactivePaint = Paint()
-      ..color = inactiveTrackColorTween.evaluate(enableAnimation)!;
-    final Paint leftTrackPaint = activePaint;
-    final Paint rightTrackPaint = inactivePaint;
-
-    final Rect trackRect = getPreferredRect(
-      parentBox: parentBox,
-      offset: offset,
-      sliderTheme: sliderTheme,
-      isEnabled: isEnabled ?? false,
-      isDiscrete: isDiscrete ?? false,
-    );
-    const Radius trackRadius = Radius.circular(2.0);
-    const Radius activeTrackRadius = Radius.circular(2.0);
-
-    context.canvas.drawRRect(
-      RRect.fromLTRBAndCorners(
-        thumbCenter.dx - activeTrackRadius.x,
-        trackRect.top,
-        trackRect.right,
-        trackRect.bottom,
-        topRight: trackRadius,
-        bottomRight: trackRadius,
-        topLeft: activeTrackRadius,
-        bottomLeft: activeTrackRadius,
+                  if (!mini) Controls(audioPlayer: _audioPlayer)
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
-      rightTrackPaint,
-    );
-    context.canvas.drawRRect(
-      RRect.fromLTRBAndCorners(
-        trackRect.left,
-        trackRect.top - (additionalActiveTrackHeight / 2),
-        thumbCenter.dx,
-        trackRect.bottom + (additionalActiveTrackHeight / 2),
-        topLeft: activeTrackRadius,
-        bottomLeft: activeTrackRadius,
-        topRight: trackRadius,
-        bottomRight: trackRadius,
-      ),
-      leftTrackPaint,
     );
   }
 }
 
-String generateRandomAlphaNumericString() {
-  const chars = 'abcdefghijklmnopqrstuvwxyz1234567890';
-  return String.fromCharCodes(Iterable.generate(
-      8, (_) => chars.codeUnits[math.Random().nextInt(chars.length)]));
+class MediaMetaData extends StatelessWidget {
+  MediaMetaData(
+      {super.key,
+      required this.imageurl,
+      required this.title,
+      required this.artist,
+      required this.mini,
+      required this.live});
+
+  final String imageurl;
+  final String title;
+  final String artist;
+  bool mini;
+  bool live;
+
+  @override
+  Widget build(BuildContext context) {
+    return mini
+        ? Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(15, 0, 0, 0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(10, 0, 35, 0),
+                  child: live
+                      ? CircleAvatar(
+                          backgroundImage: AssetImage(imageurl),
+                          radius: 20,
+                        )
+                      : CircleAvatar(
+                          backgroundImage: CachedNetworkImageProvider(imageurl),
+                          radius: 20,
+                        ),
+                ),
+                Text(title,
+                    style: FlutterFlowTheme.of(context).bodyText1.override(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w600,
+                        )),
+              ],
+            ),
+          )
+        : Column(
+            children: [
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  boxShadow: const [
+                    BoxShadow(
+                        color: Colors.black12,
+                        offset: Offset(2, 4),
+                        blurRadius: 4),
+                  ],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: live
+                      ? Image.asset(imageurl,
+                          height: 300, width: 300, fit: BoxFit.cover)
+                      : CachedNetworkImage(
+                          imageUrl: imageurl,
+                          height: 300,
+                          width: 300,
+                          fit: BoxFit.cover),
+                ),
+              ),
+              Text(
+                artist,
+                style: FlutterFlowTheme.of(context).bodyText1.override(
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                    ),
+              ),
+              Text(
+                title,
+                style: FlutterFlowTheme.of(context).bodyText1.override(
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w600,
+                    ),
+              ),
+            ],
+          );
+  }
+}
+
+class Controls extends StatelessWidget {
+  const Controls({super.key, required this.audioPlayer});
+  final AudioPlayer audioPlayer;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        IconButton(
+          onPressed: audioPlayer.seekToPrevious,
+          icon: const Icon(Icons.skip_previous_rounded),
+          color: Color(0xFFEB4323),
+          iconSize: 80,
+        ),
+        StreamBuilder<PlayerState>(
+            stream: audioPlayer.playerStateStream,
+            builder: ((context, snapshot) {
+              final playerState = snapshot.data;
+              final processingState = playerState?.processingState;
+              final playing = playerState?.playing;
+
+              if (!(playing ?? false)) {
+                return IconButton(
+                  onPressed: audioPlayer.play,
+                  icon: const Icon(Icons.play_arrow_rounded),
+                  iconSize: 80,
+                  color: Color(0xFFEB4323),
+                );
+              } else if (processingState != ProcessingState.completed) {
+                return IconButton(
+                  onPressed: audioPlayer.pause,
+                  icon: const Icon(Icons.pause_rounded),
+                  iconSize: 80,
+                  color: Color(0xFFEB4323),
+                );
+              }
+              return const Icon(
+                Icons.play_arrow_rounded,
+                size: 80,
+                color: Color(0xFFEB4323),
+              );
+            })),
+        IconButton(
+          onPressed: audioPlayer.seekToNext,
+          icon: const Icon(Icons.skip_next_rounded),
+          color: Color(0xFFEB4323),
+          iconSize: 80,
+        )
+      ],
+    );
+  }
 }

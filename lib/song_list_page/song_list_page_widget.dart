@@ -1,4 +1,4 @@
-import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:just_audio/just_audio.dart';
 
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
@@ -36,13 +36,17 @@ class SongListPageWidget extends StatefulWidget {
 
 class AudioPlayerManager {
   static final AudioPlayerManager _instance = AudioPlayerManager._();
-  final AssetsAudioPlayer _assetsAudioPlayer = AssetsAudioPlayer();
+  late AudioPlayer _audioPlayer = AudioPlayer();
 
   factory AudioPlayerManager() {
     return _instance;
   }
 
-  AssetsAudioPlayer get player => _assetsAudioPlayer;
+  AudioPlayer get player => _audioPlayer;
+
+  set player(AudioPlayer value) {
+    _audioPlayer = value;
+  }
 
   AudioPlayerManager._();
 }
@@ -331,8 +335,7 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                                     .primaryBtnText,
                                             icon: Icon(
                                               _audioPlayerManager
-                                                      ._assetsAudioPlayer
-                                                      .shuffle
+                                                      .player.shuffleModeEnabled
                                                   ? Icons.shuffle
                                                   : Icons.shuffle_on_outlined,
                                               color: Color(0xFFEB4323),
@@ -340,12 +343,16 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                             ),
                                             onPressed: () async {
                                               setState(() {
-                                                _audioPlayerManager
-                                                        ._assetsAudioPlayer
-                                                        .shuffle =
-                                                    !_audioPlayerManager
-                                                        ._assetsAudioPlayer
-                                                        .shuffle;
+                                                if (_audioPlayerManager
+                                                    ._audioPlayer
+                                                    .shuffleModeEnabled)
+                                                  _audioPlayerManager.player
+                                                      .setShuffleModeEnabled(
+                                                          true);
+
+                                                _audioPlayerManager.player
+                                                    .setShuffleModeEnabled(
+                                                        false);
                                               });
                                             },
                                           ),
@@ -370,9 +377,6 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                                       widget.music!.reference,
                                                   songs: widget.music?.songs
                                                       .toList(),
-                                                  assetsAudioPlayer:
-                                                      _audioPlayerManager
-                                                          .player,
                                                   index: 0);
                                             },
                                           ),
@@ -437,9 +441,6 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                                           songs: widget
                                                               .music?.songs
                                                               .toList(),
-                                                          assetsAudioPlayer:
-                                                              _audioPlayerManager
-                                                                  .player,
                                                           index:
                                                               songslistIndex);
                                                     },
@@ -750,8 +751,8 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                               FlutterFlowTheme.of(context)
                                                   .primaryBtnText,
                                           icon: Icon(
-                                            _audioPlayerManager
-                                                    ._assetsAudioPlayer.shuffle
+                                            _audioPlayerManager._audioPlayer
+                                                    .shuffleModeEnabled
                                                 ? Icons.shuffle
                                                 : Icons.shuffle_on_outlined,
                                             color: Color(0xFFEB4323),
@@ -759,12 +760,15 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                           ),
                                           onPressed: () async {
                                             setState(() {
-                                              _audioPlayerManager
-                                                      ._assetsAudioPlayer
-                                                      .shuffle =
-                                                  !_audioPlayerManager
-                                                      ._assetsAudioPlayer
-                                                      .shuffle;
+                                              if (_audioPlayerManager
+                                                  ._audioPlayer
+                                                  .shuffleModeEnabled) {
+                                                _audioPlayerManager._audioPlayer
+                                                    .setShuffleModeEnabled(
+                                                        false);
+                                              }
+                                              _audioPlayerManager._audioPlayer
+                                                  .setShuffleModeEnabled(true);
                                             });
                                           },
                                         ),
@@ -789,8 +793,6 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                                 songs: widget
                                                     .playlist!.playlistSongs
                                                     .toList(),
-                                                assetsAudioPlayer:
-                                                    _audioPlayerManager.player,
                                                 index: 0);
                                           },
                                         ),
@@ -894,9 +896,6 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                                                   .playlist!
                                                                   .playlistSongs
                                                                   .toList(),
-                                                              assetsAudioPlayer:
-                                                                  _audioPlayerManager
-                                                                      .player,
                                                               index:
                                                                   playListSongsIndex);
                                                         },
@@ -1199,9 +1198,8 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                                 FlutterFlowTheme.of(context)
                                                     .primaryBtnText,
                                             icon: Icon(
-                                              _audioPlayerManager
-                                                      ._assetsAudioPlayer
-                                                      .shuffle
+                                              _audioPlayerManager._audioPlayer
+                                                      .shuffleModeEnabled
                                                   ? Icons.shuffle
                                                   : Icons.shuffle_on_outlined,
                                               color: Color(0xFFEB4323),
@@ -1209,12 +1207,17 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                             ),
                                             onPressed: () async {
                                               setState(() {
-                                                _audioPlayerManager
-                                                        ._assetsAudioPlayer
-                                                        .shuffle =
-                                                    !_audioPlayerManager
-                                                        ._assetsAudioPlayer
-                                                        .shuffle;
+                                                if (_audioPlayerManager
+                                                    ._audioPlayer
+                                                    .shuffleModeEnabled) {
+                                                  _audioPlayerManager
+                                                      ._audioPlayer
+                                                      .setShuffleModeEnabled(
+                                                          false);
+                                                }
+                                                _audioPlayerManager.player
+                                                    .setShuffleModeEnabled(
+                                                        true);
                                               });
                                             },
                                           ),
@@ -1232,14 +1235,12 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                             ),
                                             onPressed: () async {
                                               await FFAppState().audioMetaList(
-                                                  live: false,
-                                                  song: widget
-                                                      .singleSong!.reference,
-                                                  artist: containerArtistRecord
-                                                      .artistName,
-                                                  assetsAudioPlayer:
-                                                      _audioPlayerManager
-                                                          .player);
+                                                live: false,
+                                                song: widget
+                                                    .singleSong!.reference,
+                                                artist: containerArtistRecord
+                                                    .artistName,
+                                              );
                                             },
                                           ),
                                         ],
@@ -1275,16 +1276,15 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                                 highlightColor:
                                                     Colors.transparent,
                                                 onTap: () async {
-                                                  await FFAppState().audioMetaList(
-                                                      live: false,
-                                                      song: widget.singleSong!
-                                                          .reference,
-                                                      artist:
-                                                          containerArtistRecord
-                                                              .artistName,
-                                                      assetsAudioPlayer:
-                                                          _audioPlayerManager
-                                                              .player);
+                                                  await FFAppState()
+                                                      .audioMetaList(
+                                                    live: false,
+                                                    song: widget
+                                                        .singleSong!.reference,
+                                                    artist:
+                                                        containerArtistRecord
+                                                            .artistName,
+                                                  );
                                                 },
                                                 child: Container(
                                                   width:
@@ -1941,9 +1941,8 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                                                                 .podcast!.reference,
                                                                             episodes:
                                                                                 filteredEpisodes,
-                                                                            assetsAudioPlayer:
-                                                                                _audioPlayerManager.player,
-                                                                            index: epsIndex);
+                                                                            index:
+                                                                                epsIndex);
                                                                       } else {
                                                                         await FFAppState().audioMetaList(
                                                                             live:
@@ -1951,7 +1950,6 @@ class _SongListPageWidgetState extends State<SongListPageWidget> {
                                                                             podcast:
                                                                                 widget.podcast!.reference,
                                                                             episodes: widget.podcast!.episodes,
-                                                                            assetsAudioPlayer: _audioPlayerManager.player,
                                                                             index: epsIndex);
                                                                       }
                                                                     },
