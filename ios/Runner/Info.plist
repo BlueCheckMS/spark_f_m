@@ -94,6 +94,8 @@
 	 <key>com.apple.security.network.client</key>
 	 <true/>
 	 <key>UIBackgroundModes</key>
+	 <key>NSMicrophoneUsageDescription</key>
+		<string>We need access to the microphone for user to record.</string>
     <array>
         <string>fetch</string>
         <string>remote-notification</string>
