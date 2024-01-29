@@ -29,7 +29,6 @@
             <key>CFBundleURLSchemes</key>
             <array>
                 <string>com.googleusercontent.apps.1016846557576-vtcrglsshf10c5jliravn6b5pjfseaip</string>
-                
             </array>
         </dict>
 
@@ -47,6 +46,8 @@
     <key>FlutterDeepLinkingEnabled</key>
     <true/>
 
+	<key>NSMicrophoneUsageDescription</key>
+	<string>We need access to the microphone for user to record.</string>
 
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
@@ -94,8 +95,7 @@
 	 <key>com.apple.security.network.client</key>
 	 <true/>
 	 <key>UIBackgroundModes</key>
-	 <key>NSMicrophoneUsageDescription</key>
-		<string>We need access to the microphone for user to record.</string>
+	 
     <array>
         <string>fetch</string>
         <string>remote-notification</string>
