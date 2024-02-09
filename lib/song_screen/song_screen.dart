@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -127,7 +128,7 @@ class __AudioPlayerWidgetState extends State<AudioPlayerWidget> {
                 ? MediaQuery.sizeOf(context).height * .07
                 : MediaQuery.sizeOf(context).height * .762,
             child: Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(15, 0, 0, 0),
+              padding: const EdgeInsetsDirectional.fromSTEB(30, 0, 30, 0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -146,32 +147,35 @@ class __AudioPlayerWidgetState extends State<AudioPlayerWidget> {
                                 artist: metaData.artist.toString(),
                                 mini: mini,
                                 live: ffAppState.isLive,
+                                audioPlayer: ffAppState.audioPlayer,
                               ));
                     },
                   ),
-                  if (!mini)
-                    StreamBuilder<PositionData>(
-                      stream: _positionDataStream(),
-                      builder: (context, snapshot) {
-                        final positionData = snapshot.data;
-                        return ProgressBar(
-                          barHeight: 8,
-                          baseBarColor: const Color(0xFFC9D0D5),
-                          progressBarColor: Color(0xFFEB4323),
-                          thumbColor: Color(0xFFEB4323),
-                          timeLabelTextStyle: TextStyle(
-                            color: Color(0xFFEB4323),
-                            fontWeight: FontWeight.w600,
-                          ),
-                          progress: positionData?.position ?? Duration.zero,
-                          buffered:
-                              positionData?.bufferedPosition ?? Duration.zero,
-                          total: positionData?.duration ?? Duration.zero,
-                          onSeek: _audioPlayer.seek,
-                        );
-                      },
-                    ),
-                  if (!mini) Controls(audioPlayer: _audioPlayer)
+                  Consumer<FFAppState>(builder: (context, appState, _) {
+                    if ((!appState.isLive && !mini))
+                      return StreamBuilder<PositionData>(
+                        stream: _positionDataStream(),
+                        builder: (context, snapshot) {
+                          final positionData = snapshot.data;
+                          return ProgressBar(
+                            barHeight: 8,
+                            baseBarColor: const Color(0xFFC9D0D5),
+                            progressBarColor: Color(0xFFEB4323),
+                            thumbColor: Color(0xFFEB4323),
+                            timeLabelTextStyle: TextStyle(
+                              color: Color(0xFFEB4323),
+                              fontWeight: FontWeight.w600,
+                            ),
+                            progress: positionData?.position ?? Duration.zero,
+                            buffered:
+                                positionData?.bufferedPosition ?? Duration.zero,
+                            total: positionData?.duration ?? Duration.zero,
+                            onSeek: _audioPlayer.seek,
+                          );
+                        },
+                      );
+                    return SizedBox();
+                  }),
                 ],
               ),
             ),
@@ -183,30 +187,78 @@ class __AudioPlayerWidgetState extends State<AudioPlayerWidget> {
 }
 
 class MediaMetaData extends StatelessWidget {
+  final ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController2 = ScrollController();
   MediaMetaData(
       {super.key,
       required this.imageurl,
       required this.title,
       required this.artist,
       required this.mini,
-      required this.live});
+      required this.live,
+      required this.audioPlayer});
 
   final String imageurl;
   final String title;
   final String artist;
+  final AudioPlayer audioPlayer;
   bool mini;
   bool live;
 
   @override
   Widget build(BuildContext context) {
+    Timer.periodic(Duration(seconds: 2), (timer) {
+      if (_scrollController.hasClients) {
+        double maxScrollExtent = _scrollController.position.maxScrollExtent;
+        double currentPosition = _scrollController.position.pixels;
+
+        if (currentPosition < maxScrollExtent) {
+          // Scroll to the end
+          _scrollController.animateTo(
+            maxScrollExtent,
+            duration: Duration(milliseconds: 3000),
+            curve: Curves.easeInOut,
+          );
+        } else {
+          // Scroll back to the beginning
+          _scrollController.animateTo(
+            0.0,
+            duration: Duration(milliseconds: 1000),
+            curve: Curves.easeInOut,
+          );
+        }
+      }
+    });
+    Timer.periodic(Duration(seconds: 3), (timer) {
+      if (_scrollController2.hasClients) {
+        double maxScrollExtent = _scrollController2.position.maxScrollExtent;
+        double currentPosition = _scrollController2.position.pixels;
+
+        if (currentPosition < maxScrollExtent) {
+          // Scroll to the end
+          _scrollController2.animateTo(
+            maxScrollExtent,
+            duration: Duration(milliseconds: 3000),
+            curve: Curves.easeInOut,
+          );
+        } else {
+          // Scroll back to the beginning
+          _scrollController2.animateTo(
+            0.0,
+            duration: Duration(milliseconds: 1000),
+            curve: Curves.easeInOut,
+          );
+        }
+      }
+    });
     return mini
         ? Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(15, 0, 0, 0),
+            padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(10, 0, 35, 0),
+                  padding: EdgeInsetsDirectional.fromSTEB(10, 0, 15, 0),
                   child: live
                       ? CircleAvatar(
                           backgroundImage: AssetImage(imageurl),
@@ -217,11 +269,67 @@ class MediaMetaData extends StatelessWidget {
                           radius: 20,
                         ),
                 ),
-                Text(title,
-                    style: FlutterFlowTheme.of(context).bodyText1.override(
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w600,
-                        )),
+                Flexible(
+                    child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SingleChildScrollView(
+                        controller: _scrollController,
+                        scrollDirection: Axis.horizontal,
+                        physics: BouncingScrollPhysics(),
+                        child: Container(
+                          height: 22,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                title,
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .override(
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      SingleChildScrollView(
+                        controller: _scrollController2,
+                        scrollDirection: Axis.horizontal,
+                        physics: BouncingScrollPhysics(),
+                        child: Container(
+                          height: 22,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                artist,
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .override(
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )),
+                Padding(
+                  padding: const EdgeInsetsDirectional.fromSTEB(100, 0, 0, 0),
+                  child: Consumer<FFAppState>(
+                      builder: (context, appState, _) => Controls(
+                            audioPlayer: audioPlayer,
+                            live: appState.isLive,
+                            mini: mini,
+                          )),
+                )
               ],
             ),
           )
@@ -251,7 +359,7 @@ class MediaMetaData extends StatelessWidget {
               ),
               Text(
                 artist,
-                style: FlutterFlowTheme.of(context).bodyText1.override(
+                style: FlutterFlowTheme.of(context).bodyMedium.override(
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w600,
                     ),
@@ -263,61 +371,105 @@ class MediaMetaData extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
               ),
+              Consumer<FFAppState>(
+                  builder: (context, appState, _) => Controls(
+                        audioPlayer: audioPlayer,
+                        live: appState.isLive,
+                        mini: mini,
+                      ))
             ],
           );
   }
 }
 
 class Controls extends StatelessWidget {
-  const Controls({super.key, required this.audioPlayer});
+  const Controls(
+      {super.key,
+      required this.audioPlayer,
+      required this.live,
+      required this.mini});
   final AudioPlayer audioPlayer;
+  final bool live;
+  final bool mini;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        IconButton(
-          onPressed: audioPlayer.seekToPrevious,
-          icon: const Icon(Icons.skip_previous_rounded),
-          color: Color(0xFFEB4323),
-          iconSize: 80,
-        ),
-        StreamBuilder<PlayerState>(
-            stream: audioPlayer.playerStateStream,
-            builder: ((context, snapshot) {
-              final playerState = snapshot.data;
-              final processingState = playerState?.processingState;
-              final playing = playerState?.playing;
-
-              if (!(playing ?? false)) {
-                return IconButton(
-                  onPressed: audioPlayer.play,
-                  icon: const Icon(Icons.play_arrow_rounded),
-                  iconSize: 80,
-                  color: Color(0xFFEB4323),
-                );
-              } else if (processingState != ProcessingState.completed) {
-                return IconButton(
-                  onPressed: audioPlayer.pause,
-                  icon: const Icon(Icons.pause_rounded),
-                  iconSize: 80,
-                  color: Color(0xFFEB4323),
-                );
-              }
-              return const Icon(
-                Icons.play_arrow_rounded,
-                size: 80,
+    if (!mini) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Visibility(
+              visible: !live,
+              child: IconButton(
+                onPressed: audioPlayer.seekToPrevious,
+                icon: const Icon(Icons.skip_previous_rounded),
                 color: Color(0xFFEB4323),
-              );
-            })),
-        IconButton(
-          onPressed: audioPlayer.seekToNext,
-          icon: const Icon(Icons.skip_next_rounded),
-          color: Color(0xFFEB4323),
-          iconSize: 80,
-        )
-      ],
-    );
+                iconSize: 80,
+              )),
+          StreamBuilder<PlayerState>(
+              stream: audioPlayer.playerStateStream,
+              builder: ((context, snapshot) {
+                final playerState = snapshot.data;
+                final processingState = playerState?.processingState;
+                final playing = playerState?.playing;
+                if (!(playing ?? false)) {
+                  return IconButton(
+                    onPressed: audioPlayer.play,
+                    icon: const Icon(Icons.play_arrow_rounded),
+                    iconSize: 80,
+                    color: Color(0xFFEB4323),
+                  );
+                } else if (processingState != ProcessingState.completed) {
+                  return IconButton(
+                    onPressed: audioPlayer.pause,
+                    icon: const Icon(Icons.pause_rounded),
+                    iconSize: 80,
+                    color: Color(0xFFEB4323),
+                  );
+                }
+                return const Icon(
+                  Icons.play_arrow_rounded,
+                  size: 80,
+                  color: Color(0xFFEB4323),
+                );
+              })),
+          Visibility(
+              visible: !live,
+              child: IconButton(
+                onPressed: audioPlayer.seekToNext,
+                icon: const Icon(Icons.skip_next_rounded),
+                color: Color(0xFFEB4323),
+                iconSize: 80,
+              ))
+        ],
+      );
+    }
+    return StreamBuilder<PlayerState>(
+        stream: audioPlayer.playerStateStream,
+        builder: ((context, snapshot) {
+          final playerState = snapshot.data;
+          final processingState = playerState?.processingState;
+          final playing = playerState?.playing;
+          if (!(playing ?? false)) {
+            return IconButton(
+              onPressed: audioPlayer.play,
+              icon: const Icon(Icons.play_arrow_rounded),
+              iconSize: 40,
+              color: Color(0xFFEB4323),
+            );
+          } else if (processingState != ProcessingState.completed) {
+            return IconButton(
+              onPressed: audioPlayer.pause,
+              icon: const Icon(Icons.pause_rounded),
+              iconSize: 40,
+              color: Color(0xFFEB4323),
+            );
+          }
+          return const Icon(
+            Icons.play_arrow_rounded,
+            size: 40,
+            color: Color(0xFFEB4323),
+          );
+        }));
   }
 }
