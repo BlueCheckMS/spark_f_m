@@ -90,6 +90,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      debugShowMaterialGrid: false,
       title: 'SparkFM',
       localizationsDelegates: [
         FFLocalizationsDelegate(),

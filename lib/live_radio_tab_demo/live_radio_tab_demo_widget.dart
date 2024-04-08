@@ -2,6 +2,8 @@ import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -12,10 +14,10 @@ import 'live_radio_tab_demo_model.dart';
 export 'live_radio_tab_demo_model.dart';
 
 class LiveRadioTabDemoWidget extends StatefulWidget {
-  const LiveRadioTabDemoWidget({Key? key}) : super(key: key);
+  const LiveRadioTabDemoWidget({super.key});
 
   @override
-  _LiveRadioTabDemoWidgetState createState() => _LiveRadioTabDemoWidgetState();
+  State<LiveRadioTabDemoWidget> createState() => _LiveRadioTabDemoWidgetState();
 }
 
 class _LiveRadioTabDemoWidgetState extends State<LiveRadioTabDemoWidget>
@@ -33,7 +35,7 @@ class _LiveRadioTabDemoWidgetState extends State<LiveRadioTabDemoWidget>
       vsync: this,
       length: 2,
       initialIndex: 0,
-    );
+    )..addListener(() => setState(() {}));
   }
 
   @override
@@ -45,58 +47,62 @@ class _LiveRadioTabDemoWidgetState extends State<LiveRadioTabDemoWidget>
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return Scaffold(
       key: scaffoldKey,
-      appBar: AppBar(
-        leading: FlutterFlowIconButton(
-          borderColor: Colors.transparent,
-          borderRadius: 30,
-          borderWidth: 1,
-          buttonSize: 60,
-          icon: Icon(
-            Icons.account_circle_sharp,
-            color: Color(0xFFEB4323),
-            size: 30,
-          ),
-          onPressed: () async {
-            context.pushNamed('EditProfile');
-          },
-        ),
-        backgroundColor: Colors.white,
-        title: Text('Spark FM'),
-        centerTitle: true,
-        titleTextStyle: FlutterFlowTheme.of(context).headlineMedium.override(
-              fontFamily: 'Poppins',
-              color: Colors.black,
-              fontSize: 16,
-            ),
-        actions: [
-          FlutterFlowIconButton(
-            borderColor: Colors.transparent,
-            borderRadius: 30,
-            borderWidth: 1,
-            buttonSize: 60,
-            icon: Icon(
-              Icons.message,
-              color: Color(0xFFEB4323),
-              size: 30,
-            ),
-            onPressed: () async {
-              context.pushNamed(
-                'chatsCopy',
-              );
-            },
-          ),
-        ],
-        elevation: 0,
-      ),
       body: SafeArea(
         top: true,
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
+            Container(
+              height: 78,
+              decoration: BoxDecoration(
+                color: FlutterFlowTheme.of(context).secondaryBackground,
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  FlutterFlowIconButton(
+                    borderColor: Colors.transparent,
+                    borderRadius: 30,
+                    borderWidth: 1,
+                    buttonSize: 60,
+                    icon: Icon(
+                      Icons.account_circle_sharp,
+                      color: Color(0xFFEB4323),
+                      size: 30,
+                    ),
+                    onPressed: () async {
+                      context.pushNamed('EditProfile');
+                    },
+                  ),
+                  Text(
+                    'Listen Live',
+                    style: FlutterFlowTheme.of(context).headlineMedium.override(
+                          fontFamily: 'Poppins',
+                          color: Colors.black,
+                          fontSize: 16,
+                          letterSpacing: 0,
+                        ),
+                  ),
+                  FlutterFlowIconButton(
+                    borderColor: Colors.transparent,
+                    borderRadius: 30,
+                    borderWidth: 1,
+                    buttonSize: 60,
+                    icon: Icon(
+                      Icons.message,
+                      color: Color(0xFFEB4323),
+                      size: 30,
+                    ),
+                    onPressed: () async {
+                      context.pushNamed('chatsCopy');
+                    },
+                  ),
+                ],
+              ),
+            ),
             Expanded(
               child: Column(
                 children: [
@@ -108,6 +114,7 @@ class _LiveRadioTabDemoWidgetState extends State<LiveRadioTabDemoWidget>
                           FlutterFlowTheme.of(context).bodyMedium.override(
                                 fontFamily: 'Poppins',
                                 fontSize: 18,
+                                letterSpacing: 0,
                               ),
                       unselectedLabelStyle: TextStyle(),
                       indicatorColor: Color(0xFFEB4323),
@@ -121,7 +128,9 @@ class _LiveRadioTabDemoWidgetState extends State<LiveRadioTabDemoWidget>
                         ),
                       ],
                       controller: _model.tabBarController,
-                      onTap: (value) => setState(() {}),
+                      onTap: (i) async {
+                        [() async {}, () async {}][i]();
+                      },
                     ),
                   ),
                   Expanded(
@@ -148,7 +157,7 @@ class _LiveRadioTabDemoWidgetState extends State<LiveRadioTabDemoWidget>
                                   width: MediaQuery.sizeOf(context).width,
                                   height: 160,
                                   decoration: BoxDecoration(
-                                    color: Color.fromARGB(255, 255, 255, 255),
+                                    color: Color(0xFFEEEEEE),
                                   ),
                                   child: Image.asset(
                                     'assets/images/7e4837_5719dd637be246169079b5e73f21f381_mv2.webp',
@@ -156,41 +165,12 @@ class _LiveRadioTabDemoWidgetState extends State<LiveRadioTabDemoWidget>
                                   ),
                                 ),
                               ),
-                              Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Align(
-                                    alignment: AlignmentDirectional(0, 0),
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          18, 25, 0, 0),
-                                      child: Text(
-                                        'On Air Now',
-                                        textAlign: TextAlign.start,
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .override(
-                                              fontFamily: 'Poppins',
-                                              color: Colors.black,
-                                              fontSize: 18,
-                                            ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
                               Padding(
                                 padding:
                                     EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
                                 child: StreamBuilder<List<ShowsRecord>>(
                                   stream: _model.nowPlayingShow(
-                                    requestFn: () => queryShowsRecord(
-                                      queryBuilder: (showsRecord) => showsRecord
-                                          .where('nowPlaying', isEqualTo: true),
-                                      singleRecord: true,
-                                    ),
+                                    requestFn: () => queryShowsRecord(),
                                   ),
                                   builder: (context, snapshot) {
                                     // Customize what your widget looks like when it's loading.
@@ -208,118 +188,253 @@ class _LiveRadioTabDemoWidgetState extends State<LiveRadioTabDemoWidget>
                                     }
                                     List<ShowsRecord> containerShowsRecordList =
                                         snapshot.data!;
-                                    final containerShowsRecord =
-                                        containerShowsRecordList.isNotEmpty
-                                            ? containerShowsRecordList.first
-                                            : null;
                                     return Container(
                                       decoration: BoxDecoration(),
-                                      child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            20, 0, 10, 10),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              decoration: BoxDecoration(),
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Image.network(
-                                                    containerShowsRecord!
-                                                        .showImage,
-                                                    width: 100,
-                                                    height: 100,
-                                                    fit: BoxFit.fitWidth,
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Align(
+                                                alignment:
+                                                    AlignmentDirectional(0, 0),
+                                                child: Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(18, 25, 0, 0),
+                                                  child: Text(
+                                                    'On Air Now',
+                                                    textAlign: TextAlign.start,
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily: 'Poppins',
+                                                          color: Colors.black,
+                                                          fontSize: 18,
+                                                          letterSpacing: 0,
+                                                        ),
                                                   ),
-                                                  Padding(
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          if (functions.currentShowCopy(
+                                                  containerShowsRecordList
+                                                      .toList()) !=
+                                              null)
+                                            StreamBuilder<ShowsRecord>(
+                                              stream: ShowsRecord.getDocument(
+                                                  functions
+                                                      .currentShowCopy(
+                                                          containerShowsRecordList
+                                                              .toList())!
+                                                      .reference),
+                                              builder: (context, snapshot) {
+                                                // Customize what your widget looks like when it's loading.
+                                                if (!snapshot.hasData) {
+                                                  return Center(
+                                                    child: SizedBox(
+                                                      width: 50,
+                                                      height: 50,
+                                                      child: SpinKitDualRing(
+                                                        color:
+                                                            Color(0xFFEB4323),
+                                                        size: 50,
+                                                      ),
+                                                    ),
+                                                  );
+                                                }
+                                                final containerShowsRecord =
+                                                    snapshot.data!;
+                                                return Container(
+                                                  decoration: BoxDecoration(),
+                                                  child: Padding(
                                                     padding:
                                                         EdgeInsetsDirectional
                                                             .fromSTEB(
-                                                                20, 0, 0, 0),
-                                                    child: Column(
+                                                                20, 0, 10, 10),
+                                                    child: Row(
                                                       mainAxisSize:
                                                           MainAxisSize.max,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
                                                               .start,
                                                       children: [
-                                                        Text(
-                                                          containerShowsRecord!
-                                                              .title,
-                                                          textAlign:
-                                                              TextAlign.start,
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Poppins',
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .secondary,
+                                                        Container(
+                                                          decoration:
+                                                              BoxDecoration(),
+                                                          child: Row(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .max,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Image.network(
+                                                                containerShowsRecord
+                                                                    .showImage,
+                                                                width: 100,
+                                                                height: 100,
+                                                                fit: BoxFit
+                                                                    .fitWidth,
                                                               ),
-                                                        ),
-                                                        Text(
-                                                          containerShowsRecord!
-                                                              .description
-                                                              .maybeHandleOverflow(
-                                                                  maxChars: 25),
-                                                          textAlign:
-                                                              TextAlign.start,
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Poppins',
-                                                                fontSize: 12,
+                                                              Padding(
+                                                                padding:
+                                                                    EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            20,
+                                                                            0,
+                                                                            0,
+                                                                            0),
+                                                                child: Column(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Text(
+                                                                      containerShowsRecord
+                                                                          .title,
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .start,
+                                                                      style: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .override(
+                                                                            fontFamily:
+                                                                                'Poppins',
+                                                                            color:
+                                                                                FlutterFlowTheme.of(context).secondary,
+                                                                            letterSpacing:
+                                                                                0,
+                                                                          ),
+                                                                    ),
+                                                                    Text(
+                                                                      containerShowsRecord
+                                                                          .description
+                                                                          .maybeHandleOverflow(
+                                                                              maxChars: 25),
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .start,
+                                                                      style: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .override(
+                                                                            fontFamily:
+                                                                                'Poppins',
+                                                                            fontSize:
+                                                                                12,
+                                                                            letterSpacing:
+                                                                                0,
+                                                                          ),
+                                                                    ),
+                                                                    Builder(
+                                                                      builder:
+                                                                          (context) {
+                                                                        final djs = containerShowsRecord
+                                                                            .dJName
+                                                                            .toList();
+                                                                        return Wrap(
+                                                                          spacing:
+                                                                              0,
+                                                                          runSpacing:
+                                                                              0,
+                                                                          alignment:
+                                                                              WrapAlignment.start,
+                                                                          crossAxisAlignment:
+                                                                              WrapCrossAlignment.start,
+                                                                          direction:
+                                                                              Axis.vertical,
+                                                                          runAlignment:
+                                                                              WrapAlignment.start,
+                                                                          verticalDirection:
+                                                                              VerticalDirection.down,
+                                                                          clipBehavior:
+                                                                              Clip.none,
+                                                                          children: List.generate(
+                                                                              djs.length,
+                                                                              (djsIndex) {
+                                                                            final djsItem =
+                                                                                djs[djsIndex];
+                                                                            return Text(
+                                                                              djsItem,
+                                                                              textAlign: TextAlign.start,
+                                                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                    fontFamily: 'Poppins',
+                                                                                    color: Color(0xFF575757),
+                                                                                    letterSpacing: 0,
+                                                                                    fontWeight: FontWeight.normal,
+                                                                                  ),
+                                                                            );
+                                                                          }),
+                                                                        );
+                                                                      },
+                                                                    ),
+                                                                    Text(
+                                                                      'Exclusively on Spark FM. \nInterviews, spotlights, and good music.',
+                                                                      style: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .override(
+                                                                            fontFamily:
+                                                                                'Poppins',
+                                                                            fontSize:
+                                                                                10,
+                                                                            letterSpacing:
+                                                                                0,
+                                                                            fontWeight:
+                                                                                FontWeight.normal,
+                                                                          ),
+                                                                    ),
+                                                                  ],
+                                                                ),
                                                               ),
-                                                        ),
-                                                        Text(
-                                                          containerShowsRecord!
-                                                              .showtimes,
-                                                          textAlign:
-                                                              TextAlign.start,
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Poppins',
-                                                                color: Color(
-                                                                    0xFF575757),
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .normal,
-                                                              ),
-                                                        ),
-                                                        Text(
-                                                          'Exclusively on Spark FM. \nInterviews, spotlights, and good music.',
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Poppins',
-                                                                fontSize: 10,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .normal,
-                                                              ),
+                                                            ],
+                                                          ),
                                                         ),
                                                       ],
                                                     ),
                                                   ),
+                                                );
+                                              },
+                                            ),
+                                          if (!(functions.currentShowCopy(
+                                                  containerShowsRecordList
+                                                      .toList()) !=
+                                              null))
+                                            Container(
+                                              width: double.infinity,
+                                              height: 100,
+                                              decoration: BoxDecoration(),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.max,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    'No Shows On Air At The Moment',
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily: 'Poppins',
+                                                          letterSpacing: 0,
+                                                        ),
+                                                  ),
                                                 ],
                                               ),
                                             ),
-                                          ],
-                                        ),
+                                        ],
                                       ),
                                     );
                                   },
@@ -342,6 +457,7 @@ class _LiveRadioTabDemoWidgetState extends State<LiveRadioTabDemoWidget>
                                               fontFamily: 'Poppins',
                                               color: Colors.black,
                                               fontSize: 18,
+                                              letterSpacing: 0,
                                             ),
                                       ),
                                     ),
@@ -349,14 +465,7 @@ class _LiveRadioTabDemoWidgetState extends State<LiveRadioTabDemoWidget>
                                 ],
                               ),
                               StreamBuilder<List<ShowsRecord>>(
-                                stream: _model.showList(
-                                  requestFn: () => queryShowsRecord(
-                                    queryBuilder: (showsRecord) => showsRecord
-                                        .where('nowPlaying', isEqualTo: false)
-                                        .where('TodaysLineup', isEqualTo: true)
-                                        .orderBy('ShowOrder'),
-                                  ),
-                                ),
+                                stream: queryShowsRecord(),
                                 builder: (context, snapshot) {
                                   // Customize what your widget looks like when it's loading.
                                   if (!snapshot.hasData) {
@@ -371,121 +480,183 @@ class _LiveRadioTabDemoWidgetState extends State<LiveRadioTabDemoWidget>
                                       ),
                                     );
                                   }
-                                  List<ShowsRecord> columnShowsRecordList =
+                                  List<ShowsRecord> containerShowsRecordList =
                                       snapshot.data!;
-                                  return Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: List.generate(
-                                        columnShowsRecordList.length,
-                                        (columnIndex) {
-                                      final columnShowsRecord =
-                                          columnShowsRecordList[columnIndex];
-                                      return Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0, 10, 0, 10),
-                                        child: Container(
-                                          width:
-                                              MediaQuery.sizeOf(context).width,
-                                          decoration: BoxDecoration(),
-                                          child: Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    20, 0, 20, 0),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                Image.network(
-                                                  columnShowsRecord.showImage,
-                                                  width: 100,
-                                                  height: 100,
-                                                  fit: BoxFit.fitWidth,
-                                                ),
-                                                Flexible(
-                                                  child: Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                20, 0, 0, 0),
-                                                    child: Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          columnShowsRecord
-                                                              .title,
-                                                          textAlign:
-                                                              TextAlign.start,
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Poppins',
-                                                                color: FlutterFlowTheme.of(
+                                  return Container(
+                                    decoration: BoxDecoration(),
+                                    child: Builder(
+                                      builder: (context) {
+                                        final todayShows = functions
+                                                .currentShow(
+                                                    containerShowsRecordList
+                                                        .toList())
+                                                ?.toList() ??
+                                            [];
+                                        return ListView.builder(
+                                          primary: false,
+                                          padding: EdgeInsets.zero,
+                                          shrinkWrap: true,
+                                          scrollDirection: Axis.vertical,
+                                          itemCount: todayShows.length,
+                                          itemBuilder:
+                                              (context, todayShowsIndex) {
+                                            final todayShowsItem =
+                                                todayShows[todayShowsIndex];
+                                            return Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(0, 10, 0, 10),
+                                              child: Container(
+                                                width:
+                                                    MediaQuery.sizeOf(context)
+                                                        .width,
+                                                decoration: BoxDecoration(),
+                                                child: Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(20, 0, 20, 0),
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    children: [
+                                                      Image.network(
+                                                        todayShowsItem
+                                                            .showImage,
+                                                        width: 100,
+                                                        height: 100,
+                                                        fit: BoxFit.fitWidth,
+                                                      ),
+                                                      Flexible(
+                                                        child: Padding(
+                                                          padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(20,
+                                                                      0, 0, 0),
+                                                          child: Column(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .max,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text(
+                                                                todayShowsItem
+                                                                    .title,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .start,
+                                                                style: FlutterFlowTheme.of(
                                                                         context)
-                                                                    .secondary,
+                                                                    .bodyMedium
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Poppins',
+                                                                      color: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .secondary,
+                                                                      letterSpacing:
+                                                                          0,
+                                                                    ),
                                                               ),
-                                                        ),
-                                                        Text(
-                                                          columnShowsRecord
-                                                              .description,
-                                                          textAlign:
-                                                              TextAlign.start,
-                                                          maxLines: 2,
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Poppins',
-                                                                fontSize: 12,
+                                                              Text(
+                                                                todayShowsItem
+                                                                    .description,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .start,
+                                                                maxLines: 2,
+                                                                style: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Poppins',
+                                                                      fontSize:
+                                                                          12,
+                                                                      letterSpacing:
+                                                                          0,
+                                                                    ),
                                                               ),
-                                                        ),
-                                                        Text(
-                                                          columnShowsRecord
-                                                              .title,
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Poppins',
-                                                                color: Color(
-                                                                    0xFF575757),
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .normal,
+                                                              Builder(
+                                                                builder:
+                                                                    (context) {
+                                                                  final djs =
+                                                                      todayShowsItem
+                                                                          .dJName
+                                                                          .toList();
+                                                                  return Wrap(
+                                                                    spacing: 0,
+                                                                    runSpacing:
+                                                                        0,
+                                                                    alignment:
+                                                                        WrapAlignment
+                                                                            .start,
+                                                                    crossAxisAlignment:
+                                                                        WrapCrossAlignment
+                                                                            .start,
+                                                                    direction: Axis
+                                                                        .vertical,
+                                                                    runAlignment:
+                                                                        WrapAlignment
+                                                                            .start,
+                                                                    verticalDirection:
+                                                                        VerticalDirection
+                                                                            .down,
+                                                                    clipBehavior:
+                                                                        Clip.none,
+                                                                    children: List.generate(
+                                                                        djs.length,
+                                                                        (djsIndex) {
+                                                                      final djsItem =
+                                                                          djs[djsIndex];
+                                                                      return Text(
+                                                                        djsItem,
+                                                                        textAlign:
+                                                                            TextAlign.start,
+                                                                        style: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .override(
+                                                                              fontFamily: 'Poppins',
+                                                                              color: Color(0xFF575757),
+                                                                              letterSpacing: 0,
+                                                                              fontWeight: FontWeight.normal,
+                                                                            ),
+                                                                      );
+                                                                    }),
+                                                                  );
+                                                                },
                                                               ),
-                                                        ),
-                                                        Text(
-                                                          'Exclusively on Spark FM. \nInterviews, spotlights, and good music.',
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Poppins',
-                                                                fontSize: 10,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .normal,
+                                                              Text(
+                                                                'Exclusively on Spark FM. \nInterviews, spotlights, and good music.',
+                                                                style: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Poppins',
+                                                                      fontSize:
+                                                                          10,
+                                                                      letterSpacing:
+                                                                          0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .normal,
+                                                                    ),
                                                               ),
+                                                            ],
+                                                          ),
                                                         ),
-                                                      ],
-                                                    ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    }),
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      },
+                                    ),
                                   );
                                 },
                               ),
@@ -563,6 +734,8 @@ class _LiveRadioTabDemoWidgetState extends State<LiveRadioTabDemoWidget>
                                                                 color: FlutterFlowTheme.of(
                                                                         context)
                                                                     .secondary,
+                                                                letterSpacing:
+                                                                    0,
                                                               ),
                                                     ),
                                                     Text(
@@ -571,46 +744,46 @@ class _LiveRadioTabDemoWidgetState extends State<LiveRadioTabDemoWidget>
                                                       textAlign:
                                                           TextAlign.start,
                                                       maxLines: 2,
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Poppins',
-                                                                fontSize: 12,
-                                                              ),
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
+                                                          .bodyMedium
+                                                          .override(
+                                                            fontFamily:
+                                                                'Poppins',
+                                                            fontSize: 12,
+                                                            letterSpacing: 0,
+                                                          ),
                                                     ),
                                                     Text(
                                                       columnShowsRecord.title,
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Poppins',
-                                                                color: Color(
-                                                                    0xFF575757),
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .normal,
-                                                              ),
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
+                                                          .bodyMedium
+                                                          .override(
+                                                            fontFamily:
+                                                                'Poppins',
+                                                            color: Color(
+                                                                0xFF575757),
+                                                            letterSpacing: 0,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                          ),
                                                     ),
                                                     Text(
                                                       'Exclusively on Spark FM. \nInterviews, spotlights, and good music.',
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Poppins',
-                                                                fontSize: 10,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .normal,
-                                                              ),
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
+                                                          .bodyMedium
+                                                          .override(
+                                                            fontFamily:
+                                                                'Poppins',
+                                                            fontSize: 10,
+                                                            letterSpacing: 0,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                          ),
                                                     ),
                                                   ],
                                                 ),

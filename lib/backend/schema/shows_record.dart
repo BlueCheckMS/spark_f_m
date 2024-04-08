@@ -1,18 +1,18 @@
 import 'dart:async';
 
 import 'package:collection/collection.dart';
+import 'package:spark_f_m/backend/schema/structs/shows_struct.dart';
 
 import '/backend/schema/util/firestore_util.dart';
-import '/backend/schema/util/schema_util.dart';
 
 import 'index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
 class ShowsRecord extends FirestoreRecord {
   ShowsRecord._(
-    DocumentReference reference,
-    Map<String, dynamic> data,
-  ) : super(reference, data) {
+    super.reference,
+    super.data,
+  ) {
     _initializeFields();
   }
 
@@ -46,20 +46,15 @@ class ShowsRecord extends FirestoreRecord {
   List<String> get dJName => _dJName ?? const [];
   bool hasDJName() => _dJName != null;
 
-  // "nowPlaying" field.
-  bool? _nowPlaying;
-  bool get nowPlaying => _nowPlaying ?? false;
-  bool hasNowPlaying() => _nowPlaying != null;
-
   // "ShowOrder" field.
   int? _showOrder;
   int get showOrder => _showOrder ?? 0;
   bool hasShowOrder() => _showOrder != null;
 
-  // "TodaysLineup" field.
-  bool? _todaysLineup;
-  bool get todaysLineup => _todaysLineup ?? false;
-  bool hasTodaysLineup() => _todaysLineup != null;
+  // "showDayAndTime" field.
+  List<ShowsStruct>? _showDayAndTime;
+  List<ShowsStruct> get showDayAndTime => _showDayAndTime ?? const [];
+  bool hasShowDayAndTime() => _showDayAndTime != null;
 
   void _initializeFields() {
     _showImage = snapshotData['showImage'] as String?;
@@ -68,9 +63,11 @@ class ShowsRecord extends FirestoreRecord {
     _dayofWeek = snapshotData['DayofWeek'] as String?;
     _showtimes = snapshotData['Showtimes'] as String?;
     _dJName = getDataList(snapshotData['DJName']);
-    _nowPlaying = snapshotData['nowPlaying'] as bool?;
     _showOrder = castToType<int>(snapshotData['ShowOrder']);
-    _todaysLineup = snapshotData['TodaysLineup'] as bool?;
+    _showDayAndTime = getStructList(
+      snapshotData['showDayAndTime'],
+      ShowsStruct.fromMap,
+    );
   }
 
   static CollectionReference get collection =>
@@ -112,9 +109,7 @@ Map<String, dynamic> createShowsRecordData({
   String? description,
   String? dayofWeek,
   String? showtimes,
-  bool? nowPlaying,
   int? showOrder,
-  bool? todaysLineup,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -123,9 +118,7 @@ Map<String, dynamic> createShowsRecordData({
       'Description': description,
       'DayofWeek': dayofWeek,
       'Showtimes': showtimes,
-      'nowPlaying': nowPlaying,
       'ShowOrder': showOrder,
-      'TodaysLineup': todaysLineup,
     }.withoutNulls,
   );
 
@@ -144,9 +137,8 @@ class ShowsRecordDocumentEquality implements Equality<ShowsRecord> {
         e1?.dayofWeek == e2?.dayofWeek &&
         e1?.showtimes == e2?.showtimes &&
         listEquality.equals(e1?.dJName, e2?.dJName) &&
-        e1?.nowPlaying == e2?.nowPlaying &&
         e1?.showOrder == e2?.showOrder &&
-        e1?.todaysLineup == e2?.todaysLineup;
+        listEquality.equals(e1?.showDayAndTime, e2?.showDayAndTime);
   }
 
   @override
@@ -157,9 +149,8 @@ class ShowsRecordDocumentEquality implements Equality<ShowsRecord> {
         e?.dayofWeek,
         e?.showtimes,
         e?.dJName,
-        e?.nowPlaying,
         e?.showOrder,
-        e?.todaysLineup
+        e?.showDayAndTime
       ]);
 
   @override

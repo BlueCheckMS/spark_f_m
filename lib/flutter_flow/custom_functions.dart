@@ -50,3 +50,105 @@ String? filterJsonData(dynamic items) {
   }
   return null;
 }
+
+ShowsRecord? currentShowCopy(List<ShowsRecord> shows) {
+  final currentDay = DateTime.now().weekday;
+  ShowsRecord? curShow;
+
+  int _convertToDateTime(String day) {
+    switch (day.toLowerCase()) {
+      case 'monday':
+        return DateTime.monday;
+      case 'tuesday':
+        return DateTime.tuesday;
+      case 'wednesday':
+        return DateTime.wednesday;
+      case 'thursday':
+        return DateTime.thursday;
+      case 'friday':
+        return DateTime.friday;
+      case 'saturday':
+        return DateTime.saturday;
+      case 'sunday':
+        return DateTime.sunday;
+      default:
+        return DateTime.monday; // Default to Monday
+    }
+  }
+
+  int _convertToTimeOfDay(String time) {
+    final timeSplit = time.split(':');
+    final hour = int.parse(timeSplit[0]);
+    final minuteSplit = timeSplit[1].split(' ');
+    final minute = int.parse(minuteSplit[0]);
+
+    if (time.contains('PM') || time.contains('pm')) {
+      return (hour % 12 + 12) * 60 + minute;
+    } else {
+      return hour % 12 * 60 + minute;
+    }
+  }
+
+  for (final show in shows) {
+    for (final showDayAndTime in show.showDayAndTime) {
+      final day = _convertToDateTime(showDayAndTime.showDay);
+      if (day == currentDay) {
+        // Convert showTimes to TimeOfDay object
+        final showStartTime = _convertToTimeOfDay(showDayAndTime
+            .showStartTime); // Corrected from showTime to showTimes
+        final showEndTime = _convertToTimeOfDay(
+            showDayAndTime.showEndTime); // Corrected from showTime to showTimes
+        // Get the current time
+        final currentTime = DateTime.now().hour * 60 + DateTime.now().minute;
+
+        // Compare the hours
+        if (showStartTime <= currentTime && currentTime <= showEndTime) {
+          curShow = show;
+          return show;
+        }
+      }
+    }
+  }
+  return curShow;
+}
+
+List<ShowsRecord>? currentShow(List<ShowsRecord> shows) {
+  final currentDay = DateTime.now().weekday;
+  List<ShowsRecord> currentShows = [];
+
+  int _convertToDateTime(String day) {
+    switch (day.toLowerCase()) {
+      case 'monday':
+        return DateTime.monday;
+      case 'tuesday':
+        return DateTime.tuesday;
+      case 'wednesday':
+        return DateTime.wednesday;
+      case 'thursday':
+        return DateTime.thursday;
+      case 'friday':
+        return DateTime.friday;
+      case 'saturday':
+        return DateTime.saturday;
+      case 'sunday':
+        return DateTime.sunday;
+      default:
+        return DateTime.monday; // Default to Monday
+    }
+  }
+
+  for (final show in shows) {
+    for (final showDay in show.showDayAndTime) {
+      final day = _convertToDateTime(showDay.showDay);
+      if (day == currentDay) {
+        currentShows.add(show);
+      }
+    }
+  }
+
+  if (currentShows.isNotEmpty) {
+    return currentShows;
+  } else {
+    return null;
+  }
+}
