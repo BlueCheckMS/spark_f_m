@@ -126,12 +126,15 @@ class __AudioPlayerWidgetState extends State<AudioPlayerWidget> {
             decoration: BoxDecoration(
               color: mini ? Color(0xffeee811) : Colors.white,
               boxShadow: [
-                BoxShadow(
-                  color: Colors.black,
-                  blurRadius: 2.0,
-                  spreadRadius: 1.0,
-                  offset: Offset(2.0, 2.0), // shadow direction: bottom right
-                )
+                mini
+                    ? BoxShadow(
+                        color: Colors.black,
+                        blurRadius: 2.0,
+                        spreadRadius: 1.0,
+                        offset:
+                            Offset(2.0, 2.0), // shadow direction: bottom right
+                      )
+                    : BoxShadow()
               ],
             ),
             duration: Duration(milliseconds: 250),
