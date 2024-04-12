@@ -307,23 +307,29 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
             StatefulShellBranch(
                 routes: [
               FFRoute(
-                  name: 'chatsCopy',
-                  path: '/chatsCopy',
-                  builder: (context, params) => ChatsCopyWidget(),
+                  name: 'Chat2Main',
+                  path: '/chat2Main',
+                  builder: (context, params) => Chat2MainWidget(),
                   routes: [
                     FFRoute(
-                      name: 'chatPage',
-                      path: 'chatPage',
+                      name: 'Chat2Details',
+                      path: 'chat2Details',
                       asyncParams: {
                         'chatUser': getDoc(['users'], UsersRecord.fromSnapshot),
                       },
-                      builder: (context, params) => ChatPageWidget(
-                        chatUser:
-                            params.getParam('chatUser', ParamType.Document),
+                      builder: (context, params) => Chat2DetailsWidget(
                         chatRef: params.getParam('chatRef',
                             ParamType.DocumentReference, false, ['chats']),
                       ),
                     ),
+                    FFRoute(
+                      name: 'chat2Invite',
+                      path: 'chat2Invite',
+                      builder: (context, params) => Chat2InviteUsersWidget(
+                        chatRef: params.getParam('chatRef',
+                            ParamType.DocumentReference, false, ['chats']),
+                      ),
+                    )
                   ].map((r) => r.toRoute(appStateNotifier)).toList()),
             ].map((r) => r.toRoute(appStateNotifier)).toList()),
           ],

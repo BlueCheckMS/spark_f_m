@@ -211,7 +211,10 @@ class _NavigatorState extends State<NavigatorBar>
           }
           return Scaffold(
               floatingActionButton: Visibility(
-                  visible: !appState.isLive,
+                  visible: !appState.isLive &&
+                      !currentRoute.contains('chat2Details') &&
+                      currentRoute != 'signIn' &&
+                      currentRoute != 'singUp',
                   child: FFButtonWidget(
                     onPressed: () async {
                       setState(() {

@@ -303,6 +303,21 @@ class FFAppState extends ChangeNotifier {
   void clearSparkTvCache() => _sparkTvManager.clear();
   void clearSparkTvCacheKey(String? uniqueKey) =>
       _sparkTvManager.clearRequest(uniqueKey);
+
+  final _userDocQueryManager = FutureRequestManager<UsersRecord>();
+  Future<UsersRecord> userDocQuery({
+    String? uniqueQueryKey,
+    bool? overrideCache,
+    required Future<UsersRecord> Function() requestFn,
+  }) =>
+      _userDocQueryManager.performRequest(
+        uniqueQueryKey: uniqueQueryKey,
+        overrideCache: overrideCache,
+        requestFn: requestFn,
+      );
+  void clearUserDocQueryCache() => _userDocQueryManager.clear();
+  void clearUserDocQueryCacheKey(String? uniqueKey) =>
+      _userDocQueryManager.clearRequest(uniqueKey);
 }
 
 LatLng? _latLngFromString(String? val) {

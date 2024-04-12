@@ -3,16 +3,14 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 
 import '/backend/schema/util/firestore_util.dart';
-import '/backend/schema/util/schema_util.dart';
 
 import 'index.dart';
-import '/flutter_flow/flutter_flow_util.dart';
 
 class UsersRecord extends FirestoreRecord {
   UsersRecord._(
-    DocumentReference reference,
-    Map<String, dynamic> data,
-  ) : super(reference, data) {
+    super.reference,
+    super.data,
+  ) {
     _initializeFields();
   }
 
@@ -77,6 +75,26 @@ class UsersRecord extends FirestoreRecord {
       _favoritePodcastEpisodes ?? const [];
   bool hasFavoritePodcastEpisodes() => _favoritePodcastEpisodes != null;
 
+  // "shortDescription" field.
+  String? _shortDescription;
+  String get shortDescription => _shortDescription ?? '';
+  bool hasShortDescription() => _shortDescription != null;
+
+  // "last_active_time" field.
+  DateTime? _lastActiveTime;
+  DateTime? get lastActiveTime => _lastActiveTime;
+  bool hasLastActiveTime() => _lastActiveTime != null;
+
+  // "role" field.
+  String? _role;
+  String get role => _role ?? '';
+  bool hasRole() => _role != null;
+
+  // "title" field.
+  String? _title;
+  String get title => _title ?? '';
+  bool hasTitle() => _title != null;
+
   void _initializeFields() {
     _email = snapshotData['email'] as String?;
     _displayName = snapshotData['display_name'] as String?;
@@ -91,6 +109,10 @@ class UsersRecord extends FirestoreRecord {
     _favoriteSongs = getDataList(snapshotData['favorite_songs']);
     _favoritePodcastEpisodes =
         getDataList(snapshotData['favorite_podcast_episodes']);
+    _shortDescription = snapshotData['shortDescription'] as String?;
+    _lastActiveTime = snapshotData['last_active_time'] as DateTime?;
+    _role = snapshotData['role'] as String?;
+    _title = snapshotData['title'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -135,6 +157,10 @@ Map<String, dynamic> createUsersRecordData({
   String? phoneNumber,
   String? password,
   bool? admin,
+  String? shortDescription,
+  DateTime? lastActiveTime,
+  String? role,
+  String? title,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -146,6 +172,10 @@ Map<String, dynamic> createUsersRecordData({
       'phone_number': phoneNumber,
       'password': password,
       'admin': admin,
+      'shortDescription': shortDescription,
+      'last_active_time': lastActiveTime,
+      'role': role,
+      'title': title,
     }.withoutNulls,
   );
 
@@ -170,7 +200,11 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         listEquality.equals(e1?.favoriteAlbums, e2?.favoriteAlbums) &&
         listEquality.equals(e1?.favoriteSongs, e2?.favoriteSongs) &&
         listEquality.equals(
-            e1?.favoritePodcastEpisodes, e2?.favoritePodcastEpisodes);
+            e1?.favoritePodcastEpisodes, e2?.favoritePodcastEpisodes) &&
+        e1?.shortDescription == e2?.shortDescription &&
+        e1?.lastActiveTime == e2?.lastActiveTime &&
+        e1?.role == e2?.role &&
+        e1?.title == e2?.title;
   }
 
   @override
@@ -186,7 +220,11 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e?.admin,
         e?.favoriteAlbums,
         e?.favoriteSongs,
-        e?.favoritePodcastEpisodes
+        e?.favoritePodcastEpisodes,
+        e?.shortDescription,
+        e?.lastActiveTime,
+        e?.role,
+        e?.title
       ]);
 
   @override

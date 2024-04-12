@@ -3,16 +3,15 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 
 import '/backend/schema/util/firestore_util.dart';
-import '/backend/schema/util/schema_util.dart';
 
 import 'index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
 class ChatsRecord extends FirestoreRecord {
   ChatsRecord._(
-    DocumentReference reference,
-    Map<String, dynamic> data,
-  ) : super(reference, data) {
+    super.reference,
+    super.data,
+  ) {
     _initializeFields();
   }
 
@@ -57,6 +56,11 @@ class ChatsRecord extends FirestoreRecord {
   String get chatTitle => _chatTitle ?? '';
   bool hasChatTitle() => _chatTitle != null;
 
+  // "group_chat_id" field.
+  int? _groupChatId;
+  int get groupChatId => _groupChatId ?? 0;
+  bool hasGroupChatId() => _groupChatId != null;
+
   void _initializeFields() {
     _users = getDataList(snapshotData['users']);
     _userA = snapshotData['user_a'] as DocumentReference?;
@@ -67,6 +71,7 @@ class ChatsRecord extends FirestoreRecord {
         snapshotData['last_message_sent_by'] as DocumentReference?;
     _lastMessageSeenBy = getDataList(snapshotData['last_message_seen_by']);
     _chatTitle = snapshotData['chat_title'] as String?;
+    _groupChatId = castToType<int>(snapshotData['group_chat_id']);
   }
 
   static CollectionReference get collection =>
@@ -109,6 +114,7 @@ Map<String, dynamic> createChatsRecordData({
   DateTime? lastMessageTime,
   DocumentReference? lastMessageSentBy,
   String? chatTitle,
+  int? groupChatId,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -118,6 +124,7 @@ Map<String, dynamic> createChatsRecordData({
       'last_message_time': lastMessageTime,
       'last_message_sent_by': lastMessageSentBy,
       'chat_title': chatTitle,
+      'group_chat_id': groupChatId,
     }.withoutNulls,
   );
 
@@ -137,7 +144,8 @@ class ChatsRecordDocumentEquality implements Equality<ChatsRecord> {
         e1?.lastMessageTime == e2?.lastMessageTime &&
         e1?.lastMessageSentBy == e2?.lastMessageSentBy &&
         listEquality.equals(e1?.lastMessageSeenBy, e2?.lastMessageSeenBy) &&
-        e1?.chatTitle == e2?.chatTitle;
+        e1?.chatTitle == e2?.chatTitle &&
+        e1?.groupChatId == e2?.groupChatId;
   }
 
   @override
@@ -149,7 +157,8 @@ class ChatsRecordDocumentEquality implements Equality<ChatsRecord> {
         e?.lastMessageTime,
         e?.lastMessageSentBy,
         e?.lastMessageSeenBy,
-        e?.chatTitle
+        e?.chatTitle,
+        e?.groupChatId
       ]);
 
   @override

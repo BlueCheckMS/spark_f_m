@@ -97,7 +97,7 @@ class _LiveRadioTabDemoWidgetState extends State<LiveRadioTabDemoWidget>
                       size: 30,
                     ),
                     onPressed: () async {
-                      context.pushNamed('chatsCopy');
+                      context.pushNamed('chat2Main');
                     },
                   ),
                 ],

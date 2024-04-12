@@ -1,21 +1,19 @@
 import '/auth/firebase_auth/auth_util.dart';
+import '/components/update_profile_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-
+import 'package:webviewx_plus/webviewx_plus.dart';
 import 'edit_profile_model.dart';
 export 'edit_profile_model.dart';
 
 class EditProfileWidget extends StatefulWidget {
-  const EditProfileWidget({Key? key}) : super(key: key);
+  const EditProfileWidget({super.key});
 
   @override
-  _EditProfileWidgetState createState() => _EditProfileWidgetState();
+  State<EditProfileWidget> createState() => _EditProfileWidgetState();
 }
 
 class _EditProfileWidgetState extends State<EditProfileWidget> {
@@ -38,8 +36,6 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -48,16 +44,16 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
         automaticallyImplyLeading: false,
         leading: FlutterFlowIconButton(
           borderColor: Colors.transparent,
-          borderRadius: 30,
-          borderWidth: 1,
-          buttonSize: 60,
-          icon: Icon(
+          borderRadius: 30.0,
+          borderWidth: 1.0,
+          buttonSize: 60.0,
+          icon: const Icon(
             Icons.chevron_left,
             color: Color(0xFFEB4323),
-            size: 30,
+            size: 30.0,
           ),
           onPressed: () async {
-            context.safePop();
+            context.pop();
           },
         ),
         title: Text(
@@ -65,12 +61,13 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
           style: FlutterFlowTheme.of(context).headlineMedium.override(
                 fontFamily: 'Poppins',
                 color: FlutterFlowTheme.of(context).textColor,
-                fontSize: 16,
+                fontSize: 16.0,
+                letterSpacing: 0.0,
               ),
         ),
-        actions: [],
+        actions: const [],
         centerTitle: true,
-        elevation: 2,
+        elevation: 2.0,
       ),
       body: Column(
         mainAxisSize: MainAxisSize.max,
@@ -80,12 +77,13 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
             mainAxisSize: MainAxisSize.max,
             children: [
               Container(
-                width: MediaQuery.sizeOf(context).width,
+                width: MediaQuery.sizeOf(context).width * 1.0,
                 decoration: BoxDecoration(
                   color: FlutterFlowTheme.of(context).secondaryBackground,
                 ),
                 child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(24, 0, 0, 0),
+                  padding:
+                      const EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 0.0, 0.0),
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     children: [
@@ -93,28 +91,34 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                0.0, 8.0, 0.0, 0.0),
                             child: AuthUserStreamWidget(
                               builder: (context) => Text(
                                 valueOrDefault<String>(
                                   currentUserDisplayName,
                                   'Guest',
                                 ),
-                                style:
-                                    FlutterFlowTheme.of(context).displaySmall,
+                                style: FlutterFlowTheme.of(context)
+                                    .displaySmall
+                                    .override(
+                                      fontFamily: 'Poppins',
+                                      letterSpacing: 0.0,
+                                    ),
                               ),
                             ),
                           ),
                         ],
                       ),
                       Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 12),
+                        padding: const EdgeInsetsDirectional.fromSTEB(
+                            0.0, 0.0, 0.0, 12.0),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 8.0, 0.0, 0.0),
                               child: Text(
                                 valueOrDefault<String>(
                                   currentUserEmail,
@@ -126,7 +130,8 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                                       fontFamily: 'Lexend Deca',
                                       color: FlutterFlowTheme.of(context)
                                           .secondary,
-                                      fontSize: 14,
+                                      fontSize: 14.0,
+                                      letterSpacing: 0.0,
                                       fontWeight: FontWeight.normal,
                                     ),
                               ),
@@ -147,10 +152,14 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(24, 12, 0, 12),
+                    padding: const EdgeInsetsDirectional.fromSTEB(
+                        24.0, 12.0, 0.0, 12.0),
                     child: Text(
                       'Account Settings',
-                      style: FlutterFlowTheme.of(context).bodyMedium,
+                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                            fontFamily: 'Poppins',
+                            letterSpacing: 0.0,
+                          ),
                     ),
                   ),
                 ],
@@ -162,14 +171,87 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
               padding: EdgeInsets.zero,
               scrollDirection: Axis.vertical,
               children: [
+                Padding(
+                  padding:
+                      const EdgeInsetsDirectional.fromSTEB(0.0, 1.0, 0.0, 0.0),
+                  child: InkWell(
+                    splashColor: Colors.transparent,
+                    focusColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onTap: () async {
+                      await showModalBottomSheet(
+                        isScrollControlled: true,
+                        backgroundColor: FlutterFlowTheme.of(context).primary,
+                        enableDrag: true,
+                        context: context,
+                        builder: (context) {
+                          return WebViewAware(
+                            child: Padding(
+                              padding: MediaQuery.viewInsetsOf(context),
+                              child: SizedBox(
+                                height:
+                                    MediaQuery.sizeOf(context).height * 0.75,
+                                child: const UpdateProfileWidget(),
+                              ),
+                            ),
+                          );
+                        },
+                      ).then((value) => safeSetState(() {}));
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Container(
+                          width: MediaQuery.sizeOf(context).width * 1.0,
+                          height: 50.0,
+                          decoration: BoxDecoration(
+                            color: FlutterFlowTheme.of(context)
+                                .secondaryBackground,
+                            shape: BoxShape.rectangle,
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    24.0, 0.0, 0.0, 0.0),
+                                child: Text(
+                                  'Update Profile',
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        fontFamily: 'Poppins',
+                                        letterSpacing: 0.0,
+                                      ),
+                                ),
+                              ),
+                              const Expanded(
+                                child: Align(
+                                  alignment: AlignmentDirectional(0.9, 0.0),
+                                  child: Icon(
+                                    Icons.arrow_forward_ios,
+                                    color: Color(0xFF95A1AC),
+                                    size: 18.0,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
                 // Padding(
-                //   padding: EdgeInsetsDirectional.fromSTEB(0, 1, 0, 0),
+                //   padding:
+                //       const EdgeInsetsDirectional.fromSTEB(0.0, 1.0, 0.0, 0.0),
                 //   child: Row(
                 //     mainAxisSize: MainAxisSize.max,
                 //     children: [
                 //       Container(
-                //         width: MediaQuery.sizeOf(context).width,
-                //         height: 50,
+                //         width: MediaQuery.sizeOf(context).width * 1.0,
+                //         height: 50.0,
                 //         decoration: BoxDecoration(
                 //           color:
                 //               FlutterFlowTheme.of(context).secondaryBackground,
@@ -179,60 +261,25 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                 //           mainAxisSize: MainAxisSize.max,
                 //           children: [
                 //             Padding(
-                //               padding:
-                //                   EdgeInsetsDirectional.fromSTEB(24, 0, 0, 0),
-                //               child: Text(
-                //                 'Settings',
-                //                 style: FlutterFlowTheme.of(context).bodyMedium,
-                //               ),
-                //             ),
-                //             Expanded(
-                //               child: Align(
-                //                 alignment: AlignmentDirectional(0.9, 0),
-                //                 child: Icon(
-                //                   Icons.arrow_forward_ios,
-                //                   color: Color(0xFF95A1AC),
-                //                   size: 18,
-                //                 ),
-                //               ),
-                //             ),
-                //           ],
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                // Padding(
-                //   padding: EdgeInsetsDirectional.fromSTEB(0, 1, 0, 0),
-                //   child: Row(
-                //     mainAxisSize: MainAxisSize.max,
-                //     children: [
-                //       Container(
-                //         width: MediaQuery.sizeOf(context).width,
-                //         height: 50,
-                //         decoration: BoxDecoration(
-                //           color:
-                //               FlutterFlowTheme.of(context).secondaryBackground,
-                //           shape: BoxShape.rectangle,
-                //         ),
-                //         child: Row(
-                //           mainAxisSize: MainAxisSize.max,
-                //           children: [
-                //             Padding(
-                //               padding:
-                //                   EdgeInsetsDirectional.fromSTEB(24, 0, 0, 0),
+                //               padding: const EdgeInsetsDirectional.fromSTEB(
+                //                   24.0, 0.0, 0.0, 0.0),
                 //               child: Text(
                 //                 'Notifications',
-                //                 style: FlutterFlowTheme.of(context).bodyMedium,
+                //                 style: FlutterFlowTheme.of(context)
+                //                     .bodyMedium
+                //                     .override(
+                //                       fontFamily: 'Poppins',
+                //                       letterSpacing: 0.0,
+                //                     ),
                 //               ),
                 //             ),
-                //             Expanded(
+                //             const Expanded(
                 //               child: Align(
-                //                 alignment: AlignmentDirectional(0.9, 0),
+                //                 alignment: AlignmentDirectional(0.9, 0.0),
                 //                 child: Icon(
                 //                   Icons.arrow_forward_ios,
                 //                   color: Color(0xFF95A1AC),
-                //                   size: 18,
+                //                   size: 18.0,
                 //                 ),
                 //               ),
                 //             ),
@@ -243,13 +290,14 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                 //   ),
                 // ),
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 1, 0, 0),
+                  padding:
+                      const EdgeInsetsDirectional.fromSTEB(0.0, 1.0, 0.0, 0.0),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Container(
-                        width: MediaQuery.sizeOf(context).width,
-                        height: 50,
+                        width: MediaQuery.sizeOf(context).width * 1.0,
+                        height: 50.0,
                         decoration: BoxDecoration(
                           color:
                               FlutterFlowTheme.of(context).secondaryBackground,
@@ -263,7 +311,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                           onTap: () async {
                             if (currentUserEmail.isEmpty) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
+                                const SnackBar(
                                   content: Text(
                                     'Email required!',
                                   ),
@@ -280,21 +328,25 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                             mainAxisSize: MainAxisSize.max,
                             children: [
                               Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(24, 0, 0, 0),
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    24.0, 0.0, 0.0, 0.0),
                                 child: Text(
                                   'Change Password',
-                                  style:
-                                      FlutterFlowTheme.of(context).bodyMedium,
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        fontFamily: 'Poppins',
+                                        letterSpacing: 0.0,
+                                      ),
                                 ),
                               ),
-                              Expanded(
+                              const Expanded(
                                 child: Align(
-                                  alignment: AlignmentDirectional(0.9, 0),
+                                  alignment: AlignmentDirectional(0.9, 0.0),
                                   child: Icon(
                                     Icons.arrow_forward_ios,
                                     color: Color(0xFF95A1AC),
-                                    size: 18,
+                                    size: 18.0,
                                   ),
                                 ),
                               ),
@@ -306,7 +358,8 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 20),
+                  padding: const EdgeInsetsDirectional.fromSTEB(
+                      0.0, 20.0, 0.0, 20.0),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -321,32 +374,34 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                         },
                         text: 'Log Out',
                         options: FFButtonOptions(
-                          width: 90,
-                          height: 40,
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                          iconPadding:
-                              EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                          width: 90.0,
+                          height: 40.0,
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 0.0, 0.0),
+                          iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 0.0, 0.0),
                           color: FlutterFlowTheme.of(context).secondary,
                           textStyle:
                               FlutterFlowTheme.of(context).bodySmall.override(
                                     fontFamily: 'Lexend Deca',
                                     color: FlutterFlowTheme.of(context).primary,
-                                    fontSize: 14,
+                                    fontSize: 14.0,
+                                    letterSpacing: 0.0,
                                     fontWeight: FontWeight.normal,
                                   ),
-                          elevation: 3,
-                          borderSide: BorderSide(
+                          elevation: 3.0,
+                          borderSide: const BorderSide(
                             color: Colors.transparent,
-                            width: 1,
+                            width: 1.0,
                           ),
                         ),
                       ),
                     ],
                   ),
                 ),
-                // Generated code for this Row Widget...
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 20),
+                  padding: const EdgeInsetsDirectional.fromSTEB(
+                      0.0, 20.0, 0.0, 20.0),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -354,33 +409,36 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                       FFButtonWidget(
                         onPressed: () async {
                           await authManager.deleteUser(context);
+
                           context.pushNamed('SignInDemo');
                         },
                         text: 'Delete Account',
                         options: FFButtonOptions(
-                          width: 109,
-                          height: 40,
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                          iconPadding:
-                              EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                          width: 109.0,
+                          height: 40.0,
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 0.0, 0.0),
+                          iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 0.0, 0.0),
                           color: FlutterFlowTheme.of(context).secondary,
                           textStyle:
                               FlutterFlowTheme.of(context).bodySmall.override(
                                     fontFamily: 'Lexend Deca',
                                     color: FlutterFlowTheme.of(context).primary,
-                                    fontSize: 14,
+                                    fontSize: 14.0,
+                                    letterSpacing: 0.0,
                                     fontWeight: FontWeight.normal,
                                   ),
-                          elevation: 3,
-                          borderSide: BorderSide(
+                          elevation: 3.0,
+                          borderSide: const BorderSide(
                             color: Colors.transparent,
-                            width: 1,
+                            width: 1.0,
                           ),
                         ),
                       ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),
