@@ -453,46 +453,50 @@ class _Chat2DetailsWidgetState extends State<Chat2DetailsWidget> {
             },
           ),
           actions: [
-            Padding(
-              padding:
-                  const EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 16.0, 8.0),
-              child: FlutterFlowIconButton(
-                borderColor: FlutterFlowTheme.of(context).alternate,
-                borderRadius: 12.0,
-                borderWidth: 2.0,
-                buttonSize: 40.0,
-                fillColor: FlutterFlowTheme.of(context).primaryBackground,
-                icon: Icon(
-                  Icons.more_vert,
-                  color: FlutterFlowTheme.of(context).primaryText,
-                  size: 24.0,
-                ),
-                onPressed: () async {
-                  await showModalBottomSheet(
-                    isScrollControlled: true,
-                    backgroundColor: FlutterFlowTheme.of(context).accent4,
-                    barrierColor: const Color(0x00FFFFFF),
-                    context: context,
-                    builder: (context) {
-                      return WebViewAware(
-                        child: GestureDetector(
-                          onTap: () => _model.unfocusNode.canRequestFocus
-                              ? FocusScope.of(context)
-                                  .requestFocus(_model.unfocusNode)
-                              : FocusScope.of(context).unfocus(),
-                          child: Padding(
-                            padding: MediaQuery.viewInsetsOf(context),
-                            child: ChatDetailsOverlayWidget(
-                              chatRef: widget.chatRef!,
+            Visibility(
+              visible: valueOrDefault<bool>(currentUserDocument?.admin, false),
+              child: Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 8, 16, 8),
+                child: AuthUserStreamWidget(
+                  builder: (context) => FlutterFlowIconButton(
+                    borderColor: FlutterFlowTheme.of(context).alternate,
+                    borderRadius: 12,
+                    borderWidth: 2,
+                    buttonSize: 40,
+                    fillColor: FlutterFlowTheme.of(context).primaryBackground,
+                    icon: Icon(
+                      Icons.more_vert,
+                      color: FlutterFlowTheme.of(context).primaryText,
+                      size: 24,
+                    ),
+                    onPressed: () async {
+                      await showModalBottomSheet(
+                        isScrollControlled: true,
+                        backgroundColor: FlutterFlowTheme.of(context).accent4,
+                        barrierColor: Color(0x00FFFFFF),
+                        context: context,
+                        builder: (context) {
+                          return WebViewAware(
+                            child: GestureDetector(
+                              onTap: () => _model.unfocusNode.canRequestFocus
+                                  ? FocusScope.of(context)
+                                      .requestFocus(_model.unfocusNode)
+                                  : FocusScope.of(context).unfocus(),
+                              child: Padding(
+                                padding: MediaQuery.viewInsetsOf(context),
+                                child: ChatDetailsOverlayWidget(
+                                  chatRef: widget.chatRef!,
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      );
+                          );
+                        },
+                      ).then((value) => safeSetState(() {}));
                     },
-                  ).then((value) => safeSetState(() {}));
-                },
+                  ),
+                ),
               ),
-            ),
+            )
           ],
           centerTitle: false,
           elevation: 0.0,
