@@ -79,9 +79,7 @@ class _AboutUsWidgetState extends State<AboutUsWidget> {
                 size: 30,
               ),
               onPressed: () async {
-                context.pushNamed(
-                  'chatsCopy',
-                );
+                context.pushNamed('chat2Main');
               },
             ),
           ],

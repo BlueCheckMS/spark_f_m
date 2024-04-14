@@ -7,8 +7,6 @@ export '/spark_t_v_demo/spark_t_v_demo_widget.dart' show SparkTVDemoWidget;
 export '/live_radio_tab_demo/live_radio_tab_demo_widget.dart'
     show LiveRadioTabDemoWidget;
 export '/view_all_artist/view_all_artist_widget.dart' show ViewAllArtistWidget;
-export '/music_stream_demo/music_stream_demo_widget.dart'
-    show MusicStreamDemoWidget;
 export '/song_list_page/song_list_page_widget.dart' show SongListPageWidget;
 export '/artist_profile_demo/artist_profile_demo_widget.dart'
     show ArtistProfileDemoWidget;

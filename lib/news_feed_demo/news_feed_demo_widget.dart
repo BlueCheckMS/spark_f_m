@@ -246,9 +246,7 @@ class _NewsFeedDemoWidgetState extends State<NewsFeedDemoWidget>
                   size: 30,
                 ),
                 onPressed: () async {
-                  context.push(
-                    '/chatsCopy',
-                  );
+                  context.pushNamed('chat2Main');
                 },
               ),
             ],

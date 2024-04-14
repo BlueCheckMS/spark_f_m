@@ -5,13 +5,18 @@ import '/chat/chat_thread_component/chat_thread_component_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:webviewx_plus/webviewx_plus.dart';
+
 import 'chat2_details_model.dart';
 export 'chat2_details_model.dart';
 
@@ -75,13 +80,13 @@ class _Chat2DetailsWidgetState extends State<Chat2DetailsWidget> {
           automaticallyImplyLeading: false,
           leading: FlutterFlowIconButton(
             borderColor: Colors.transparent,
-            borderRadius: 30.0,
-            borderWidth: 1.0,
-            buttonSize: 60.0,
+            borderRadius: 30,
+            borderWidth: 1,
+            buttonSize: 60,
             icon: Icon(
               Icons.arrow_back_rounded,
               color: FlutterFlowTheme.of(context).primaryText,
-              size: 30.0,
+              size: 30,
             ),
             onPressed: () async {
               context.safePop();
@@ -95,13 +100,13 @@ class _Chat2DetailsWidgetState extends State<Chat2DetailsWidget> {
             builder: (context, snapshot) {
               // Customize what your widget looks like when it's loading.
               if (!snapshot.hasData) {
-                return const Center(
+                return Center(
                   child: SizedBox(
-                    width: 50.0,
-                    height: 50.0,
+                    width: 50,
+                    height: 50,
                     child: SpinKitDualRing(
                       color: Color(0xFFEB4323),
-                      size: 50.0,
+                      size: 50,
                     ),
                   ),
                 );
@@ -113,32 +118,33 @@ class _Chat2DetailsWidgetState extends State<Chat2DetailsWidget> {
                     return Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        if (conditionalBuilderUsersRecord.photoUrl != '')
+                        if (conditionalBuilderUsersRecord.photoUrl != null &&
+                            conditionalBuilderUsersRecord.photoUrl != '')
                           Align(
-                            alignment: const AlignmentDirectional(-1.0, -1.0),
+                            alignment: AlignmentDirectional(-1, -1),
                             child: Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 0.0, 12.0, 0.0),
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(0, 0, 12, 0),
                               child: Container(
-                                width: 44.0,
-                                height: 44.0,
+                                width: 44,
+                                height: 44,
                                 decoration: BoxDecoration(
                                   color: FlutterFlowTheme.of(context).accent1,
-                                  borderRadius: BorderRadius.circular(12.0),
+                                  borderRadius: BorderRadius.circular(12),
                                   shape: BoxShape.rectangle,
                                   border: Border.all(
                                     color: FlutterFlowTheme.of(context).primary,
-                                    width: 2.0,
+                                    width: 2,
                                   ),
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(2.0),
+                                  padding: EdgeInsets.all(2),
                                   child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(8.0),
+                                    borderRadius: BorderRadius.circular(8),
                                     child: Image.network(
                                       conditionalBuilderUsersRecord.photoUrl,
-                                      width: 44.0,
-                                      height: 44.0,
+                                      width: 44,
+                                      height: 44,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -160,12 +166,12 @@ class _Chat2DetailsWidgetState extends State<Chat2DetailsWidget> {
                                     .bodyLarge
                                     .override(
                                       fontFamily: 'Poppins',
-                                      letterSpacing: 0.0,
+                                      letterSpacing: 0,
                                     ),
                               ),
                               Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 4.0, 0.0, 0.0),
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
                                 child: AutoSizeText(
                                   valueOrDefault<String>(
                                     conditionalBuilderUsersRecord.email,
@@ -180,9 +186,9 @@ class _Chat2DetailsWidgetState extends State<Chat2DetailsWidget> {
                                         fontFamily: 'Poppins',
                                         color: FlutterFlowTheme.of(context)
                                             .primary,
-                                        letterSpacing: 0.0,
+                                        letterSpacing: 0,
                                       ),
-                                  minFontSize: 10.0,
+                                  minFontSize: 10,
                                 ),
                               ),
                             ],
@@ -195,16 +201,14 @@ class _Chat2DetailsWidgetState extends State<Chat2DetailsWidget> {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
-                              0.0, 4.0, 12.0, 4.0),
-                          child: SizedBox(
-                            width: 54.0,
-                            height: 44.0,
+                          padding: EdgeInsetsDirectional.fromSTEB(0, 4, 12, 4),
+                          child: Container(
+                            width: 54,
+                            height: 44,
                             child: Stack(
                               children: [
                                 Align(
-                                  alignment:
-                                      const AlignmentDirectional(1.0, 1.0),
+                                  alignment: AlignmentDirectional(1, 1),
                                   child: FutureBuilder<UsersRecord>(
                                     future: UsersRecord.getDocumentOnce(widget
                                         .chatRef!.users
@@ -214,13 +218,13 @@ class _Chat2DetailsWidgetState extends State<Chat2DetailsWidget> {
                                     builder: (context, snapshot) {
                                       // Customize what your widget looks like when it's loading.
                                       if (!snapshot.hasData) {
-                                        return const Center(
+                                        return Center(
                                           child: SizedBox(
-                                            width: 50.0,
-                                            height: 50.0,
+                                            width: 50,
+                                            height: 50,
                                             child: SpinKitDualRing(
                                               color: Color(0xFFEB4323),
-                                              size: 50.0,
+                                              size: 50,
                                             ),
                                           ),
                                         );
@@ -228,69 +232,67 @@ class _Chat2DetailsWidgetState extends State<Chat2DetailsWidget> {
                                       final secondUserUsersRecord =
                                           snapshot.data!;
                                       return Container(
-                                        width: 32.0,
-                                        height: 32.0,
+                                        width: 32,
+                                        height: 32,
                                         decoration: BoxDecoration(
                                           color: FlutterFlowTheme.of(context)
                                               .primary,
                                           borderRadius:
-                                              BorderRadius.circular(12.0),
+                                              BorderRadius.circular(12),
                                           shape: BoxShape.rectangle,
                                           border: Border.all(
                                             color: FlutterFlowTheme.of(context)
                                                 .secondary,
-                                            width: 2.0,
+                                            width: 2,
                                           ),
                                         ),
                                         child: Builder(
                                           builder: (context) {
                                             if (secondUserUsersRecord
-                                                    .photoUrl !=
-                                                '') {
+                                                        .photoUrl !=
+                                                    null &&
+                                                secondUserUsersRecord
+                                                        .photoUrl !=
+                                                    '') {
                                               return Padding(
-                                                padding:
-                                                    const EdgeInsets.all(2.0),
+                                                padding: EdgeInsets.all(2),
                                                 child: ClipRRect(
                                                   borderRadius:
-                                                      BorderRadius.circular(
-                                                          8.0),
+                                                      BorderRadius.circular(8),
                                                   child: CachedNetworkImage(
-                                                    fadeInDuration:
-                                                        const Duration(
-                                                            milliseconds: 200),
-                                                    fadeOutDuration:
-                                                        const Duration(
-                                                            milliseconds: 200),
+                                                    fadeInDuration: Duration(
+                                                        milliseconds: 200),
+                                                    fadeOutDuration: Duration(
+                                                        milliseconds: 200),
                                                     imageUrl:
                                                         valueOrDefault<String>(
                                                       secondUserUsersRecord
                                                           .photoUrl,
                                                       'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/spark-f-m-2-k3szws/assets/upj0nni9c6q0/SparkFM_Transparent_Black_Emblem.png',
                                                     ),
-                                                    width: 44.0,
-                                                    height: 44.0,
+                                                    width: 44,
+                                                    height: 44,
                                                     fit: BoxFit.cover,
                                                   ),
                                                 ),
                                               );
                                             } else {
                                               return Padding(
-                                                padding:
-                                                    const EdgeInsets.all(2.0),
+                                                padding: EdgeInsets.all(2),
                                                 child: Container(
-                                                  width: 100.0,
-                                                  height: 100.0,
+                                                  width: 100,
+                                                  height: 100,
                                                   decoration: BoxDecoration(
                                                     color: FlutterFlowTheme.of(
                                                             context)
                                                         .secondaryBackground,
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            8.0),
+                                                            8),
                                                   ),
                                                   alignment:
-                                                      const AlignmentDirectional(
-                                                          0.0, 0.0),
+                                                      AlignmentDirectional(
+                                                          0, 0),
                                                   child: Text(
                                                     valueOrDefault<String>(
                                                       secondUserUsersRecord
@@ -304,7 +306,7 @@ class _Chat2DetailsWidgetState extends State<Chat2DetailsWidget> {
                                                         .bodyLarge
                                                         .override(
                                                           fontFamily: 'Poppins',
-                                                          letterSpacing: 0.0,
+                                                          letterSpacing: 0,
                                                           fontWeight:
                                                               FontWeight.bold,
                                                         ),
@@ -319,65 +321,66 @@ class _Chat2DetailsWidgetState extends State<Chat2DetailsWidget> {
                                   ),
                                 ),
                                 Align(
-                                  alignment:
-                                      const AlignmentDirectional(-1.0, -1.0),
+                                  alignment: AlignmentDirectional(-1, -1),
                                   child: Container(
-                                    width: 32.0,
-                                    height: 32.0,
+                                    width: 32,
+                                    height: 32,
                                     decoration: BoxDecoration(
                                       color:
                                           FlutterFlowTheme.of(context).primary,
-                                      borderRadius: BorderRadius.circular(12.0),
+                                      borderRadius: BorderRadius.circular(12),
                                       shape: BoxShape.rectangle,
                                       border: Border.all(
                                         color: FlutterFlowTheme.of(context)
                                             .secondary,
-                                        width: 2.0,
+                                        width: 2,
                                       ),
                                     ),
                                     child: Builder(
                                       builder: (context) {
                                         if (conditionalBuilderUsersRecord
-                                                .photoUrl !=
-                                            '') {
+                                                    .photoUrl !=
+                                                null &&
+                                            conditionalBuilderUsersRecord
+                                                    .photoUrl !=
+                                                '') {
                                           return Padding(
-                                            padding: const EdgeInsets.all(2.0),
+                                            padding: EdgeInsets.all(2),
                                             child: ClipRRect(
                                               borderRadius:
-                                                  BorderRadius.circular(8.0),
+                                                  BorderRadius.circular(8),
                                               child: CachedNetworkImage(
-                                                fadeInDuration: const Duration(
-                                                    milliseconds: 200),
-                                                fadeOutDuration: const Duration(
-                                                    milliseconds: 200),
+                                                fadeInDuration:
+                                                    Duration(milliseconds: 200),
+                                                fadeOutDuration:
+                                                    Duration(milliseconds: 200),
                                                 imageUrl:
                                                     valueOrDefault<String>(
                                                   conditionalBuilderUsersRecord
                                                       .photoUrl,
                                                   'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/spark-f-m-2-k3szws/assets/upj0nni9c6q0/SparkFM_Transparent_Black_Emblem.png',
                                                 ),
-                                                width: 44.0,
-                                                height: 44.0,
+                                                width: 44,
+                                                height: 44,
                                                 fit: BoxFit.cover,
                                               ),
                                             ),
                                           );
                                         } else {
                                           return Padding(
-                                            padding: const EdgeInsets.all(2.0),
+                                            padding: EdgeInsets.all(2),
                                             child: Container(
-                                              width: 100.0,
-                                              height: 100.0,
+                                              width: 100,
+                                              height: 100,
                                               decoration: BoxDecoration(
                                                 color:
                                                     FlutterFlowTheme.of(context)
                                                         .secondaryBackground,
                                                 borderRadius:
-                                                    BorderRadius.circular(8.0),
+                                                    BorderRadius.circular(8),
                                               ),
                                               alignment:
-                                                  const AlignmentDirectional(
-                                                      0.0, 0.0),
+                                                  AlignmentDirectional(0, 0),
                                               child: Text(
                                                 valueOrDefault<String>(
                                                   conditionalBuilderUsersRecord
@@ -391,7 +394,7 @@ class _Chat2DetailsWidgetState extends State<Chat2DetailsWidget> {
                                                         .bodyLarge
                                                         .override(
                                                           fontFamily: 'Poppins',
-                                                          letterSpacing: 0.0,
+                                                          letterSpacing: 0,
                                                           fontWeight:
                                                               FontWeight.bold,
                                                         ),
@@ -421,15 +424,15 @@ class _Chat2DetailsWidgetState extends State<Chat2DetailsWidget> {
                                     .bodyLarge
                                     .override(
                                       fontFamily: 'Poppins',
-                                      letterSpacing: 0.0,
+                                      letterSpacing: 0,
                                     ),
                               ),
                               Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 4.0, 0.0, 0.0),
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
                                 child: Text(
                                   '${valueOrDefault<String>(
-                                    widget.chatRef?.users.length.toString(),
+                                    widget.chatRef?.users?.length.toString(),
                                     '2',
                                   )} members',
                                   style: FlutterFlowTheme.of(context)
@@ -438,7 +441,7 @@ class _Chat2DetailsWidgetState extends State<Chat2DetailsWidget> {
                                         fontFamily: 'Poppins',
                                         color: FlutterFlowTheme.of(context)
                                             .secondary,
-                                        letterSpacing: 0.0,
+                                        letterSpacing: 0,
                                       ),
                                 ),
                               ),
@@ -496,10 +499,10 @@ class _Chat2DetailsWidgetState extends State<Chat2DetailsWidget> {
                   ),
                 ),
               ),
-            )
+            ),
           ],
           centerTitle: false,
-          elevation: 0.0,
+          elevation: 0,
         ),
         body: SafeArea(
           top: true,

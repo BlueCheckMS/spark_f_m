@@ -116,9 +116,7 @@ class _SparkTVDemoWidgetState extends State<SparkTVDemoWidget> {
                       size: 30,
                     ),
                     onPressed: () async {
-                      context.pushNamed(
-                        'chatsCopy',
-                      );
+                      context.pushNamed('chat2Main');
                     },
                   ),
                 ],
