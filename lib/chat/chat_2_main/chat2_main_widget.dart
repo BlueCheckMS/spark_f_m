@@ -184,7 +184,7 @@ class _Chat2MainWidgetState extends State<Chat2MainWidget> {
                             highlightColor: Colors.transparent,
                             onTap: () async {
                               context.pushNamed(
-                                'chat_2_Details',
+                                'chat2Details',
                                 queryParameters: {
                                   'chatRef': serializeParam(
                                     listViewChatsRecord,
