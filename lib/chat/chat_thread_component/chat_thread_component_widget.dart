@@ -72,106 +72,114 @@ class _ChatThreadComponentWidgetState extends State<ChatThreadComponentWidget> {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(
-            child: StreamBuilder<List<ChatMessagesRecord>>(
-              stream: queryChatMessagesRecord(
-                queryBuilder: (chatMessagesRecord) => chatMessagesRecord
-                    .where(
-                      'chat',
-                      isEqualTo: widget.chatRef?.reference,
-                    )
-                    .orderBy('timestamp', descending: true),
-                limit: 200,
-              )..listen((snapshot) async {
-                  List<ChatMessagesRecord> listViewChatMessagesRecordList =
-                      snapshot;
-                  if (_model.listViewPreviousSnapshot != null &&
-                      !const ListEquality(ChatMessagesRecordDocumentEquality())
-                          .equals(listViewChatMessagesRecordList,
-                              _model.listViewPreviousSnapshot)) {
-                    if (!widget.chatRef!.lastMessageSeenBy
-                        .contains(currentUserReference)) {
-                      await widget.chatRef!.reference.update({
-                        ...mapToFirestore(
-                          {
-                            'last_message_seen_by':
-                                FieldValue.arrayUnion([currentUserReference]),
-                          },
-                        ),
-                      });
-                    }
-
-                    setState(() {});
-                  }
-                  _model.listViewPreviousSnapshot = snapshot;
-                }),
-              builder: (context, snapshot) {
-                // Customize what your widget looks like when it's loading.
-                if (!snapshot.hasData) {
-                  return Center(
-                    child: Padding(
-                      padding: EdgeInsets.all(16),
-                      child: SizedBox(
-                        width: 50,
-                        height: 50,
-                        child: SpinKitDualRing(
-                          color: Color(0xFFEB4323),
-                          size: 50,
-                        ),
-                      ),
-                    ),
-                  );
-                }
-                List<ChatMessagesRecord> listViewChatMessagesRecordList =
-                    snapshot.data!;
-                if (listViewChatMessagesRecordList.isEmpty) {
-                  return EmptyStateSimpleWidget(
-                    icon: Icon(
-                      Icons.forum_outlined,
-                      color: FlutterFlowTheme.of(context).primary,
-                      size: 90,
-                    ),
-                    title: 'No Messages',
-                    body: 'You have not sent any messages in this chat yet.',
-                  );
-                }
-                return ListView.builder(
-                  padding: EdgeInsets.fromLTRB(
-                    0,
-                    12,
-                    0,
-                    24,
-                  ),
-                  reverse: true,
-                  scrollDirection: Axis.vertical,
-                  itemCount: listViewChatMessagesRecordList.length,
-                  itemBuilder: (context, listViewIndex) {
-                    final listViewChatMessagesRecord =
-                        listViewChatMessagesRecordList[listViewIndex];
-                    return Container(
-                      decoration: BoxDecoration(),
-                      child: wrapWithModel(
-                        model: _model.chatThreadUpdateModels.getModel(
-                          listViewChatMessagesRecord.reference.id,
-                          listViewIndex,
-                        ),
-                        updateCallback: () => setState(() {}),
-                        updateOnChange: true,
-                        child: ChatThreadUpdateWidget(
-                          key: Key(
-                            'Keymw2_${listViewChatMessagesRecord.reference.id}',
+          Flexible(
+            child: Align(
+              alignment: AlignmentDirectional(0, 0),
+              child: StreamBuilder<List<ChatMessagesRecord>>(
+                stream: queryChatMessagesRecord(
+                  queryBuilder: (chatMessagesRecord) => chatMessagesRecord
+                      .where(
+                        'chat',
+                        isEqualTo: widget.chatRef?.reference,
+                      )
+                      .orderBy('timestamp', descending: true),
+                  limit: 200,
+                )..listen((snapshot) async {
+                    List<ChatMessagesRecord> listViewChatMessagesRecordList =
+                        snapshot;
+                    if (_model.listViewPreviousSnapshot != null &&
+                        !const ListEquality(
+                                ChatMessagesRecordDocumentEquality())
+                            .equals(listViewChatMessagesRecordList,
+                                _model.listViewPreviousSnapshot)) {
+                      if (!widget.chatRef!.lastMessageSeenBy
+                          .contains(currentUserReference)) {
+                        await widget.chatRef!.reference.update({
+                          ...mapToFirestore(
+                            {
+                              'last_message_seen_by':
+                                  FieldValue.arrayUnion([currentUserReference]),
+                            },
                           ),
-                          chatMessagesRef: listViewChatMessagesRecord,
+                        });
+                      }
+
+                      setState(() {});
+                    }
+                    _model.listViewPreviousSnapshot = snapshot;
+                  }),
+                builder: (context, snapshot) {
+                  // Customize what your widget looks like when it's loading.
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(16),
+                        child: SizedBox(
+                          width: 50,
+                          height: 50,
+                          child: SpinKitDualRing(
+                            color: Color(0xFFEB4323),
+                            size: 50,
+                          ),
                         ),
                       ),
                     );
-                  },
-                );
-              },
+                  }
+                  List<ChatMessagesRecord> listViewChatMessagesRecordList =
+                      snapshot.data!;
+                  if (listViewChatMessagesRecordList.isEmpty) {
+                    return EmptyStateSimpleWidget(
+                      icon: Icon(
+                        Icons.forum_outlined,
+                        color: FlutterFlowTheme.of(context).primary,
+                        size: 90,
+                      ),
+                      title: 'No Messages',
+                      body: 'You have not sent any messages in this chat yet.',
+                    );
+                  }
+                  return ListView.builder(
+                    padding: EdgeInsets.fromLTRB(
+                      0,
+                      12,
+                      0,
+                      24,
+                    ),
+                    reverse: true,
+                    primary: false,
+                    scrollDirection: Axis.vertical,
+                    itemCount: listViewChatMessagesRecordList.length,
+                    itemBuilder: (context, listViewIndex) {
+                      final listViewChatMessagesRecord =
+                          listViewChatMessagesRecordList[listViewIndex];
+                      return Container(
+                        decoration: BoxDecoration(),
+                        child: wrapWithModel(
+                          model: _model.chatThreadUpdateModels.getModel(
+                            listViewChatMessagesRecord.reference.id,
+                            listViewIndex,
+                          ),
+                          updateCallback: () => setState(() {}),
+                          updateOnChange: true,
+                          child: ChatThreadUpdateWidget(
+                            key: Key(
+                              'Keymw2_${listViewChatMessagesRecord.reference.id}',
+                            ),
+                            chatMessagesRef: listViewChatMessagesRecord,
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
             ),
           ),
           Container(
             width: double.infinity,
+            constraints: BoxConstraints(
+              maxHeight: double.infinity,
+            ),
             decoration: BoxDecoration(
               color: FlutterFlowTheme.of(context).secondaryBackground,
               boxShadow: [
@@ -185,368 +193,200 @@ class _ChatThreadComponentWidgetState extends State<ChatThreadComponentWidget> {
                 )
               ],
             ),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                if (_model.uploadedFileUrl != null &&
-                    _model.uploadedFileUrl != '')
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                FlutterFlowMediaDisplay(
-                                  path: _model.uploadedFileUrl,
-                                  imageBuilder: (path) => ClipRRect(
-                                    borderRadius: BorderRadius.circular(8),
-                                    child: CachedNetworkImage(
-                                      fadeInDuration:
-                                          Duration(milliseconds: 500),
-                                      fadeOutDuration:
-                                          Duration(milliseconds: 500),
-                                      imageUrl: path,
-                                      width: 120,
-                                      height: 100,
-                                      fit: BoxFit.cover,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  if (_model.uploadedFileUrl != null &&
+                      _model.uploadedFileUrl != '')
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  FlutterFlowMediaDisplay(
+                                    path: _model.uploadedFileUrl,
+                                    imageBuilder: (path) => ClipRRect(
+                                      borderRadius: BorderRadius.circular(8),
+                                      child: CachedNetworkImage(
+                                        fadeInDuration:
+                                            Duration(milliseconds: 500),
+                                        fadeOutDuration:
+                                            Duration(milliseconds: 500),
+                                        imageUrl: path,
+                                        width: 120,
+                                        height: 100,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    videoPlayerBuilder: (path) =>
+                                        FlutterFlowVideoPlayer(
+                                      path: path,
+                                      width: 300,
+                                      autoPlay: false,
+                                      looping: true,
+                                      showControls: true,
+                                      allowFullScreen: false,
+                                      allowPlaybackSpeedMenu: true,
                                     ),
                                   ),
-                                  videoPlayerBuilder: (path) =>
-                                      FlutterFlowVideoPlayer(
-                                    path: path,
-                                    width: 300,
-                                    autoPlay: false,
-                                    looping: true,
-                                    showControls: true,
-                                    allowFullScreen: true,
-                                    allowPlaybackSpeedMenu: false,
-                                  ),
-                                ),
-                                Align(
-                                  alignment: AlignmentDirectional(-1, -1),
-                                  child: FlutterFlowIconButton(
-                                    borderColor:
-                                        FlutterFlowTheme.of(context).error,
-                                    borderRadius: 20,
-                                    borderWidth: 2,
-                                    buttonSize: 40,
-                                    fillColor: FlutterFlowTheme.of(context)
-                                        .primaryBackground,
-                                    icon: Icon(
-                                      Icons.delete_outline_rounded,
-                                      color: FlutterFlowTheme.of(context).error,
-                                      size: 24,
+                                  Align(
+                                    alignment: AlignmentDirectional(-1, -1),
+                                    child: FlutterFlowIconButton(
+                                      borderColor:
+                                          FlutterFlowTheme.of(context).error,
+                                      borderRadius: 20,
+                                      borderWidth: 2,
+                                      buttonSize: 40,
+                                      fillColor: FlutterFlowTheme.of(context)
+                                          .primaryBackground,
+                                      icon: Icon(
+                                        Icons.delete_outline_rounded,
+                                        color:
+                                            FlutterFlowTheme.of(context).error,
+                                        size: 24,
+                                      ),
+                                      onPressed: () async {
+                                        setState(() {
+                                          _model.isDataUploading = false;
+                                          _model.uploadedLocalFile =
+                                              FFUploadedFile(
+                                                  bytes:
+                                                      Uint8List.fromList([]));
+                                          _model.uploadedFileUrl = '';
+                                        });
+                                      },
                                     ),
-                                    onPressed: () async {
-                                      setState(() {
-                                        _model.isDataUploading = false;
-                                        _model.uploadedLocalFile =
-                                            FFUploadedFile(
-                                                bytes: Uint8List.fromList([]));
-                                        _model.uploadedFileUrl = '';
-                                      });
-                                    },
                                   ),
-                                ),
-                              ]
-                                  .divide(SizedBox(width: 8))
-                                  .addToStart(SizedBox(width: 16))
-                                  .addToEnd(SizedBox(width: 16)),
+                                ]
+                                    .divide(SizedBox(width: 8))
+                                    .addToStart(SizedBox(width: 16))
+                                    .addToEnd(SizedBox(width: 16)),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                Form(
-                  key: _model.formKey,
-                  autovalidateMode: AutovalidateMode.disabled,
-                  child: Padding(
-                    padding: EdgeInsets.all(12),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        FlutterFlowIconButton(
-                          borderColor: FlutterFlowTheme.of(context).alternate,
-                          borderRadius: 60,
-                          borderWidth: 1,
-                          buttonSize: 40,
-                          fillColor:
-                              FlutterFlowTheme.of(context).secondaryBackground,
-                          icon: Icon(
-                            Icons.add_rounded,
-                            color: FlutterFlowTheme.of(context).secondaryText,
-                            size: 24,
-                          ),
-                          onPressed: () async {
-                            final selectedMedia =
-                                await selectMediaWithSourceBottomSheet(
-                              context: context,
-                              allowPhoto: true,
-                              allowVideo: true,
-                              backgroundColor: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
-                              textColor:
-                                  FlutterFlowTheme.of(context).primaryText,
-                              pickerFontFamily: 'Outfit',
-                            );
-                            if (selectedMedia != null &&
-                                selectedMedia.every((m) => validateFileFormat(
-                                    m.storagePath, context))) {
-                              setState(() => _model.isDataUploading = true);
-                              var selectedUploadedFiles = <FFUploadedFile>[];
+                      ],
+                    ),
+                  Form(
+                    key: _model.formKey,
+                    autovalidateMode: AutovalidateMode.disabled,
+                    child: Padding(
+                      padding: EdgeInsets.all(12),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          FlutterFlowIconButton(
+                            borderColor: FlutterFlowTheme.of(context).alternate,
+                            borderRadius: 60,
+                            borderWidth: 1,
+                            buttonSize: 40,
+                            fillColor: FlutterFlowTheme.of(context)
+                                .secondaryBackground,
+                            icon: Icon(
+                              Icons.add_rounded,
+                              color: FlutterFlowTheme.of(context).secondaryText,
+                              size: 24,
+                            ),
+                            onPressed: () async {
+                              final selectedMedia =
+                                  await selectMediaWithSourceBottomSheet(
+                                context: context,
+                                allowPhoto: true,
+                                backgroundColor: FlutterFlowTheme.of(context)
+                                    .secondaryBackground,
+                                textColor:
+                                    FlutterFlowTheme.of(context).primaryText,
+                                pickerFontFamily: 'Outfit',
+                              );
+                              if (selectedMedia != null &&
+                                  selectedMedia.every((m) => validateFileFormat(
+                                      m.storagePath, context))) {
+                                setState(() => _model.isDataUploading = true);
+                                var selectedUploadedFiles = <FFUploadedFile>[];
 
-                              var downloadUrls = <String>[];
-                              try {
-                                showUploadMessage(
-                                  context,
-                                  'Uploading file...',
-                                  showLoading: true,
-                                );
-                                selectedUploadedFiles = selectedMedia
-                                    .map((m) => FFUploadedFile(
-                                          name: m.storagePath.split('/').last,
-                                          bytes: m.bytes,
-                                          height: m.dimensions?.height,
-                                          width: m.dimensions?.width,
-                                          blurHash: m.blurHash,
-                                        ))
-                                    .toList();
+                                var downloadUrls = <String>[];
+                                try {
+                                  showUploadMessage(
+                                    context,
+                                    'Uploading file...',
+                                    showLoading: true,
+                                  );
+                                  selectedUploadedFiles = selectedMedia
+                                      .map((m) => FFUploadedFile(
+                                            name: m.storagePath.split('/').last,
+                                            bytes: m.bytes,
+                                            height: m.dimensions?.height,
+                                            width: m.dimensions?.width,
+                                            blurHash: m.blurHash,
+                                          ))
+                                      .toList();
 
-                                downloadUrls = (await Future.wait(
-                                  selectedMedia.map(
-                                    (m) async => await uploadData(
-                                        m.storagePath, m.bytes),
-                                  ),
-                                ))
-                                    .where((u) => u != null)
-                                    .map((u) => u!)
-                                    .toList();
-                              } finally {
-                                ScaffoldMessenger.of(context)
-                                    .hideCurrentSnackBar();
-                                _model.isDataUploading = false;
+                                  downloadUrls = (await Future.wait(
+                                    selectedMedia.map(
+                                      (m) async => await uploadData(
+                                          m.storagePath, m.bytes),
+                                    ),
+                                  ))
+                                      .where((u) => u != null)
+                                      .map((u) => u!)
+                                      .toList();
+                                } finally {
+                                  ScaffoldMessenger.of(context)
+                                      .hideCurrentSnackBar();
+                                  _model.isDataUploading = false;
+                                }
+                                if (selectedUploadedFiles.length ==
+                                        selectedMedia.length &&
+                                    downloadUrls.length ==
+                                        selectedMedia.length) {
+                                  setState(() {
+                                    _model.uploadedLocalFile =
+                                        selectedUploadedFiles.first;
+                                    _model.uploadedFileUrl = downloadUrls.first;
+                                  });
+                                  showUploadMessage(context, 'Success!');
+                                } else {
+                                  setState(() {});
+                                  showUploadMessage(
+                                      context, 'Failed to upload data');
+                                  return;
+                                }
                               }
-                              if (selectedUploadedFiles.length ==
-                                      selectedMedia.length &&
-                                  downloadUrls.length == selectedMedia.length) {
+
+                              if (_model.uploadedFileUrl != null &&
+                                  _model.uploadedFileUrl != '') {
                                 setState(() {
-                                  _model.uploadedLocalFile =
-                                      selectedUploadedFiles.first;
-                                  _model.uploadedFileUrl = downloadUrls.first;
+                                  _model.addToImagesUploaded(
+                                      _model.uploadedFileUrl);
                                 });
-                                showUploadMessage(context, 'Success!');
-                              } else {
-                                setState(() {});
-                                showUploadMessage(
-                                    context, 'Failed to upload data');
-                                return;
                               }
-                            }
-
-                            if (_model.uploadedFileUrl != null &&
-                                _model.uploadedFileUrl != '') {
-                              setState(() {
-                                _model.addToImagesUploaded(
-                                    _model.uploadedFileUrl);
-                              });
-                            }
-                          },
-                        ),
-                        Expanded(
-                          child: Stack(
-                            children: [
-                              Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
-                                child: Container(
-                                  width: double.infinity,
-                                  child: TextFormField(
-                                    controller: _model.textController,
-                                    focusNode: _model.textFieldFocusNode,
-                                    onFieldSubmitted: (_) async {
-                                      if (_model.formKey.currentState == null ||
-                                          !_model.formKey.currentState!
-                                              .validate()) {
-                                        return;
-                                      }
-                                      // newChatMessage
-
-                                      var chatMessagesRecordReference =
-                                          ChatMessagesRecord.collection.doc();
-                                      await chatMessagesRecordReference
-                                          .set(createChatMessagesRecordData(
-                                        user: currentUserReference,
-                                        chat: widget.chatRef?.reference,
-                                        text: _model.textController.text,
-                                        timestamp: getCurrentTimestamp,
-                                        image: _model.uploadedFileUrl,
-                                      ));
-                                      _model.newChatMessage = ChatMessagesRecord
-                                          .getDocumentFromData(
-                                              createChatMessagesRecordData(
-                                                user: currentUserReference,
-                                                chat: widget.chatRef?.reference,
-                                                text:
-                                                    _model.textController.text,
-                                                timestamp: getCurrentTimestamp,
-                                                image: _model.uploadedFileUrl,
-                                              ),
-                                              chatMessagesRecordReference);
-                                      // clearUsers
-                                      _model.lastSeenBy = [];
-                                      // In order to add a single user reference to a list of user references we are adding our current user reference to a page state.
-                                      //
-                                      // We will then set the value of the user reference list from this page state.
-                                      // addMyUserToList
-                                      _model.addToLastSeenBy(
-                                          currentUserReference!);
-                                      // updateChatDocument
-
-                                      await widget.chatRef!.reference.update({
-                                        ...createChatsRecordData(
-                                          lastMessageTime: getCurrentTimestamp,
-                                          lastMessageSentBy:
-                                              currentUserReference,
-                                          lastMessage:
-                                              _model.textController.text,
-                                        ),
-                                        ...mapToFirestore(
-                                          {
-                                            'last_message_seen_by':
-                                                _model.lastSeenBy,
-                                          },
-                                        ),
-                                      });
-                                      // clearUsers
-                                      _model.lastSeenBy = [];
-                                      setState(() {
-                                        _model.textController?.clear();
-                                      });
-                                      setState(() {
-                                        _model.isDataUploading = false;
-                                        _model.uploadedLocalFile =
-                                            FFUploadedFile(
-                                                bytes: Uint8List.fromList([]));
-                                        _model.uploadedFileUrl = '';
-                                      });
-
-                                      setState(() {
-                                        _model.imagesUploaded = [];
-                                      });
-
-                                      setState(() {});
-                                    },
-                                    autofocus: true,
-                                    textCapitalization:
-                                        TextCapitalization.sentences,
-                                    textInputAction: TextInputAction.send,
-                                    obscureText: false,
-                                    decoration: InputDecoration(
-                                      labelStyle: FlutterFlowTheme.of(context)
-                                          .labelMedium
-                                          .override(
-                                            fontFamily: 'Poppins',
-                                            letterSpacing: 0,
-                                          ),
-                                      hintText: 'Start typing here...',
-                                      hintStyle: FlutterFlowTheme.of(context)
-                                          .labelSmall
-                                          .override(
-                                            fontFamily: 'Poppins',
-                                            letterSpacing: 0,
-                                          ),
-                                      errorStyle: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            fontFamily: 'Poppins',
-                                            color: FlutterFlowTheme.of(context)
-                                                .error,
-                                            fontSize: 12,
-                                            letterSpacing: 0,
-                                          ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: FlutterFlowTheme.of(context)
-                                              .alternate,
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(24),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: FlutterFlowTheme.of(context)
-                                              .primary,
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(24),
-                                      ),
-                                      errorBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: FlutterFlowTheme.of(context)
-                                              .error,
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(24),
-                                      ),
-                                      focusedErrorBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                          color: FlutterFlowTheme.of(context)
-                                              .error,
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(24),
-                                      ),
-                                      contentPadding:
-                                          EdgeInsetsDirectional.fromSTEB(
-                                              16, 16, 56, 16),
-                                    ),
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                          fontFamily: 'Poppins',
-                                          letterSpacing: 0,
-                                        ),
-                                    maxLines: null,
-                                    minLines: 1,
-                                    cursorColor:
-                                        FlutterFlowTheme.of(context).primary,
-                                    validator: _model.textControllerValidator
-                                        .asValidator(context),
-                                  ),
-                                ),
-                              ),
-                              Align(
-                                alignment: AlignmentDirectional(1, 0),
-                                child: Padding(
+                            },
+                          ),
+                          Expanded(
+                            child: Stack(
+                              children: [
+                                Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
-                                      0, 4, 6, 4),
-                                  child: FlutterFlowIconButton(
-                                    borderColor: FlutterFlowTheme.of(context)
-                                        .secondaryBackground,
-                                    borderRadius: 20,
-                                    borderWidth: 1,
-                                    buttonSize: 40,
-                                    fillColor:
-                                        FlutterFlowTheme.of(context).accent1,
-                                    icon: Icon(
-                                      Icons.send_rounded,
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
-                                      size: 20,
-                                    ),
-                                    onPressed: () async {
-                                      var _shouldSetState = false;
-                                      if (currentUserEmail != null &&
-                                          currentUserEmail != '') {
+                                      8, 0, 0, 0),
+                                  child: Container(
+                                    width: double.infinity,
+                                    child: TextFormField(
+                                      controller: _model.textController,
+                                      focusNode: _model.textFieldFocusNode,
+                                      onFieldSubmitted: (_) async {
                                         if (_model.formKey.currentState ==
                                                 null ||
                                             !_model.formKey.currentState!
@@ -565,7 +405,7 @@ class _ChatThreadComponentWidgetState extends State<ChatThreadComponentWidget> {
                                           timestamp: getCurrentTimestamp,
                                           image: _model.uploadedFileUrl,
                                         ));
-                                        _model.newChat = ChatMessagesRecord
+                                        _model.newChatMessage = ChatMessagesRecord
                                             .getDocumentFromData(
                                                 createChatMessagesRecordData(
                                                   user: currentUserReference,
@@ -578,7 +418,6 @@ class _ChatThreadComponentWidgetState extends State<ChatThreadComponentWidget> {
                                                   image: _model.uploadedFileUrl,
                                                 ),
                                                 chatMessagesRecordReference);
-                                        _shouldSetState = true;
                                         // clearUsers
                                         _model.lastSeenBy = [];
                                         // In order to add a single user reference to a list of user references we are adding our current user reference to a page state.
@@ -605,136 +444,332 @@ class _ChatThreadComponentWidgetState extends State<ChatThreadComponentWidget> {
                                             },
                                           ),
                                         });
-                                        triggerPushNotification(
-                                          notificationTitle: 'New Chat Message',
-                                          notificationText:
-                                              _model.newChatMessage!.text,
-                                          userRefs: widget.chatRef!.users
-                                              .where((e) =>
-                                                  e != currentUserReference)
-                                              .toList(),
-                                          initialPageName: 'chat_2_Details',
-                                          parameterData: {
-                                            'chatRef': widget.chatRef,
-                                          },
-                                        );
-                                        if (widget.chatRef!.users
-                                            .contains(currentUserReference)) {
+                                        // clearUsers
+                                        _model.lastSeenBy = [];
+                                        setState(() {
+                                          _model.textController?.clear();
+                                        });
+                                        setState(() {
+                                          _model.isDataUploading = false;
+                                          _model.uploadedLocalFile =
+                                              FFUploadedFile(
+                                                  bytes:
+                                                      Uint8List.fromList([]));
+                                          _model.uploadedFileUrl = '';
+                                        });
+
+                                        setState(() {
+                                          _model.imagesUploaded = [];
+                                        });
+
+                                        setState(() {});
+                                      },
+                                      autofocus: true,
+                                      textCapitalization:
+                                          TextCapitalization.sentences,
+                                      textInputAction: TextInputAction.send,
+                                      obscureText: false,
+                                      decoration: InputDecoration(
+                                        labelStyle: FlutterFlowTheme.of(context)
+                                            .labelMedium
+                                            .override(
+                                              fontFamily: 'Poppins',
+                                              letterSpacing: 0,
+                                            ),
+                                        hintText: 'Start typing here...',
+                                        hintStyle: FlutterFlowTheme.of(context)
+                                            .labelSmall
+                                            .override(
+                                              fontFamily: 'Poppins',
+                                              letterSpacing: 0,
+                                            ),
+                                        errorStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                              fontFamily: 'Poppins',
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .error,
+                                              fontSize: 12,
+                                              letterSpacing: 0,
+                                            ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: FlutterFlowTheme.of(context)
+                                                .alternate,
+                                            width: 1,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(24),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: FlutterFlowTheme.of(context)
+                                                .primary,
+                                            width: 1,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(24),
+                                        ),
+                                        errorBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: FlutterFlowTheme.of(context)
+                                                .error,
+                                            width: 1,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(24),
+                                        ),
+                                        focusedErrorBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: FlutterFlowTheme.of(context)
+                                                .error,
+                                            width: 1,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(24),
+                                        ),
+                                        contentPadding:
+                                            EdgeInsetsDirectional.fromSTEB(
+                                                16, 16, 56, 16),
+                                      ),
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily: 'Poppins',
+                                            letterSpacing: 0,
+                                          ),
+                                      maxLines: null,
+                                      minLines: 1,
+                                      cursorColor:
+                                          FlutterFlowTheme.of(context).primary,
+                                      validator: _model.textControllerValidator
+                                          .asValidator(context),
+                                    ),
+                                  ),
+                                ),
+                                Align(
+                                  alignment: AlignmentDirectional(1, 0),
+                                  child: Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0, 4, 6, 4),
+                                    child: FlutterFlowIconButton(
+                                      borderColor: FlutterFlowTheme.of(context)
+                                          .secondaryBackground,
+                                      borderRadius: 20,
+                                      borderWidth: 1,
+                                      buttonSize: 40,
+                                      fillColor:
+                                          FlutterFlowTheme.of(context).accent1,
+                                      icon: Icon(
+                                        Icons.send_rounded,
+                                        color: FlutterFlowTheme.of(context)
+                                            .primary,
+                                        size: 20,
+                                      ),
+                                      onPressed: () async {
+                                        var _shouldSetState = false;
+                                        if (currentUserEmail != null &&
+                                            currentUserEmail != '') {
+                                          if (_model.formKey.currentState ==
+                                                  null ||
+                                              !_model.formKey.currentState!
+                                                  .validate()) {
+                                            return;
+                                          }
+                                          // newChatMessage
+
+                                          var chatMessagesRecordReference =
+                                              ChatMessagesRecord.collection
+                                                  .doc();
+                                          await chatMessagesRecordReference
+                                              .set(createChatMessagesRecordData(
+                                            user: currentUserReference,
+                                            chat: widget.chatRef?.reference,
+                                            text: _model.textController.text,
+                                            timestamp: getCurrentTimestamp,
+                                            image: _model.uploadedFileUrl,
+                                          ));
+                                          _model.newChat = ChatMessagesRecord
+                                              .getDocumentFromData(
+                                                  createChatMessagesRecordData(
+                                                    user: currentUserReference,
+                                                    chat: widget
+                                                        .chatRef?.reference,
+                                                    text: _model
+                                                        .textController.text,
+                                                    timestamp:
+                                                        getCurrentTimestamp,
+                                                    image:
+                                                        _model.uploadedFileUrl,
+                                                  ),
+                                                  chatMessagesRecordReference);
+                                          _shouldSetState = true;
                                           // clearUsers
                                           _model.lastSeenBy = [];
-                                          setState(() {
-                                            _model.textController?.clear();
-                                          });
-                                          setState(() {
-                                            _model.isDataUploading = false;
-                                            _model.uploadedLocalFile =
-                                                FFUploadedFile(
-                                                    bytes:
-                                                        Uint8List.fromList([]));
-                                            _model.uploadedFileUrl = '';
-                                          });
+                                          // In order to add a single user reference to a list of user references we are adding our current user reference to a page state.
+                                          //
+                                          // We will then set the value of the user reference list from this page state.
+                                          // addMyUserToList
+                                          _model.addToLastSeenBy(
+                                              currentUserReference!);
+                                          // updateChatDocument
 
-                                          setState(() {
-                                            _model.imagesUploaded = [];
-                                          });
-                                          if (_shouldSetState) setState(() {});
-                                          return;
-                                        } else {
                                           await widget.chatRef!.reference
                                               .update({
+                                            ...createChatsRecordData(
+                                              lastMessageTime:
+                                                  getCurrentTimestamp,
+                                              lastMessageSentBy:
+                                                  currentUserReference,
+                                              lastMessage:
+                                                  _model.textController.text,
+                                            ),
                                             ...mapToFirestore(
                                               {
-                                                'users': FieldValue.arrayUnion(
-                                                    [currentUserReference]),
+                                                'last_message_seen_by':
+                                                    _model.lastSeenBy,
                                               },
                                             ),
                                           });
-                                          // clearUsers
-                                          _model.lastSeenBy = [];
-                                          setState(() {
-                                            _model.textController?.clear();
-                                          });
-                                          setState(() {
-                                            _model.isDataUploading = false;
-                                            _model.uploadedLocalFile =
-                                                FFUploadedFile(
-                                                    bytes:
-                                                        Uint8List.fromList([]));
-                                            _model.uploadedFileUrl = '';
-                                          });
+                                          triggerPushNotification(
+                                            notificationTitle:
+                                                'New Chat Message',
+                                            notificationText:
+                                                _model.newChatMessage!.text,
+                                            userRefs: widget.chatRef!.users
+                                                .where((e) =>
+                                                    e != currentUserReference)
+                                                .toList(),
+                                            initialPageName: 'chat_2_Details',
+                                            parameterData: {
+                                              'chatRef': widget.chatRef,
+                                            },
+                                          );
+                                          if (widget.chatRef!.users
+                                              .contains(currentUserReference)) {
+                                            // clearUsers
+                                            _model.lastSeenBy = [];
+                                            setState(() {
+                                              _model.textController?.clear();
+                                            });
+                                            setState(() {
+                                              _model.isDataUploading = false;
+                                              _model.uploadedLocalFile =
+                                                  FFUploadedFile(
+                                                      bytes: Uint8List.fromList(
+                                                          []));
+                                              _model.uploadedFileUrl = '';
+                                            });
 
-                                          setState(() {
-                                            _model.imagesUploaded = [];
-                                          });
-                                          if (_shouldSetState) setState(() {});
-                                          return;
-                                        }
-                                      } else {
-                                        var confirmDialogResponse =
-                                            await showDialog<bool>(
-                                                  context: context,
-                                                  builder:
-                                                      (alertDialogContext) {
-                                                    return WebViewAware(
-                                                      child: AlertDialog(
-                                                        title: Text(
-                                                            'You must sign in first'),
-                                                        content: Text(
-                                                            'You must sign in to take part in the chat'),
-                                                        actions: [
-                                                          TextButton(
-                                                            onPressed: () =>
-                                                                Navigator.pop(
-                                                                    alertDialogContext,
-                                                                    false),
-                                                            child:
-                                                                Text('Cancel'),
-                                                          ),
-                                                          TextButton(
-                                                            onPressed: () =>
-                                                                Navigator.pop(
-                                                                    alertDialogContext,
-                                                                    true),
-                                                            child: Text(
-                                                                'Sign In?'),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    );
-                                                  },
-                                                ) ??
-                                                false;
-                                        if (confirmDialogResponse) {
-                                          GoRouter.of(context)
-                                              .prepareAuthEvent();
-                                          await authManager.signOut();
-                                          GoRouter.of(context)
-                                              .clearRedirectLocation();
+                                            setState(() {
+                                              _model.imagesUploaded = [];
+                                            });
+                                            if (_shouldSetState)
+                                              setState(() {});
+                                            return;
+                                          } else {
+                                            await widget.chatRef!.reference
+                                                .update({
+                                              ...mapToFirestore(
+                                                {
+                                                  'users':
+                                                      FieldValue.arrayUnion([
+                                                    currentUserReference
+                                                  ]),
+                                                },
+                                              ),
+                                            });
+                                            // clearUsers
+                                            _model.lastSeenBy = [];
+                                            setState(() {
+                                              _model.textController?.clear();
+                                            });
+                                            setState(() {
+                                              _model.isDataUploading = false;
+                                              _model.uploadedLocalFile =
+                                                  FFUploadedFile(
+                                                      bytes: Uint8List.fromList(
+                                                          []));
+                                              _model.uploadedFileUrl = '';
+                                            });
 
-                                          context.goNamedAuth(
-                                              'SignInDemo', context.mounted);
-
-                                          if (_shouldSetState) setState(() {});
-                                          return;
+                                            setState(() {
+                                              _model.imagesUploaded = [];
+                                            });
+                                            if (_shouldSetState)
+                                              setState(() {});
+                                            return;
+                                          }
                                         } else {
-                                          if (_shouldSetState) setState(() {});
-                                          return;
-                                        }
-                                      }
+                                          var confirmDialogResponse =
+                                              await showDialog<bool>(
+                                                    context: context,
+                                                    builder:
+                                                        (alertDialogContext) {
+                                                      return WebViewAware(
+                                                        child: AlertDialog(
+                                                          title: Text(
+                                                              'You must sign in first'),
+                                                          content: Text(
+                                                              'You must sign in to take part in the chat'),
+                                                          actions: [
+                                                            TextButton(
+                                                              onPressed: () =>
+                                                                  Navigator.pop(
+                                                                      alertDialogContext,
+                                                                      false),
+                                                              child: Text(
+                                                                  'Cancel'),
+                                                            ),
+                                                            TextButton(
+                                                              onPressed: () =>
+                                                                  Navigator.pop(
+                                                                      alertDialogContext,
+                                                                      true),
+                                                              child: Text(
+                                                                  'Sign In?'),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      );
+                                                    },
+                                                  ) ??
+                                                  false;
+                                          if (confirmDialogResponse) {
+                                            GoRouter.of(context)
+                                                .prepareAuthEvent();
+                                            await authManager.signOut();
+                                            GoRouter.of(context)
+                                                .clearRedirectLocation();
 
-                                      if (_shouldSetState) setState(() {});
-                                    },
+                                            context.goNamedAuth(
+                                                'SignInDemo', context.mounted);
+
+                                            if (_shouldSetState)
+                                              setState(() {});
+                                            return;
+                                          } else {
+                                            if (_shouldSetState)
+                                              setState(() {});
+                                            return;
+                                          }
+                                        }
+
+                                        if (_shouldSetState) setState(() {});
+                                      },
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],
