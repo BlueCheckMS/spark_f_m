@@ -93,7 +93,7 @@ class _Chat2MainWidgetState extends State<Chat2MainWidget> {
                       if (valueOrDefault<bool>(
                           currentUserDocument?.admin, false)) {
                         context.pushNamed(
-                          'chat_2_InviteUsers',
+                          'chat2Invite',
                           extra: <String, dynamic>{
                             kTransitionInfoKey: TransitionInfo(
                               hasTransition: true,
