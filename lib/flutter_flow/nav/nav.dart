@@ -19,8 +19,6 @@ import '/flutter_flow/place.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 export 'package:go_router/go_router.dart';
 export 'serialization_util.dart';
-export '/backend/firebase_dynamic_links/firebase_dynamic_links.dart'
-    show generateCurrentPageLink;
 
 const kTransitionInfoKey = '__transition_info__';
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
