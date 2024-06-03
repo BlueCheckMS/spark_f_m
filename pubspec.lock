@@ -278,7 +278,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "7897a690496255a8c6e3dedcf6eb8f5619e84105"
+      resolved-ref: b3f368794ef3c198e3e3388bb74f92ef1c51a842
       url: "https://github.com/FlutterFlow/flutterflow_dash_chat.git"
     source: git
     version: "1.1.16"
